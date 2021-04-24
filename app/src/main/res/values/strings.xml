@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">PetRehome</string>
+
+    <!--    dilshan's Strings-->
+
+    <string name="city_prompt">Select City</string>
+    <string-array name="city_arrays">
+        <item>Galle</item>
+        <item>Colombo</item>
+        <item>Kandy</item>
+        <item>Hambanthota</item>
+        <item>Kaluthara</item>
+        <item>Mathara</item>
+    </string-array>
+
+    <string name="username_s">username</string>
+    <string name="password_s">password</string>
+    <string name="f_name_s">first name</string>
+    <string name="l_name_s">last name</string>
+    <string name="phone_s">phone number</string>
+    <string name="email_s">email</string>
+    <string name="district_s">district</string>
+    <string name="city_s">city</string>
+    <string name="createAccount">Create Account</string>
+    <string name="loginAccount">Login</string>
+    <string name="login_instead">Login Instead</string>
+
+
+    <!--    dilshan's Strings-->
+
+
 </resources>
