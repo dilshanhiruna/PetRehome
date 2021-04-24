@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="user.Login">
 
     <EditText
-        android:id="@+id/log_username_txt"
+        android:id="@+id/log_email_txt"
         android:layout_width="286dp"
         android:layout_height="42dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/input_box"
         android:ems="10"
-        android:hint="@string/username_s"
+        android:hint="@string/email_s"
         android:inputType="textPersonName"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
@@ -31,7 +32,7 @@
         android:background="@drawable/input_box"
         android:ems="10"
         android:hint="@string/password_s"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
         android:textSize="14sp"
@@ -58,6 +59,27 @@
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
+    <Button
+        android:id="@+id/signin_instead"
+        android:layout_width="286dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/button_blue_border"
+        android:text="Sign In Instead"
+        android:textColor="@color/modern_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <TextView
+        android:id="@+id/forgetpass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Forget Password?"
+        app:layout_constraintStart_toStartOf="@+id/signin_instead"
+        app:layout_constraintTop_toBottomOf="@+id/signin_instead" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

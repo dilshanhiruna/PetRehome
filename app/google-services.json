@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1032356204642",
+    "project_id": "petrehome-1340b",
+    "storage_bucket": "petrehome-1340b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032356204642:android:2798b1690a4315cd1d813b",
+        "android_client_info": {
+          "package_name": "com.oop.petrehome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032356204642-8mman3sn60ivi6r6gmibihj4c0ksbqut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV2KWX6xw4vhA54Y_exDULz6ZH0D7XhcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032356204642-8mman3sn60ivi6r6gmibihj4c0ksbqut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

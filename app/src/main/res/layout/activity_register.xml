@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="user.Register">
 
     <ImageView
@@ -17,13 +18,13 @@
         app:srcCompat="@drawable/_6sasda00" />
 
     <EditText
-        android:id="@+id/reg_username_txt"
+        android:id="@+id/reg_email_txt"
         android:layout_width="286dp"
         android:layout_height="42dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/input_box"
         android:ems="10"
-        android:hint="@string/username_s"
+        android:hint="@string/email_s"
         android:inputType="textPersonName"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
@@ -41,7 +42,7 @@
         android:background="@drawable/input_box"
         android:ems="10"
         android:hint="@string/password_s"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
         android:textSize="14sp"
@@ -49,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_username_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/reg_email_txt" />
 
     <EditText
         android:id="@+id/reg_fname_txt"
@@ -96,28 +97,13 @@
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/reg_email_txt"
+        app:layout_constraintBottom_toTopOf="@+id/district_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reg_lname_txt" />
 
-    <EditText
-        android:id="@+id/reg_email_txt"
-        android:layout_width="286dp"
-        android:layout_height="42dp"
-        android:background="@drawable/input_box"
-        android:ems="10"
-        android:hint="@string/email_s"
-        android:inputType="textPersonName"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/district_spinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_phone_txt" />
+
 
     <Spinner
         android:id="@+id/district_spinner"
@@ -129,7 +115,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_email_txt"
+        app:layout_constraintTop_toBottomOf="@+id/reg_phone_txt"
         android:entries="@array/city_arrays"
         android:prompt="@string/city_prompt"
 
@@ -157,7 +143,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="588dp" />
+        app:layout_constraintGuide_begin="601dp" />
 
     <Button
         android:id="@+id/createAccountBtn"
@@ -173,7 +159,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <Button
-        android:id="@+id/login_instead_btn"
+        android:id="@+id/login_instead"
         android:layout_width="286dp"
         android:layout_height="42dp"
         android:layout_marginTop="60dp"
@@ -204,6 +190,7 @@
         app:layout_constraintTop_toTopOf="@+id/city_spinner"
         app:layout_constraintVertical_bias="0.578"
         app:srcCompat="@drawable/round_arrow_drop_down_20" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
