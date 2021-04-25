@@ -120,15 +120,15 @@
         android:id="@+id/district_spinner"
         android:layout_width="286dp"
         android:layout_height="42dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="15dp"
         android:background="@drawable/spinner_box"
-        android:spinnerMode="dropdown"
         app:layout_constraintBottom_toTopOf="@+id/city_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reg_phone_txt"
-        android:entries="@array/city_arrays"
-        android:prompt="@string/city_prompt"
+
 
         />
 
@@ -136,16 +136,18 @@
         android:id="@+id/city_spinner"
         android:layout_width="286dp"
         android:layout_height="42dp"
+        android:textSize="14sp"
         android:background="@drawable/spinner_box"
-        android:spinnerMode="dropdown"
+        android:paddingStart="8dp"
+        android:paddingEnd="15dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/district_spinner"
 
-        android:entries="@array/city_arrays"
-        android:prompt="@string/city_prompt"
+
+
 
         />
 

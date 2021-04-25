@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +36,14 @@ public class Register extends AppCompatActivity {
     Button login_instead,createAccount;
     EditText  password,fname,lname,phone,email;
     ImageView signing_back_btn;
-    Spinner district,city;
+    Spinner district_spinner ,city_spinner;
+
+    private ArrayAdapter<District> districtArrayAdapter;
+    private ArrayAdapter<City> cityArrayAdapter;
+
+    private ArrayList<District> districts;
+    private ArrayList<City> cities;
+
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
     String userID;
@@ -48,18 +58,23 @@ public class Register extends AppCompatActivity {
         lname = findViewById(R.id.reg_lname_txt);
         phone = findViewById(R.id.reg_phone_txt);
         email = findViewById(R.id.reg_email_txt);
-        district = findViewById(R.id.district_spinner);
-        city = findViewById(R.id.city_spinner);
+        district_spinner =(Spinner) findViewById(R.id.district_spinner);
+        city_spinner = (Spinner)findViewById(R.id.city_spinner);
         createAccount = findViewById(R.id.createAccountBtn);
         signing_back_btn = findViewById(R.id.signing_back_btn);
 
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
+
+        initializeUI();
+
+
         if (fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
             finish();
         }
+
 
         signing_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +91,8 @@ public class Register extends AppCompatActivity {
                 overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
             }
         });
+
+
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,8 +101,8 @@ public class Register extends AppCompatActivity {
                 String mfname = fname.getText().toString().trim();
                 String mlname = lname.getText().toString().trim();
                 String mphone = phone.getText().toString().trim();
-                String mdistrict = district.getSelectedItem().toString();
-                String mcity = city.getSelectedItem().toString();
+                String mdistrict = district_spinner.getSelectedItem().toString();
+                String mcity = city_spinner.getSelectedItem().toString();
 
                 if(TextUtils.isEmpty(memail)){
                     email.setError("Email is required");
@@ -95,10 +112,34 @@ public class Register extends AppCompatActivity {
                     password.setError("Password is required");
                     return;
                 }
-
                 if(mpassword.length() < 5){
                     password.setError("Password must greater than 4 characters");
                 }
+                if(TextUtils.isEmpty(mfname)){
+                    fname.setError("First name is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(mlname)){
+                    lname.setError("Last name is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(mphone)){
+                    phone.setError("Phone number is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(mphone)){
+                    phone.setError("Phone number is required");
+                    return;
+                }
+                if (mdistrict.equals("Select District")){
+                    Toast.makeText(Register.this, "Select a District", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (mcity.equals("Select City")){
+                    Toast.makeText(Register.this, "Select a City", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 fAuth.createUserWithEmailAndPassword(memail,mpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -135,4 +176,155 @@ public class Register extends AppCompatActivity {
 
     }
 
-}
+    private void initializeUI() {
+        //assign values to district spinner and city spinner
+//        String colors[] = {"Red","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
+        districts = new ArrayList<>();
+        cities = new ArrayList<>();
+
+        createLists();
+
+        districtArrayAdapter= new ArrayAdapter<> (this, android.R.layout.simple_spinner_item, districts); //selected item will look like a spinner set from XML
+        districtArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        district_spinner.setAdapter(districtArrayAdapter);
+
+        cityArrayAdapter= new ArrayAdapter<> (this, android.R.layout.simple_spinner_item, cities); //selected item will look like a spinner set from XML
+        cityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        city_spinner.setAdapter(cityArrayAdapter);
+
+        district_spinner.setOnItemSelectedListener(district_listener);
+
+
+    }
+    private AdapterView.OnItemSelectedListener district_listener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (position > 0) {
+                final District district =(District) district_spinner.getItemAtPosition(position);
+                ArrayList<City> tempStates = new ArrayList<>();
+
+                tempStates.add(new City(0, new District(0, "Select District"), "Select City"));
+                for (City singleState : cities) {
+                    if (singleState.getDistrict().getDistrictID() == district.getDistrictID()) {
+                        tempStates.add(singleState);
+                    }
+                }
+                cityArrayAdapter = new ArrayAdapter<>(getApplicationContext(),  android.R.layout.simple_spinner_item, tempStates);
+                cityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                city_spinner.setAdapter(cityArrayAdapter);
+
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    private void createLists() {
+
+        District selectDistrict =new District(0, "Select District");
+        District Batticaloa =new District(1, "Batticaloa");
+        District Trincomalee =new District(2, "Trincomalee");
+
+//        District Anuradhapura =new District(3, "Anuradhapura");
+//        District Polonnaruwa =new District(4, "Polonnaruwa");
+//        District Badulla =new District(5, "Badulla");
+//        District Moneragala =new District(6, "Moneragala");
+//        District Colombo =new District(7, "Colombo");
+//        District Gampaha =new District(8, "Gampaha");
+
+        districts.add(new District(0, "Select District"));
+        districts.add(new District(1, "Batticaloa"));
+        districts.add(new District(2, "Trincomalee"));
+        districts.add(new District(3, "Anuradhapura"));
+        districts.add(new District(4, "Polonnaruwa"));
+        districts.add(new District(5, "Badulla"));
+        districts.add(new District(6, "Moneragala"));
+        districts.add(new District(7, "Colombo"));
+        districts.add(new District(8, "Gampaha"));
+
+        City selectCity = new City(0 ,selectDistrict,"Select City");
+        City Araiyampathy = new City(0 ,Batticaloa,"Araiyampathy");
+        City Chenkalady = new City(0 ,Batticaloa,"Chenkalady");
+        City Eravur = new City(0 ,Batticaloa,"Eravur");
+        City Kaluvanchikudy = new City(0 ,Batticaloa,"Kaluvanchikudy");
+        City Gomarankadawala = new City(0 ,Trincomalee,"Gomarankadawala");
+        City Kantalai = new City(0 ,Trincomalee,"Kantalai");
+        City Kinniya = new City(0 ,Trincomalee,"Kinniya");
+        City Kuchchaveli = new City(0 ,Trincomalee,"Kuchchaveli");
+
+        cities.add(selectCity);
+        cities.add(Araiyampathy);
+        cities.add(Chenkalady);
+        cities.add(Eravur);
+        cities.add(Kaluvanchikudy);
+        cities.add(Gomarankadawala);
+        cities.add(Kantalai);
+        cities.add(Kinniya);
+        cities.add(Kuchchaveli);
+
+
+    }
+    private class District implements Comparable<District> {
+        private int districtID;
+        private String districtName;
+
+        public District(int districtID,String districtName){
+            this.districtID=districtID;
+            this.districtName=districtName;
+        }
+        public int getDistrictID(){
+            return districtID;
+        }
+        public String getDistrictName(){
+            return districtName;
+        }
+        @Override
+        public String toString() {
+            return districtName;
+        }
+
+
+        @Override
+        public int compareTo(District another) {
+            return this.getDistrictID() - another.getDistrictID();//ascending order
+
+        }
+
+    }
+    private class City implements Comparable<City> {
+
+        private int cityID;
+        private District district;
+        private String cityName;
+
+        public City(int cityID,District district, String cityName){
+            this.cityID=cityID;
+            this.district=district;
+            this.cityName=cityName;
+        }
+        public int getCityID(){
+            return cityID;
+        }
+        public District getDistrict(){
+            return district;
+        }
+        public String getCityName(){
+            return cityName;
+        }
+        @Override
+        public String toString() {
+            return cityName;
+        }
+
+
+        @Override
+        public int compareTo(City another) {
+            return this.getCityID() - another.getCityID();//ascending order
+        }
+    }
+
+
+    }
