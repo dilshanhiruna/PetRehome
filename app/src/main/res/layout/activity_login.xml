@@ -81,5 +81,30 @@
         app:layout_constraintStart_toStartOf="@+id/signin_instead"
         app:layout_constraintTop_toBottomOf="@+id/signin_instead" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:textColor="@color/black01"
+        android:fontFamily="@font/segoe_bold"
+        android:text="Log in"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/log_email_txt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.855" />
+
+    <ImageView
+        android:id="@+id/loging_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.259"
+        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

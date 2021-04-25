@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class Login extends AppCompatActivity {
     EditText email,password;
     Button signin_instead,login;
     TextView forgetpass;
+    ImageView loging_back_btn;
     FirebaseAuth fAuth;
 
     @Override
@@ -38,7 +40,17 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.log_password_txt);
         login = findViewById(R.id.loginBtn);
         forgetpass = findViewById(R.id.forgetpass);
+
+        loging_back_btn = findViewById(R.id.loging_back_btn);
+
         fAuth = FirebaseAuth.getInstance();
+
+        loging_back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
 
         signin_instead.setOnClickListener(new View.OnClickListener() {
             @Override

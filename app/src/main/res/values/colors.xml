@@ -6,12 +6,14 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="black01">#545454</color>
     <color name="Light_black">#2A2A2A</color>
     <color name="grey_black">#393939</color>
     <color name="Gray79">#C9C9C9</color>
     <color name="Gray89">#9f9f9f</color>
     <color name="white">#FFFFFFFF</color>
     <color name="pink_red">#F93A75</color>
+    <color name="pink_dark_red">#ce0040</color>
     <color name="modern_blue">#1464F6</color>
     <color name="modern_blue_1">#004cd6</color>
 

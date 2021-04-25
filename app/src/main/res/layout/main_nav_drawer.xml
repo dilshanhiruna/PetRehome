@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/nav_logout"
+        android:layout_width="90dp"
+        android:layout_height="35dp"
+        android:text="Log out"
+        android:onClick="logout"
+        android:visibility="gone"
+        android:textAllCaps="false"
+        android:textColor="@color/pink_red"
+        android:background="@drawable/button_red_border"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="25dp"/>
+    <Button
+        android:id="@+id/nav_login"
+        android:onClick="login"
+        android:layout_width="90dp"
+        android:layout_height="35dp"
+        android:text="Log in"
+        android:visibility="visible"
+        android:textAllCaps="false"
+        android:textColor="@color/modern_blue"
+        android:background="@drawable/button_blue_border"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="25dp"/>
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="16dp" />
+
+
+    <LinearLayout
+        android:id="@+id/nav_home"
+        android:onClick="navClickHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
+        <TextView
+            android:id="@+id/nav_home_txt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Home"
+            android:textColor="@color/black01"
+            android:fontFamily="@font/segoe_bold"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:layout_marginStart="16dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:onClick="navClickPostad"
+        android:id="@+id/nav_postad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
+        <TextView
+            android:id="@+id/nav_postad_txt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black01"
+            android:fontFamily="@font/segoe_bold"
+            android:text="Post Ad"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:layout_marginStart="16dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:onClick="navClickLostdogs"
+        android:id="@+id/nav_lostdogs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
+        <TextView
+            android:id="@+id/nav_lostdogs_txt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black01"
+            android:fontFamily="@font/segoe_bold"
+            android:text="Lost Dogs"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:layout_marginStart="16dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:onClick="navClickDogwalkers"
+        android:id="@+id/nav_dogwalkers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
+        <TextView
+            android:id="@+id/nav_dogwalkers_txt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black01"
+            android:fontFamily="@font/segoe_bold"
+            android:text="Dog Walkers"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:layout_marginStart="16dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:onClick="navClickPetDaycares"
+        android:id="@+id/nav_petdaycares"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
+        <TextView
+            android:id="@+id/nav_petdaycares_txt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black01"
+            android:fontFamily="@font/segoe_bold"
+            android:text="Pet Daycares"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:layout_marginStart="16dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginBottom="16dp" />
+
+
+    <LinearLayout
+        android:onClick="navClickProfile"
+        android:id="@+id/nav_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
+        <ImageView
+
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/round_account_circle_20"
+            android:layout_marginLeft="25dp"/>
+
+        <TextView
+            android:id="@+id/nav_profile_txt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black01"
+            android:fontFamily="@font/segoe_bold"
+            android:text="Profile"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:padding="12dp"
+           />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</LinearLayout>
