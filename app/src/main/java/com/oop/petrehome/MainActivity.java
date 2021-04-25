@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
+
     }
     public void navClickPostad(View view){
         nav_home_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));

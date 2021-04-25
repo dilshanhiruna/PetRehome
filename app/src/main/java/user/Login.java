@@ -49,6 +49,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
             }
         });
 
@@ -57,6 +58,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
 //                setContentView(R.layout.activity_register);
                 startActivity(new Intent(getApplicationContext(), Register.class));
+                overridePendingTransition(R.anim.enter, R.anim.exit);
             }
         });
 

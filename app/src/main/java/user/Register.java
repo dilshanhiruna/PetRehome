@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class Register extends AppCompatActivity {
     public static final String TAG = "TAG";
     Button login_instead,createAccount;
     EditText  password,fname,lname,phone,email;
+    ImageView signing_back_btn;
     Spinner district,city;
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
@@ -49,18 +51,29 @@ public class Register extends AppCompatActivity {
         district = findViewById(R.id.district_spinner);
         city = findViewById(R.id.city_spinner);
         createAccount = findViewById(R.id.createAccountBtn);
+        signing_back_btn = findViewById(R.id.signing_back_btn);
 
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         if (fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
             finish();
         }
+
+        signing_back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+            }
+        });
 
         login_instead.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), Login.class));
+                overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
             }
         });
         createAccount.setOnClickListener(new View.OnClickListener() {
