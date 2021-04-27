@@ -204,6 +204,17 @@
         app:layout_constraintVertical_bias="0.578"
         app:srcCompat="@drawable/round_arrow_drop_down_20" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoe_bold"
+        android:textColor="@color/black01"
+        android:textSize="25sp"
+        android:text="@string/sign_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

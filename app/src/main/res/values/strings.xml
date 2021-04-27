@@ -23,7 +23,9 @@
     <string name="city_s">city</string>
     <string name="createAccount">Create Account</string>
     <string name="loginAccount">Login</string>
-    <string name="login_instead">Login Instead</string>
+    <string name="login_instead">Log in Instead</string>
+    <string name="sign_up">Sign up</string>
+    <string name="profile">Profile</string>
 
 
     <!--    dilshan's Strings-->
