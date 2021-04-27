@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import user.Login;
 import user.Register;
+import user.UserProfile;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black));
-//        startActivity(new Intent(getApplicationContext(), Activity_Here.class));
+        startActivity(new Intent(getApplicationContext(), UserProfile.class));
 
     }
 
