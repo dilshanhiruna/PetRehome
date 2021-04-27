@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="user.EditUserProfile">
+
+    <ImageView
+        android:id="@+id/update_user_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.354"
+        app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="169dp"
+        android:layout_height="135dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/_6sasda00" />
+
+
+    <EditText
+        android:id="@+id/update_user_email_txt"
+        android:layout_width="286dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/input_box"
+        android:ems="10"
+        android:hint="@string/email_s"
+        android:inputType="textPersonName"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/update_user_fname_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/update_user_fname_txt"
+        android:layout_width="286dp"
+        android:layout_height="42dp"
+        android:background="@drawable/input_box"
+        android:ems="10"
+        android:hint="@string/f_name_s"
+        android:inputType="textPersonName"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/update_user_lname_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_user_email_txt" />
+
+    <EditText
+        android:id="@+id/update_user_lname_txt"
+        android:layout_width="286dp"
+        android:layout_height="42dp"
+        android:background="@drawable/input_box"
+        android:ems="10"
+        android:hint="@string/l_name_s"
+        android:inputType="textPersonName"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/update_user_phone_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_user_fname_txt" />
+
+    <EditText
+        android:id="@+id/update_user_phone_txt"
+        android:layout_width="286dp"
+        android:layout_height="42dp"
+        android:background="@drawable/input_box"
+        android:ems="10"
+        android:hint="@string/phone_s"
+        android:inputType="textPersonName"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/update_user_district_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_user_lname_txt" />
+
+
+
+    <Spinner
+        android:id="@+id/update_user_district_spinner"
+        android:layout_width="286dp"
+        android:layout_height="42dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="15dp"
+        android:background="@drawable/spinner_box"
+        app:layout_constraintBottom_toTopOf="@+id/update_user_city_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_user_phone_txt"
+
+
+        />
+
+    <Spinner
+        android:id="@+id/update_user_city_spinner"
+        android:layout_width="286dp"
+        android:layout_height="42dp"
+        android:textSize="14sp"
+        android:background="@drawable/spinner_box"
+        android:paddingStart="8dp"
+        android:paddingEnd="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_user_district_spinner"
+
+
+
+
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="582dp" />
+
+    <Button
+        android:id="@+id/update_user_btn"
+        android:layout_width="286dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/button_blue"
+        android:text="Update Profile"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="27dp"
+        android:layout_height="23dp"
+        app:layout_constraintBottom_toBottomOf="@+id/update_user_district_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/update_user_district_spinner"
+        app:layout_constraintTop_toTopOf="@+id/update_user_district_spinner"
+        app:layout_constraintVertical_bias="0.526"
+        app:srcCompat="@drawable/round_arrow_drop_down_20" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="27dp"
+        android:layout_height="23dp"
+        app:layout_constraintBottom_toBottomOf="@+id/update_user_city_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/update_user_city_spinner"
+        app:layout_constraintTop_toTopOf="@+id/update_user_city_spinner"
+        app:layout_constraintVertical_bias="0.578"
+        app:srcCompat="@drawable/round_arrow_drop_down_20" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/segoe_bold"
+        android:text="Edit User"
+        android:textColor="@color/black01"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

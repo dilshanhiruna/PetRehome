@@ -49,6 +49,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
 
             }
         });
