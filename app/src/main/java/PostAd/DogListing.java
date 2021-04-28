@@ -54,7 +54,7 @@ public class DogListing extends AppCompatActivity {
     StorageReference storageReference;
     String userID;
 
-    Uri  img1URI1,img1URI2,img1URI3,img1URI4;
+    Uri  img1URI1 = Uri.EMPTY,img1URI2= Uri.EMPTY,img1URI3= Uri.EMPTY,img1URI4= Uri.EMPTY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +127,7 @@ public class DogListing extends AppCompatActivity {
         postad_newlisting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Toast.makeText(DogListing.this, , Toast.LENGTH_SHORT).show();
                 String mtitle = title.getText().toString().trim();
                 String mage = age.getText().toString().trim();
                 String mdescription = description.getText().toString().trim();
@@ -194,14 +195,29 @@ public class DogListing extends AppCompatActivity {
                         documentReference.set(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                StorageReference fileRef1 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img1.jpg");
-                                fileRef1.putFile(img1URI1);
-                                StorageReference fileRef2 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img2.jpg");
-                                fileRef2.putFile(img1URI2);
-                                StorageReference fileRef3 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img3.jpg");
-                                fileRef3.putFile(img1URI3);
-                                StorageReference fileRef4 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img4.jpg");
-                                fileRef4.putFile(img1URI4);
+
+                                if (!(img1URI1.equals(Uri.EMPTY))){
+                                    StorageReference fileRef1 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img1.jpg");
+                                    fileRef1.putFile(img1URI1);
+                                }
+                                if (!(img1URI2.equals(Uri.EMPTY))){
+                                    StorageReference fileRef2 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img2.jpg");
+                                    fileRef2.putFile(img1URI2);
+                                }
+                                if (!(img1URI3.equals(Uri.EMPTY))){
+                                    StorageReference fileRef3 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img3.jpg");
+                                    fileRef3.putFile(img1URI3);
+                                }
+                                if (!(img1URI4.equals(Uri.EMPTY))){
+                                    StorageReference fileRef4 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img4.jpg");
+                                    fileRef4.putFile(img1URI4);
+                                }
+
+
+
+
+
+
 
 
                                 Toast.makeText(DogListing.this, "Listing Published", Toast.LENGTH_SHORT).show();
