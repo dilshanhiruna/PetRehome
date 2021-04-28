@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -96,6 +97,7 @@ public class EditUserProfile extends AppCompatActivity {
         update_user_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String memail = update_user_email.getText().toString().trim();
                 String mfname = update_user_fname.getText().toString().trim();
                 String mlname = update_user_lname.getText().toString().trim();
@@ -204,12 +206,14 @@ public class EditUserProfile extends AppCompatActivity {
     private AdapterView.OnItemSelectedListener district_listener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
             if (position > 0) {
                 final District district =(District) update_user_district_spinner.getItemAtPosition(position);
                 ArrayList<City> tempStates = new ArrayList<>();
 
                 tempStates.add(new City(0, new District(0, "Select District"), "Select City"));
                 for (City singleState : cities) {
+
                     if (singleState.getDistrict().getDistrictID() == district.getDistrictID()) {
                         tempStates.add(singleState);
                     }

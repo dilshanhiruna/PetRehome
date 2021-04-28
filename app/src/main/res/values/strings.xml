@@ -28,6 +28,11 @@
     <string name="profile">Profile</string>
     <string name="edit">Edit</string>
     <string name="update">Update</string>
+    <string name="new_listing">New Listing</string>
+    <string name="title">title</string>
+    <string name="age">age</string>
+    <string name="description">description</string>
+    <string name="phone">phone</string>
 
 
     <!--    dilshan's Strings-->

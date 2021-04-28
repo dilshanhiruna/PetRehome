@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -151,6 +153,8 @@ public class Register extends AppCompatActivity {
                             user.put("phone",mphone);
                             user.put("district",mdistrict);
                             user.put("city",mcity);
+                            user.put("ListingCount",0);
+
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -190,12 +194,34 @@ public class Register extends AppCompatActivity {
         city_spinner.setAdapter(cityArrayAdapter);
 
         district_spinner.setOnItemSelectedListener(district_listener);
-
+        city_spinner.setOnItemSelectedListener(city_listener);
 
     }
+    private  AdapterView.OnItemSelectedListener city_listener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            TextView tv = (TextView) view;
+            if (position == 0) {
+                // Set the hint text color gray
+                tv.setTextColor(Color.parseColor("#AAAAAA"));
+                tv.setTextSize(14);
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
     private AdapterView.OnItemSelectedListener district_listener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            TextView tv = (TextView) view;
+            if (position == 0) {
+                // Set the hint text color gray
+                tv.setTextColor(Color.parseColor("#AAAAAA"));
+                tv.setTextSize(14);
+            }
             if (position > 0) {
                 final District district =(District) district_spinner.getItemAtPosition(position);
                 ArrayList<City> tempStates = new ArrayList<>();
