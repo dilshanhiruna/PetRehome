@@ -1,4 +1,4 @@
-package com.oop.petrehome;
+package PostAd;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -8,30 +8,27 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.oop.petrehome.MainActivity;
+import com.oop.petrehome.R;
 
-import PostAd.DogListing;
-import PostAd.MyListings;
 import user.Login;
 import user.Register;
 import user.UserProfile;
 
-public class MainActivity extends AppCompatActivity {
+public class MyListings extends AppCompatActivity {
     FirebaseAuth fAuth;
-    Button  nav_logout,nav_login;
+    Button nav_logout,nav_login,create_new_listing_btn;
     DrawerLayout drawerLayout;
     TextView nav_home_txt,nav_postad_txt,nav_lostdogs_txt,nav_dogwalkers_txt,nav_petdaycares_txt,nav_profile_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_my_listings);
 
         drawerLayout =findViewById(R.id.drawer_layout);
 
@@ -44,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
         nav_dogwalkers_txt =findViewById(R.id.nav_dogwalkers_txt);
         nav_petdaycares_txt =findViewById(R.id.nav_petdaycares_txt);
         nav_profile_txt =findViewById(R.id.nav_profile_txt);
-
-
+        create_new_listing_btn =findViewById(R.id.create_new_listing_btn);
 
         //initialized firebaseAuth
         fAuth = FirebaseAuth.getInstance();
@@ -61,8 +57,24 @@ public class MainActivity extends AppCompatActivity {
             nav_logout.setVisibility(View.GONE);
         }
 
+        create_new_listing_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fAuth.getCurrentUser() != null){
+                    startActivity(new Intent(getApplicationContext(), DogListing.class));
+                    overridePendingTransition(R.anim.enter, R.anim.exit);
+                }
+                else {
+                    startActivity(new Intent(getApplicationContext(), Login.class));
+                    overridePendingTransition(R.anim.enter, R.anim.exit);
+                }
+
+            }
+        });
+
 
     }
+
 
     public  void ClickMenu(View view){
         //open drawer

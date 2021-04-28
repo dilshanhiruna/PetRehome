@@ -52,7 +52,7 @@ public class DogListing extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
     StorageReference storageReference;
-    String userID;
+    String userID ;
 
     Uri  img1URI1 = Uri.EMPTY,img1URI2= Uri.EMPTY,img1URI3= Uri.EMPTY,img1URI4= Uri.EMPTY;
 
@@ -88,6 +88,7 @@ public class DogListing extends AppCompatActivity {
         documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
                 count = value.getLong("ListingCount").intValue();
             }
         });
@@ -127,7 +128,7 @@ public class DogListing extends AppCompatActivity {
         postad_newlisting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(DogListing.this, , Toast.LENGTH_SHORT).show();
+
                 String mtitle = title.getText().toString().trim();
                 String mage = age.getText().toString().trim();
                 String mdescription = description.getText().toString().trim();
@@ -213,13 +214,6 @@ public class DogListing extends AppCompatActivity {
                                     fileRef4.putFile(img1URI4);
                                 }
 
-
-
-
-
-
-
-
                                 Toast.makeText(DogListing.this, "Listing Published", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
@@ -250,7 +244,7 @@ public class DogListing extends AppCompatActivity {
         postad_newlisting_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MyListings.class));
                 overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
             }
         });
@@ -296,17 +290,6 @@ public class DogListing extends AppCompatActivity {
 
     }
 
-    public  void uploadImagesToFirebase(Uri imageURI,int count){
-
-        StorageReference fileRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img.jpg");
-        fileRef.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-            }
-        });
-
-    }
 
     private void initializeUI() {
         String breed[] = {"breed","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
