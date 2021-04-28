@@ -186,7 +186,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="594dp" />
+        app:layout_constraintGuide_begin="540dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -207,13 +207,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="115dp" />
+        app:layout_constraintGuide_begin="103dp" />
 
     <Button
         android:id="@+id/postad_newlisting_btn"
         android:layout_width="286dp"
         android:layout_height="35dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="104dp"
         android:background="@drawable/button_blue"
         android:text="Publish"
         android:textColor="@color/white"
@@ -221,6 +221,48 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <ImageButton
+        android:id="@+id/dog_imageButton"
+        android:layout_width="84dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/dog_imageButton2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ImageButton
+        android:id="@+id/dog_imageButton2"
+        android:layout_width="84dp"
+        android:layout_height="75dp"
+        app:layout_constraintEnd_toStartOf="@+id/dog_imageButton4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/dog_imageButton"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ImageButton
+        android:id="@+id/dog_imageButton3"
+        android:layout_width="84dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/dog_imageButton4"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ImageButton
+        android:id="@+id/dog_imageButton4"
+        android:layout_width="84dp"
+        android:layout_height="75dp"
+        app:layout_constraintEnd_toStartOf="@+id/dog_imageButton3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/dog_imageButton2"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
