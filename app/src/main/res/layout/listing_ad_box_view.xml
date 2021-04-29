@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="173dp"
+        android:layout_height="207dp"
+        android:layout_margin="10dp"
+        android:padding="0dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp"
+        app:cardMaxElevation="4dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:padding="0dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ad_box_img"
+                android:layout_width="164dp"
+                android:layout_height="105dp"
+                android:layout_centerHorizontal="true"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.77"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/ad_box_title_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="60dp"
+                android:textSize="16sp"
+                android:text="Cute Puppy"
+                android:textColor="@color/grey_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.111"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/ad_box_breed_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Golden Retriever"
+                android:textSize="10dp"
+                app:layout_constraintStart_toStartOf="@+id/ad_box_title_txt"
+                app:layout_constraintTop_toBottomOf="@+id/ad_box_title_txt" />
+
+            <TextView
+                android:id="@+id/ad_box_location_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:layout_marginBottom="7dp"
+                android:text="Malabe, Colombo"
+                android:textSize="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/ad_box_gender_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:textSize="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/ad_box_location_txt"
+                app:layout_constraintStart_toStartOf="@+id/ad_box_breed_txt" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

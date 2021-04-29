@@ -20,33 +20,52 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/black01"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <Button
+                android:id="@+id/create_new_listing_btn"
+                android:layout_width="119dp"
+                android:layout_height="36dp"
+                android:background="@drawable/button_blue"
+                android:text="Create New"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.717"
+                app:layout_constraintStart_toEndOf="@+id/textView5" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="16dp"
-                android:textSize="25sp"
-                android:textColor="@color/grey_black"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/segoe_bold"
                 android:text="@string/my_listings"
+                android:textColor="@color/grey_black"
+                android:textSize="25sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/create_new_listing_btn"
-                android:layout_width="118dp"
-                android:layout_height="33dp"
-                android:layout_marginTop="17dp"
-                android:background="@drawable/button_blue"
-                android:text="Create New"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_listing_recyclerview"
+                android:layout_width="408dp"
+                android:layout_height="566dp"
+                android:layout_marginTop="69dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.652"
-                app:layout_constraintStart_toEndOf="@+id/textView5"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_new_listing_btn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

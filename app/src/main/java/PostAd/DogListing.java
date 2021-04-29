@@ -172,7 +172,6 @@ public class DogListing extends AppCompatActivity {
                     return;
                 }
 
-
                 count++;
                 //update the current listing count by 1 of the user
                 DocumentReference documentReferenceCount = fstore.collection("users").document(userID);

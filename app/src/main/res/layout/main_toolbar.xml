@@ -3,13 +3,26 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="12dp"
+
     android:gravity="center_vertical">
 
     <ImageView
         android:layout_width="35dp"
         android:layout_height="34dp"
+
         android:onClick="ClickMenu"
         android:src="@drawable/ic_baseline_menu_24" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView11"-->
+<!--        android:layout_width="168dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="60dp"-->
+<!--        android:textSize="20dp"-->
+<!--        android:fontFamily="@font/segoe_bold"-->
+<!--        android:textColor="@color/black01"-->
+<!--        android:text="@string/app_name"-->
+<!--        android:textAlignment="center" />-->
 
 
 </LinearLayout>
