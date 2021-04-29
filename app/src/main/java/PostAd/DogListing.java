@@ -37,6 +37,7 @@ import com.google.firebase.storage.UploadTask;
 import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ import user.Register;
 
 public class DogListing extends AppCompatActivity {
     EditText title,age,description,email,phone;
-    Spinner breed_spinner,gender_spinner,size_spinner;
+    Spinner breed_spinner,gender_spinner,size_spinner,district_spinner ,city_spinner;;
     Button postad_newlisting_btn;
     ImageView postad_newlisting_back_btn,img1,img2,img3,img4;
     int count =0;
@@ -53,6 +54,12 @@ public class DogListing extends AppCompatActivity {
     FirebaseFirestore fstore;
     StorageReference storageReference;
     String userID ;
+
+    private ArrayAdapter<District> districtArrayAdapter;
+    private ArrayAdapter<City> cityArrayAdapter;
+
+    private ArrayList<District> districts;
+    private ArrayList<City> cities;
 
     Uri  img1URI1 = Uri.EMPTY,img1URI2= Uri.EMPTY,img1URI3= Uri.EMPTY,img1URI4= Uri.EMPTY;
 
@@ -69,6 +76,8 @@ public class DogListing extends AppCompatActivity {
         breed_spinner=(Spinner)findViewById(R.id.postad_newlisting_breed);
         gender_spinner=(Spinner)findViewById(R.id.postad_newlisting_gender);
         size_spinner=(Spinner)findViewById(R.id.postad_newlisting_size);
+        district_spinner=(Spinner)findViewById(R.id.postad_newlisting_district);
+        city_spinner=(Spinner)findViewById(R.id.postad_newlisting_city);
         postad_newlisting_btn=findViewById(R.id.postad_newlisting_btn);
         postad_newlisting_back_btn=findViewById(R.id.postad_newlisting_back_btn);
 
@@ -77,7 +86,9 @@ public class DogListing extends AppCompatActivity {
         img3=findViewById(R.id.dog_imageButton3);
         img4=findViewById(R.id.dog_imageButton4);
 
+        initializeUIDC();
         initializeUI();
+
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -137,6 +148,8 @@ public class DogListing extends AppCompatActivity {
                 String mbreed = breed_spinner.getSelectedItem().toString();
                 String mgender = gender_spinner.getSelectedItem().toString();
                 String msize = size_spinner.getSelectedItem().toString();
+                String mdistrict = district_spinner.getSelectedItem().toString();
+                String mcity = city_spinner.getSelectedItem().toString();
 
                 if(TextUtils.isEmpty(mtitle)){
                     title.setError("Title is required");
@@ -171,6 +184,18 @@ public class DogListing extends AppCompatActivity {
                     Toast.makeText(DogListing.this, "Select a Size", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (mdistrict.equals("Select District")){
+                    Toast.makeText(DogListing.this, "Select a District", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (mcity.equals("Select City")){
+                    Toast.makeText(DogListing.this, "Select a City", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if ((img1URI1.equals(Uri.EMPTY))){
+                    Toast.makeText(DogListing.this, "Main Image Required", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 count++;
                 //update the current listing count by 1 of the user
@@ -191,6 +216,8 @@ public class DogListing extends AppCompatActivity {
                         DogListings.put("description",mdescription);
                         DogListings.put("email",memail);
                         DogListings.put("phone",mphone);
+                        DogListings.put("district",mdistrict);
+                        DogListings.put("city",mcity);
 
                         documentReference.set(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -214,7 +241,7 @@ public class DogListing extends AppCompatActivity {
                                 }
 
                                 Toast.makeText(DogListing.this, "Listing Published", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                startActivity(new Intent(getApplicationContext(), MyListings.class));
                                 overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
 
                             }
@@ -224,8 +251,6 @@ public class DogListing extends AppCompatActivity {
                                 Toast.makeText(DogListing.this, "Error", Toast.LENGTH_SHORT).show();
                             }
                         });
-
-                        //add pictures to firebase
 
 
                         }
@@ -250,6 +275,8 @@ public class DogListing extends AppCompatActivity {
 
 
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -289,11 +316,182 @@ public class DogListing extends AppCompatActivity {
 
     }
 
+    private void initializeUIDC() {
+        //assign values to district spinner and city spinner
+//        String colors[] = {"Red","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
+        districts = new ArrayList<>();
+        cities = new ArrayList<>();
+
+        createLists();
+
+        districtArrayAdapter= new ArrayAdapter<> (this, android.R.layout.simple_spinner_item, districts); //selected item will look like a spinner set from XML
+        districtArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        district_spinner.setAdapter(districtArrayAdapter);
+
+        cityArrayAdapter= new ArrayAdapter<> (this, android.R.layout.simple_spinner_item, cities); //selected item will look like a spinner set from XML
+        cityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        city_spinner.setAdapter(cityArrayAdapter);
+
+        district_spinner.setOnItemSelectedListener(district_listener);
+        city_spinner.setOnItemSelectedListener(city_listener);
+
+    }
+    private  AdapterView.OnItemSelectedListener city_listener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            TextView tv = (TextView) view;
+            if (position == 0) {
+                // Set the hint text color gray
+                tv.setTextColor(Color.parseColor("#AAAAAA"));
+                tv.setTextSize(14);
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+    private AdapterView.OnItemSelectedListener district_listener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            TextView tv = (TextView) view;
+            if (position == 0) {
+                // Set the hint text color gray
+                tv.setTextColor(Color.parseColor("#AAAAAA"));
+                tv.setTextSize(14);
+            }
+            if (position > 0) {
+                final District district =(District) district_spinner.getItemAtPosition(position);
+                ArrayList<City> tempStates = new ArrayList<>();
+
+                tempStates.add(new City(0, new District(0, "Select District"), "Select City"));
+                for (City singleState : cities) {
+                    if (singleState.getDistrict().getDistrictID() == district.getDistrictID()) {
+                        tempStates.add(singleState);
+                    }
+                }
+                cityArrayAdapter = new ArrayAdapter<>(getApplicationContext(),  android.R.layout.simple_spinner_item, tempStates);
+                cityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                city_spinner.setAdapter(cityArrayAdapter);
+
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    private void createLists() {
+
+        District selectDistrict =new District(0, "Select District");
+        District Batticaloa =new District(1, "Batticaloa");
+        District Trincomalee =new District(2, "Trincomalee");
+
+//        District Anuradhapura =new District(3, "Anuradhapura");
+//        District Polonnaruwa =new District(4, "Polonnaruwa");
+//        District Badulla =new District(5, "Badulla");
+//        District Moneragala =new District(6, "Moneragala");
+//        District Colombo =new District(7, "Colombo");
+//        District Gampaha =new District(8, "Gampaha");
+
+        districts.add(new District(0, "Select District"));
+        districts.add(new District(1, "Batticaloa"));
+        districts.add(new District(2, "Trincomalee"));
+        districts.add(new District(3, "Anuradhapura"));
+        districts.add(new District(4, "Polonnaruwa"));
+        districts.add(new District(5, "Badulla"));
+        districts.add(new District(6, "Moneragala"));
+        districts.add(new District(7, "Colombo"));
+        districts.add(new District(8, "Gampaha"));
+
+        City selectCity = new City(0 ,selectDistrict,"Select City");
+        City Araiyampathy = new City(0 ,Batticaloa,"Araiyampathy");
+        City Chenkalady = new City(0 ,Batticaloa,"Chenkalady");
+        City Eravur = new City(0 ,Batticaloa,"Eravur");
+        City Kaluvanchikudy = new City(0 ,Batticaloa,"Kaluvanchikudy");
+        City Gomarankadawala = new City(0 ,Trincomalee,"Gomarankadawala");
+        City Kantalai = new City(0 ,Trincomalee,"Kantalai");
+        City Kinniya = new City(0 ,Trincomalee,"Kinniya");
+        City Kuchchaveli = new City(0 ,Trincomalee,"Kuchchaveli");
+
+        cities.add(selectCity);
+        cities.add(Araiyampathy);
+        cities.add(Chenkalady);
+        cities.add(Eravur);
+        cities.add(Kaluvanchikudy);
+        cities.add(Gomarankadawala);
+        cities.add(Kantalai);
+        cities.add(Kinniya);
+        cities.add(Kuchchaveli);
+
+
+    }
+    private class District implements Comparable<District> {
+        private int districtID;
+        private String districtName;
+
+        public District(int districtID,String districtName){
+            this.districtID=districtID;
+            this.districtName=districtName;
+        }
+        public int getDistrictID(){
+            return districtID;
+        }
+        public String getDistrictName(){
+            return districtName;
+        }
+        @Override
+        public String toString() {
+            return districtName;
+        }
+
+
+        @Override
+        public int compareTo(District another) {
+            return this.getDistrictID() - another.getDistrictID();//ascending order
+
+        }
+
+    }
+    private class City implements Comparable<City> {
+
+        private int cityID;
+        private District district;
+        private String cityName;
+
+        public City(int cityID, District district, String cityName){
+            this.cityID=cityID;
+            this.district=district;
+            this.cityName=cityName;
+        }
+        public int getCityID(){
+            return cityID;
+        }
+        public District getDistrict(){
+            return district;
+        }
+        public String getCityName(){
+            return cityName;
+        }
+        @Override
+        public String toString() {
+            return cityName;
+        }
+
+
+        @Override
+        public int compareTo(City another) {
+            return this.getCityID() - another.getCityID();//ascending order
+        }
+    }
 
     private void initializeUI() {
-        String breed[] = {"breed","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
-        String gender[] = {"gender","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
-        String size[] = {"size","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
+        String breed[] = {"breed","Labrador Retriever","German Shepherd","Bulldog","Beagle", "Poodle","Rottweiler","Boxer","Chihuahua"};
+        String gender[] = {"gender","Male","Female"};
+        String size[] = {"size","Small","Medium","Large"};
 
 
         ArrayAdapter<String> dataAdapterbreed = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, breed);
