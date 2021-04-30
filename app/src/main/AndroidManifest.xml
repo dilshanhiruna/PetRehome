@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_pet"
         android:supportsRtl="true"
         android:theme="@style/Theme.PetRehome">
-        <activity android:name="PostAd.MyListings"></activity>
+        <activity android:name="PostAd.DisplayDogAd"></activity>
+        <activity android:name="PostAd.MyListings" />
         <activity android:name="PostAd.DogListing" />
         <activity android:name="user.EditUserProfile" />
         <activity android:name="user.UserProfile" />

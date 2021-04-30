@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="PostAd.DisplayDogAd">
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="419dp"
+        android:layout_height="314dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/dog_pic_01" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:background="@drawable/display_dog_ad_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="88dp"
+            android:background="#f9f9f9"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/display_dog_ad_title"
+            android:layout_width="245dp"
+            android:layout_height="49dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="28dp"
+            android:text="I Need a Home"
+            android:textColor="@color/grey_black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/display_dog_ad_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="28dp"
+            android:text="Malabe, Colombo"
+            android:textColor="@color/modern_blue"
+            android:textSize="10dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/display_dog_ad_title"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="398dp" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Breed"
+            android:textColor="@color/black01"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/textView16"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age"
+            android:textColor="@color/black01"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/textView17"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView15"
+            app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:textColor="@color/black01"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/textView18"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView16"
+            app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+        <!--        <View-->
+        <!--            android:id="@+id/view2"-->
+        <!--            android:layout_width="40dp"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            android:background="#E4E4E4"-->
+        <!--            android:rotation="90"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/textView16"-->
+        <!--            app:layout_constraintHorizontal_bias="0.466"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/textView15"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/guideline8" />-->
+
+        <!--        <View-->
+        <!--            android:id="@+id/view3"-->
+        <!--            android:layout_width="40dp"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            android:background="#E4E4E4"-->
+        <!--            android:rotation="90"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/textView17"-->
+        <!--            app:layout_constraintHorizontal_bias="0.466"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/textView16"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/guideline8" />-->
+
+        <!--        <View-->
+        <!--            android:id="@+id/view4"-->
+        <!--            android:layout_width="40dp"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            android:background="#E4E4E4"-->
+        <!--            android:rotation="90"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/textView18"-->
+        <!--            app:layout_constraintHorizontal_bias="0.466"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/textView17"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/guideline8" />-->
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Size"
+            android:textColor="@color/black01"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView17"
+            app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+        <TextView
+            android:id="@+id/display_dog_ad_breed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Golden Retreiver"
+            app:layout_constraintEnd_toEndOf="@+id/textView15"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/textView15"
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+        <TextView
+            android:id="@+id/display_dog_ad_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            app:layout_constraintBottom_toBottomOf="@+id/display_dog_ad_age"
+            app:layout_constraintEnd_toEndOf="@+id/textView17"
+            app:layout_constraintHorizontal_bias="0.50"
+            app:layout_constraintStart_toStartOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/textView17"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/display_dog_ad_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            app:layout_constraintBottom_toBottomOf="@+id/display_dog_ad_breed"
+            app:layout_constraintEnd_toEndOf="@+id/textView16"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/textView16"
+            app:layout_constraintTop_toBottomOf="@+id/textView16"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/display_dog_ad_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium"
+            app:layout_constraintBottom_toBottomOf="@+id/display_dog_ad_gender"
+            app:layout_constraintEnd_toEndOf="@+id/textView18"
+            app:layout_constraintStart_toStartOf="@+id/textView18"
+            app:layout_constraintTop_toBottomOf="@+id/textView18"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="76dp"
+            android:text="Description"
+            android:textColor="@color/black01"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+        <TextView
+            android:id="@+id/display_dog_ad_description"
+            android:layout_width="332dp"
+            android:layout_height="98dp"
+            android:layout_marginTop="12dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam commodo lacus purus, quis condimentum nunc tincidunt at. consectetur adipiscing elit. Nullam commodo lacus purus, quis condimentum nunc tincidunt at. Duis sed lorem vestibulum arcu tincidunt blandit sit amet quis mauris."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView23"
+            app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Publish Date :"
+            android:textColor="@color/black01"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView23"
+            app:layout_constraintTop_toBottomOf="@+id/display_dog_ad_description" />
+
+        <TextView
+            android:id="@+id/display_dog_ad_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="11-04-2021"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView25"
+            app:layout_constraintStart_toEndOf="@+id/textView25" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Email :"
+            android:textColor="@color/black01"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView25"
+            app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+        <TextView
+            android:id="@+id/textView28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Moblie :"
+            android:textColor="@color/black01"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView27"
+            app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+        <TextView
+            android:id="@+id/display_dog_ad_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="petrehome@gmail.com"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView27"
+            app:layout_constraintStart_toEndOf="@+id/textView27" />
+
+        <TextView
+            android:id="@+id/display_dog_ad_mobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="091 2234 931"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView28"
+            app:layout_constraintStart_toEndOf="@+id/textView28" />
+
+        <Button
+            android:id="@+id/display_dog_ad_send_msg"
+            android:layout_width="149dp"
+            android:layout_height="31dp"
+            android:background="@drawable/button_blue_border"
+            android:text="Send Message"
+            android:textAllCaps="false"
+            android:textColor="@color/modern_blue"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toStartOf="@+id/display_dog_ad_call"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
+        <Button
+            android:id="@+id/display_dog_ad_call"
+            android:layout_width="149dp"
+            android:layout_height="31dp"
+            android:background="@drawable/button_blue_border"
+            android:text="Call"
+            android:textAllCaps="false"
+            android:textColor="@color/modern_blue"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/display_dog_ad_send_msg"
+            app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="433dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,9 @@
 package PostAd;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +19,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import user.UserProfile;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
@@ -67,13 +74,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         holder.location.setText(city.get(position)+", "+district.get(position));
         holder.gender.setText(gender.get(position));
 
-//        Picasso.get().load((Uri) images).into(holder.img);
-//        Toast.makeText(ctx, uid.get(position), Toast.LENGTH_SHORT).show();
-
-//        holder.img.setImageURI(images.get(position));
-//        holder.img.setImageURI(images.get(position));
-//        Picasso.get().load(images.get(position)).into(holder.img);
-
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference fileRef=  storageRef.child("users/"+uid.get(position)+"/"+ imgNumber.get(position).toString() +"/img1.jpg");
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -85,6 +85,22 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), DisplayDogAd.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("USERID",uid.get(position));
+                intent.putExtra("IMGNUMBER",imgNumber.get(position).toString());
+
+                v.getContext().startActivity(intent);
+
+            }
+
+        });
+
+
 
     }
 
@@ -109,12 +125,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
            img=itemView.findViewById(R.id.ad_box_img);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    Toast.makeText(v.getContext(), imgNumber.get(getAdapterPosition()).toString() ,Toast.LENGTH_SHORT).show();
-                }
-            });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+////                    Toast.makeText(v.getContext(), imgNumber.get(getAdapterPosition()).toString() ,Toast.LENGTH_SHORT).show();
+//                }
+//            });
 
         }
     }
