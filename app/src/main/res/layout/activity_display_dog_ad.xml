@@ -25,7 +25,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <ProgressBar
+            android:id="@+id/progressBar_display_ad"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="208dp"
+            android:indeterminateDrawable="@drawable/progressbar"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
+            android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="88dp"
@@ -39,14 +53,14 @@
 
         <TextView
             android:id="@+id/display_dog_ad_title"
-            android:layout_width="245dp"
-            android:layout_height="49dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="28dp"
-            android:text="I Need a Home"
+            android:layout_width="327dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text=""
             android:textColor="@color/grey_black"
             android:textSize="20dp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,12 +68,14 @@
             android:id="@+id/display_dog_ad_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="28dp"
-            android:text="Malabe, Colombo"
+            android:layout_marginTop="4dp"
+            android:text="lokaosos"
             android:textColor="@color/modern_blue"
             android:textSize="10dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/display_dog_ad_title"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/display_dog_ad_title"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/display_dog_ad_title"
+            app:layout_constraintTop_toBottomOf="@+id/display_dog_ad_title" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline8"
@@ -157,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Golden Retreiver"
+            android:text=""
             app:layout_constraintEnd_toEndOf="@+id/textView15"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/textView15"
@@ -167,7 +183,7 @@
             android:id="@+id/display_dog_ad_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Male"
+            android:text=""
             app:layout_constraintBottom_toBottomOf="@+id/display_dog_ad_age"
             app:layout_constraintEnd_toEndOf="@+id/textView17"
             app:layout_constraintHorizontal_bias="0.50"
@@ -179,7 +195,7 @@
             android:id="@+id/display_dog_ad_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4"
+            android:text=""
             app:layout_constraintBottom_toBottomOf="@+id/display_dog_ad_breed"
             app:layout_constraintEnd_toEndOf="@+id/textView16"
             app:layout_constraintHorizontal_bias="0.5"
@@ -191,7 +207,7 @@
             android:id="@+id/display_dog_ad_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium"
+            android:text=""
             app:layout_constraintBottom_toBottomOf="@+id/display_dog_ad_gender"
             app:layout_constraintEnd_toEndOf="@+id/textView18"
             app:layout_constraintStart_toStartOf="@+id/textView18"
@@ -212,10 +228,10 @@
 
         <TextView
             android:id="@+id/display_dog_ad_description"
-            android:layout_width="332dp"
-            android:layout_height="98dp"
+            android:layout_width="331dp"
+            android:layout_height="94dp"
             android:layout_marginTop="12dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam commodo lacus purus, quis condimentum nunc tincidunt at. consectetur adipiscing elit. Nullam commodo lacus purus, quis condimentum nunc tincidunt at. Duis sed lorem vestibulum arcu tincidunt blandit sit amet quis mauris."
+            android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textView23"
@@ -237,7 +253,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="11-04-2021"
+            android:text=""
             app:layout_constraintBaseline_toBaselineOf="@+id/textView25"
             app:layout_constraintStart_toEndOf="@+id/textView25" />
 
@@ -268,7 +284,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="petrehome@gmail.com"
+            android:text=""
             app:layout_constraintBaseline_toBaselineOf="@+id/textView27"
             app:layout_constraintStart_toEndOf="@+id/textView27" />
 
@@ -277,7 +293,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="091 2234 931"
+            android:text=""
             app:layout_constraintBaseline_toBaselineOf="@+id/textView28"
             app:layout_constraintStart_toEndOf="@+id/textView28" />
 

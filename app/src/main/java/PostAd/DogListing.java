@@ -37,8 +37,11 @@ import com.google.firebase.storage.UploadTask;
 import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import user.Login;
@@ -62,6 +65,7 @@ public class DogListing extends AppCompatActivity {
     private ArrayList<City> cities;
 
     Uri  img1URI1 = Uri.EMPTY,img1URI2= Uri.EMPTY,img1URI3= Uri.EMPTY,img1URI4= Uri.EMPTY;
+    String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,6 +241,8 @@ public class DogListing extends AppCompatActivity {
                         DogListings.put("city",mcity);
                         DogListings.put("city",mcity);
                         DogListings.put("city",mcity);
+                        DogListings.put("date",date);
+
 
                         documentReference.set(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
