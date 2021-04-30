@@ -57,12 +57,14 @@ public class MyListings extends AppCompatActivity {
     StorageReference storageReference;
     RecyclerView my_listing_recyclerview;
     String userID ;
+    List<String> uid;
+    List<Integer> imgNumber;
     List<String> titles;
     List<String> breed;
     List<String> gender;
     List<String> district;
     List<String> city;
-    List<Integer> images;
+    Integer finalI;
     Adapter adapternew;
 
     Button nav_logout,nav_login,create_new_listing_btn;
@@ -96,39 +98,23 @@ public class MyListings extends AppCompatActivity {
         //check if user is already logged in
         if (fAuth.getCurrentUser() != null){
             userID = fAuth.getCurrentUser().getUid();
+            uid = new ArrayList<>();
+            imgNumber = new ArrayList<>();
             titles = new ArrayList<>();
             breed = new ArrayList<>();
             gender = new ArrayList<>();
             district = new ArrayList<>();
             city = new ArrayList<>();
-            images =new ArrayList<>();
 
-            for (int i = 1 ; i<50 ;i++){
-                DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
-                int finalI = i;
-                documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (value.exists()){
+            getListings(userID);
 
-                            titles.add(value.getString("title"));
-                            breed.add(value.getString("breed"));
-                            gender.add(value.getString("gender"));
-                            district.add(value.getString("district"));
-                            city.add(value.getString("city"));
-                            images.add(finalI);
-//                            Toast.makeText(getApplicationContext(), value.getString("title"), Toast.LENGTH_SHORT).show();
-                            initializedAdapter();
-                        }
-                    }
-                });
-            }
             nav_login.setVisibility(View.GONE);
             nav_logout.setVisibility(View.VISIBLE);
         }
         else {
-            nav_login.setVisibility(View.VISIBLE);
             nav_logout.setVisibility(View.GONE);
+            nav_login.setVisibility(View.VISIBLE);
+
         }
 
         create_new_listing_btn.setOnClickListener(new View.OnClickListener() {
@@ -150,9 +136,6 @@ public class MyListings extends AppCompatActivity {
     }
 
 
-
-
-
     public  void ClickMenu(View view){
         //open drawer
         openDrawer(drawerLayout);
@@ -172,8 +155,10 @@ public class MyListings extends AppCompatActivity {
 
     public  void  logout(View view){
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        finish();
+        nav_logout.setVisibility(View.GONE);
+        nav_login.setVisibility(View.VISIBLE);
+
+
 
     }
     public void navClickHome(View view){
@@ -239,11 +224,35 @@ public class MyListings extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), UserProfile.class));
 
     }
-    private void initializedAdapter(){
-        adapternew = new Adapter(getApplicationContext(),titles,breed,gender,district,city, images,userID);
+    private void initializedAdapter(String userID){
+        adapternew = new Adapter(getApplicationContext(),uid,imgNumber,titles,breed,gender,district,city,userID);
         GridLayoutManager gridLayoutManagernew = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         my_listing_recyclerview.setLayoutManager(gridLayoutManagernew);
         my_listing_recyclerview.setAdapter(adapternew);
+
+    }
+    private  void getListings(String userID){
+        for (int i = 1 ; i<50 ;i++){
+            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
+            Integer finalI = (Integer) i;
+            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (value != null && value.exists()){
+
+                        uid.add(userID);
+                        titles.add(value.getString("title"));
+                        breed.add(value.getString("breed"));
+                        gender.add(value.getString("gender"));
+                        district.add(value.getString("district"));
+                        city.add(value.getString("city"));
+                        imgNumber.add(finalI);
+                        initializedAdapter(userID);
+                    }
+                }
+            });
+        }
+
     }
 
 

@@ -1,29 +1,59 @@
 package com.oop.petrehome;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import PostAd.DogListing;
+import java.util.ArrayList;
+import java.util.List;
+
+import PostAd.Adapter;
 import PostAd.MyListings;
 import user.Login;
-import user.Register;
 import user.UserProfile;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
+    FirebaseFirestore fstore;
+    StorageReference storageReference;
+    RecyclerView my_listing_recyclerview;
+    String userID ;
+    List<String> uid;
+    List<Integer> imgNumber;
+    List<String> titles;
+    List<String> breed;
+    List<String> gender;
+    List<String> district;
+    List<String> city;
+    Adapter adapternew;
     Button  nav_logout,nav_login;
     DrawerLayout drawerLayout;
     TextView nav_home_txt,nav_postad_txt,nav_lostdogs_txt,nav_dogwalkers_txt,nav_petdaycares_txt,nav_profile_txt;
@@ -44,21 +74,49 @@ public class MainActivity extends AppCompatActivity {
         nav_dogwalkers_txt =findViewById(R.id.nav_dogwalkers_txt);
         nav_petdaycares_txt =findViewById(R.id.nav_petdaycares_txt);
         nav_profile_txt =findViewById(R.id.nav_profile_txt);
+        my_listing_recyclerview =findViewById(R.id.my_listing_recyclerview);
 
 
 
         //initialized firebaseAuth
         fAuth = FirebaseAuth.getInstance();
+        fstore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
+        uid = new ArrayList<>();
+        imgNumber = new ArrayList<>();
+        titles = new ArrayList<>();
+        breed = new ArrayList<>();
+        gender = new ArrayList<>();
+        district = new ArrayList<>();
+        city = new ArrayList<>();
+
+        fstore.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        getListings(document.getId().toString());
+                    }
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+            }
+        });
         //check if user is already logged in
         if (fAuth.getCurrentUser() != null){
+            userID = fAuth.getCurrentUser().getUid();
             nav_login.setVisibility(View.GONE);
             nav_logout.setVisibility(View.VISIBLE);
-
         }
         else {
-            nav_login.setVisibility(View.VISIBLE);
             nav_logout.setVisibility(View.GONE);
+            nav_login.setVisibility(View.VISIBLE);
+
         }
 
 
@@ -83,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
     public  void  logout(View view){
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        finish();
+        nav_logout.setVisibility(View.GONE);
+        nav_login.setVisibility(View.VISIBLE);
 
     }
     public void navClickHome(View view){
@@ -150,7 +208,34 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), UserProfile.class));
 
     }
+    private void initializedAdapter(String userID){
+        adapternew = new Adapter(getApplicationContext(),uid,imgNumber,titles,breed,gender,district,city,userID);
+        GridLayoutManager gridLayoutManagernew = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
+        my_listing_recyclerview.setLayoutManager(gridLayoutManagernew);
+        my_listing_recyclerview.setAdapter(adapternew);
+    }
 
+    private  void getListings(String userID){
+        for (int i = 1 ; i<50 ;i++){
+            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
+            Integer finalI = (Integer) i;
 
+            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (value != null && value.exists()){
 
+                        uid.add(userID);
+                        titles.add(value.getString("title"));
+                        breed.add(value.getString("breed"));
+                        gender.add(value.getString("gender"));
+                        district.add(value.getString("district"));
+                        city.add(value.getString("city"));
+                        imgNumber.add(finalI);
+                        initializedAdapter(userID);
+                    }
+                }
+            });
+        }
+    }
 }

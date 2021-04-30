@@ -206,6 +206,23 @@ public class DogListing extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
+                        if (!(img1URI1.equals(Uri.EMPTY))){
+                            StorageReference fileRef1 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img1.jpg");
+                            fileRef1.putFile(img1URI1);
+                        }
+                        if (!(img1URI2.equals(Uri.EMPTY))){
+                            StorageReference fileRef2 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img2.jpg");
+                            fileRef2.putFile(img1URI2);
+                        }
+                        if (!(img1URI3.equals(Uri.EMPTY))){
+                            StorageReference fileRef3 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img3.jpg");
+                            fileRef3.putFile(img1URI3);
+                        }
+                        if (!(img1URI4.equals(Uri.EMPTY))){
+                            StorageReference fileRef4 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img4.jpg");
+                            fileRef4.putFile(img1URI4);
+                        }
+
                         DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(count));
                         Map<String,Object> DogListings = new HashMap<>();
                         DogListings.put("title",mtitle);
@@ -218,27 +235,13 @@ public class DogListing extends AppCompatActivity {
                         DogListings.put("phone",mphone);
                         DogListings.put("district",mdistrict);
                         DogListings.put("city",mcity);
+                        DogListings.put("city",mcity);
+                        DogListings.put("city",mcity);
 
                         documentReference.set(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
 
-                                if (!(img1URI1.equals(Uri.EMPTY))){
-                                    StorageReference fileRef1 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img1.jpg");
-                                    fileRef1.putFile(img1URI1);
-                                }
-                                if (!(img1URI2.equals(Uri.EMPTY))){
-                                    StorageReference fileRef2 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img2.jpg");
-                                    fileRef2.putFile(img1URI2);
-                                }
-                                if (!(img1URI3.equals(Uri.EMPTY))){
-                                    StorageReference fileRef3 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img3.jpg");
-                                    fileRef3.putFile(img1URI3);
-                                }
-                                if (!(img1URI4.equals(Uri.EMPTY))){
-                                    StorageReference fileRef4 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img4.jpg");
-                                    fileRef4.putFile(img1URI4);
-                                }
 
                                 Toast.makeText(DogListing.this, "Listing Published", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), MyListings.class));

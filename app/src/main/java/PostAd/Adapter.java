@@ -26,21 +26,23 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     StorageReference storageReference;
     String UserID;
     List<String> title;
+    List<String> uid;
+    List<Integer> imgNumber;
     List<String> breed;
     List<String> district;
     List<String> city;
     List<String> gender;
-    List<Integer> images;
     Context ctx;
     LayoutInflater layoutInflater;
 
-    public Adapter (Context ctx,List<String> title,List<String> breed,List<String> gender,List<String> district,List<String> city,List<Integer> images, String UserID){
+    public Adapter (Context ctx,List<String> uid,List<Integer> imgNumber,List<String> title,List<String> breed,List<String> gender,List<String> district,List<String> city, String UserID){
+        this.uid=uid;
+        this.imgNumber=imgNumber;
         this.title=title;
         this.breed=breed;
         this.district=district;
         this.city=city;
         this.gender=gender;
-        this.images =images;
         this.ctx=ctx;
         this.UserID=UserID;
         this.layoutInflater=LayoutInflater.from(ctx);
@@ -55,23 +57,29 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        Integer p = (Integer)position+1;
+
         holder.title.setText(title.get(position));
         holder.breed.setText(breed.get(position));
         holder.location.setText(city.get(position)+", "+district.get(position));
-
         holder.gender.setText(gender.get(position));
-//        Toast.makeText(ctx, UserID, Toast.LENGTH_SHORT).show();
+
+//        Picasso.get().load((Uri) images).into(holder.img);
+//        Toast.makeText(ctx, uid.get(position), Toast.LENGTH_SHORT).show();
 
 //        holder.img.setImageURI(images.get(position));
 //        holder.img.setImageURI(images.get(position));
 //        Picasso.get().load(images.get(position)).into(holder.img);
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference fileRef=  storageRef.child("users/"+UserID+"/"+ images.get(position).toString() +"/img1.jpg");
+        StorageReference fileRef=  storageRef.child("users/"+uid.get(position)+"/"+ imgNumber.get(position).toString() +"/img1.jpg");
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(holder.img);
+                holder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
             }
         });
 

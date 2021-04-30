@@ -104,7 +104,7 @@
         android:background="@drawable/input_box"
         android:ems="10"
         android:hint="@string/phone_s"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
         android:textSize="14sp"

@@ -28,9 +28,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_listing_recyclerview"
+                android:layout_width="381dp"
+                android:layout_height="582dp"
+                android:layout_marginBottom="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_new_listing_btn" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
     </LinearLayout>
