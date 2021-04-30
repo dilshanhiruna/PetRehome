@@ -38,6 +38,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import user.Login;
+
 public class DisplayDogAd extends AppCompatActivity implements GestureDetector.OnGestureListener {
     private float x1,x2,y1,y2;
     private int MIN_DISTANCE =150;
@@ -48,6 +50,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
             display_dog_ad_date,display_dog_ad_email,display_dog_ad_mobile,t1,t2,t3,t4,t5,t6,t7,t8;
 
     ImageView display_dog_ad_image;
+    String dis,city;
 
     Button display_dog_ad_send_msg,display_dog_ad_call,display_dog_ad_edit_btn;
     ProgressBar progressBar_display_ad,progressBar_display_ad_img;
@@ -129,6 +132,8 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
                     display_dog_ad_mobile.setText(value.getString("phone"));
                     display_dog_ad_date.setText(value.getString("date"));
                     display_dog_ad_location.setText(value.getString("city")+", "+value.getString("district"));
+                    dis = value.getString("district");
+                    city = value.getString("city");
                     progressBar_display_ad.setVisibility(View.INVISIBLE);
                     showText();
 
@@ -215,7 +220,24 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         display_dog_ad_edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "clicked",Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(v.getContext(), EditDogListing.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("USERID",USERID);
+                intent.putExtra("IMGNUMBER",IMGNUMBER);
+
+                intent.putExtra("TITLE",display_dog_ad_title.getText().toString());
+                intent.putExtra("BREED",display_dog_ad_breed.getText().toString());
+                intent.putExtra("AGE",display_dog_ad_age.getText().toString());
+                intent.putExtra("GENDER",display_dog_ad_gender.getText().toString());
+                intent.putExtra("SIZE",display_dog_ad_size.getText().toString());
+                intent.putExtra("DESCRIPTION",display_dog_ad_description.getText().toString());
+                intent.putExtra("EMAIL",display_dog_ad_email.getText().toString());
+                intent.putExtra("MOBILE",display_dog_ad_mobile.getText().toString());
+                intent.putExtra("DISTRICT",dis);
+                intent.putExtra("CITY",city);
+                startActivity(intent);
+
             }
         });
 

@@ -45,6 +45,8 @@
     <string name="send_message">Send Message</string>
     <string name="call">Call</string>
     <string name="send_email">Send Email</string>
+    <string name="update_listing">Update Listing</string>
+    <string name="publish">Publish</string>
 
 
 

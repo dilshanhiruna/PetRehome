@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -23,8 +25,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,6 +40,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,17 +52,17 @@ import java.util.Map;
 import user.Login;
 import user.Register;
 
-public class DogListing extends AppCompatActivity {
+public class EditDogListing extends AppCompatActivity {
     EditText title,age,description,email,phone;
     Spinner breed_spinner,gender_spinner,size_spinner,district_spinner ,city_spinner;;
     Button postad_newlisting_btn;
-    ImageView postad_newlisting_back_btn,img1,img2,img3,img4;
-    int count =0;
+    ImageView postad_newlisting_back_btn,img1,img2,img3,img4,update_listing_delete_btn;
+
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
     StorageReference storageReference;
     String userID ;
-
+    int count;
     private ArrayAdapter<District> districtArrayAdapter;
     private ArrayAdapter<City> cityArrayAdapter;
 
@@ -65,12 +70,28 @@ public class DogListing extends AppCompatActivity {
     private ArrayList<City> cities;
 
     Uri  img1URI1 = Uri.EMPTY,img1URI2= Uri.EMPTY,img1URI3= Uri.EMPTY,img1URI4= Uri.EMPTY;
-    String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+    String BREED,CITY,GENDER,SIZE,DISTRICT;
+
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dog_listing);
+        setContentView(R.layout.activity_edit_dog_listing);
+
+        String USERID = getIntent().getExtras().getString("USERID");
+        String IMGNUMBER = getIntent().getExtras().getString("IMGNUMBER");
+
+        String TITLE = getIntent().getExtras().getString("TITLE");
+         BREED = getIntent().getExtras().getString("BREED");
+         CITY = getIntent().getExtras().getString("CITY");
+        String AGE = getIntent().getExtras().getString("AGE");
+         GENDER = getIntent().getExtras().getString("GENDER");
+         SIZE = getIntent().getExtras().getString("SIZE");
+        String DESCRIPTION = getIntent().getExtras().getString("DESCRIPTION");
+        String EMAIL = getIntent().getExtras().getString("EMAIL");
+        String MOBILE = getIntent().getExtras().getString("MOBILE");
+         DISTRICT = getIntent().getExtras().getString("DISTRICT");
 
         title=findViewById(R.id.postad_newlisting_title);
         age=findViewById(R.id.postad_newlisting_age);
@@ -84,6 +105,13 @@ public class DogListing extends AppCompatActivity {
         city_spinner=(Spinner)findViewById(R.id.postad_newlisting_city);
         postad_newlisting_btn=findViewById(R.id.postad_newlisting_btn);
         postad_newlisting_back_btn=findViewById(R.id.postad_newlisting_back_btn);
+        update_listing_delete_btn=findViewById(R.id.update_listing_delete_btn);
+
+        title.setText(TITLE);
+        age.setText(AGE);
+        description.setText(DESCRIPTION);
+        email.setText(EMAIL);
+        phone.setText(MOBILE);
 
         img1=findViewById(R.id.dog_imageButton);
         img2=findViewById(R.id.dog_imageButton2);
@@ -98,8 +126,54 @@ public class DogListing extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         userID = fAuth.getCurrentUser().getUid();
 
-        //getting the listing current count from the user
-        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference fileRef1=  storageRef.child("users/"+USERID+"/"+ IMGNUMBER +"/img1.jpg");
+        fileRef1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                if (!(uri.equals(Uri.EMPTY))){
+                    Picasso.get().load(uri).into(img1);
+                    img1.setScaleType(ImageView.ScaleType.FIT_XY);
+                    img1URI1 = uri;
+                }
+            }
+        });
+        StorageReference fileRef2=  storageRef.child("users/"+USERID+"/"+ IMGNUMBER +"/img2.jpg");
+        fileRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                if (!(uri.equals(Uri.EMPTY))){
+                    Picasso.get().load(uri).into(img2);
+                    img2.setScaleType(ImageView.ScaleType.FIT_XY);
+                    img1URI2 = uri;
+                }
+            }
+        });
+        StorageReference fileRef3=  storageRef.child("users/"+USERID+"/"+ IMGNUMBER +"/img3.jpg");
+        fileRef3.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                if (!(uri.equals(Uri.EMPTY))){
+                    Picasso.get().load(uri).into(img3);
+                    img3.setScaleType(ImageView.ScaleType.FIT_XY);
+                    img1URI3 = uri;
+                }
+            }
+        });
+        StorageReference fileRef4=  storageRef.child("users/"+USERID+"/"+ IMGNUMBER +"/img4.jpg");
+        fileRef4.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                if (!(uri.equals(Uri.EMPTY))){
+                    Picasso.get().load(uri).into(img4);
+                    img4.setScaleType(ImageView.ScaleType.FIT_XY);
+                    img1URI4 = uri;
+                }
+            }
+        });
+
+
+        DocumentReference documentReferenceCount = fstore.collection("users").document(USERID);
         documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -138,8 +212,6 @@ public class DogListing extends AppCompatActivity {
         });
 
 
-
-
         postad_newlisting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,32 +248,31 @@ public class DogListing extends AppCompatActivity {
                     return;
                 }
                 if (mbreed.equals("breed")){
-                    Toast.makeText(DogListing.this, "Select a Breed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDogListing.this, "Select a Breed", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mgender.equals("gender")){
-                    Toast.makeText(DogListing.this, "Select a Gender", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDogListing.this, "Select a Gender", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (msize.equals("size")){
-                    Toast.makeText(DogListing.this, "Select a Size", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDogListing.this, "Select a Size", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mdistrict.equals("Select District")){
-                    Toast.makeText(DogListing.this, "Select a District", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDogListing.this, "Select a District", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mcity.equals("Select City")){
-                    Toast.makeText(DogListing.this, "Select a City", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDogListing.this, "Select a City", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if ((img1URI1.equals(Uri.EMPTY))){
-                    Toast.makeText(DogListing.this, "Main Image Required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDogListing.this, "Main Image Required", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                count++;
                 //update the current listing count by 1 of the user
                 DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
                 Map<String,Object> user = new HashMap<>();
@@ -211,23 +282,23 @@ public class DogListing extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
 
                         if (!(img1URI1.equals(Uri.EMPTY))){
-                            StorageReference fileRef1 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img1.jpg");
+                            StorageReference fileRef1 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+IMGNUMBER+"/img1.jpg");
                             fileRef1.putFile(img1URI1);
                         }
                         if (!(img1URI2.equals(Uri.EMPTY))){
-                            StorageReference fileRef2 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img2.jpg");
+                            StorageReference fileRef2 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+IMGNUMBER+"/img2.jpg");
                             fileRef2.putFile(img1URI2);
                         }
                         if (!(img1URI3.equals(Uri.EMPTY))){
-                            StorageReference fileRef3 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img3.jpg");
+                            StorageReference fileRef3 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+IMGNUMBER+"/img3.jpg");
                             fileRef3.putFile(img1URI3);
                         }
                         if (!(img1URI4.equals(Uri.EMPTY))){
-                            StorageReference fileRef4 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img4.jpg");
+                            StorageReference fileRef4 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+IMGNUMBER+"/img4.jpg");
                             fileRef4.putFile(img1URI4);
                         }
 
-                        DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(count));
+                        DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
                         Map<String,Object> DogListings = new HashMap<>();
                         DogListings.put("title",mtitle);
                         DogListings.put("breed",mbreed);
@@ -239,33 +310,29 @@ public class DogListing extends AppCompatActivity {
                         DogListings.put("phone",mphone);
                         DogListings.put("district",mdistrict);
                         DogListings.put("city",mcity);
-                        DogListings.put("date",date);
 
-
-                        documentReference.set(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        documentReference.update(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
 
+                                Toast.makeText(EditDogListing.this, "Listing Updated", Toast.LENGTH_SHORT).show();
 
-                                Toast.makeText(DogListing.this, "Listing Published", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), MyListings.class));
-                                overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(DogListing.this, "Error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditDogListing.this, "Error", Toast.LENGTH_SHORT).show();
                             }
                         });
 
 
-                        }
+                    }
 
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(DogListing.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditDogListing.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -275,15 +342,76 @@ public class DogListing extends AppCompatActivity {
         postad_newlisting_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MyListings.class));
-                overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+                finish();
+
+            }
+        });
+        update_listing_delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage("Are you sure you want to delete this ?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                DocumentReference df =fstore.collection("DogListings")
+                                        .document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
+                                df.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                        if (!(img1URI1.equals(Uri.EMPTY))){
+                                            StorageReference dltStore = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+IMGNUMBER+"/img1.jpg");
+                                            dltStore.delete();
+                                        }
+                                        if (!(img1URI2.equals(Uri.EMPTY))){
+                                            StorageReference dltStore = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+IMGNUMBER+"/img2.jpg");
+                                            dltStore.delete();
+                                        }
+                                        if (!(img1URI3.equals(Uri.EMPTY))){
+                                            StorageReference dltStore = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+IMGNUMBER+"/img3.jpg");
+                                            dltStore.delete();
+                                        }
+                                        if (!(img1URI4.equals(Uri.EMPTY))){
+                                            StorageReference dltStore = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+IMGNUMBER+"/img4.jpg");
+                                            dltStore.delete();
+                                        }
+
+                                        Toast.makeText(getApplicationContext(),"Delete Successful",Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(getApplicationContext(), MyListings.class));
+                                        overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(),"Delete Unsuccessful",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Delete Listing");
+                alert.show();
+
             }
         });
 
 
+
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -291,7 +419,7 @@ public class DogListing extends AppCompatActivity {
         if (requestCode ==1111){
             if (resultCode == Activity.RESULT_OK ){
 
-                 img1URI1 = data.getData();
+                img1URI1 = data.getData();
                 img1.setImageURI(img1URI1);
                 img1.setScaleType(ImageView.ScaleType.FIT_XY);
             }
@@ -299,7 +427,7 @@ public class DogListing extends AppCompatActivity {
         if (requestCode ==2222){
             if (resultCode == Activity.RESULT_OK ){
 
-                 img1URI2 = data.getData();
+                img1URI2 = data.getData();
                 img2.setImageURI(img1URI2);
                 img2.setScaleType(ImageView.ScaleType.FIT_XY);
             }
@@ -307,7 +435,7 @@ public class DogListing extends AppCompatActivity {
         if (requestCode ==3333){
             if (resultCode == Activity.RESULT_OK ){
 
-                 img1URI3 = data.getData();
+                img1URI3 = data.getData();
                 img3.setImageURI(img1URI3);
                 img3.setScaleType(ImageView.ScaleType.FIT_XY);
             }
@@ -315,7 +443,7 @@ public class DogListing extends AppCompatActivity {
         if (requestCode ==4444){
             if (resultCode == Activity.RESULT_OK ){
 
-                 img1URI4 = data.getData();
+                img1URI4 = data.getData();
                 img4.setImageURI(img1URI4);
                 img4.setScaleType(ImageView.ScaleType.FIT_XY);
             }
@@ -340,34 +468,14 @@ public class DogListing extends AppCompatActivity {
         city_spinner.setAdapter(cityArrayAdapter);
 
         district_spinner.setOnItemSelectedListener(district_listener);
-        city_spinner.setOnItemSelectedListener(city_listener);
+
 
     }
-    private  AdapterView.OnItemSelectedListener city_listener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            TextView tv = (TextView) view;
-            if (position == 0) {
-                // Set the hint text color gray
-                tv.setTextColor(Color.parseColor("#AAAAAA"));
-                tv.setTextSize(14);
-            }
-        }
 
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
     private AdapterView.OnItemSelectedListener district_listener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            TextView tv = (TextView) view;
-            if (position == 0) {
-                // Set the hint text color gray
-                tv.setTextColor(Color.parseColor("#AAAAAA"));
-                tv.setTextSize(14);
-            }
+
             if (position > 0) {
                 final District district =(District) district_spinner.getItemAtPosition(position);
                 ArrayList<City> tempStates = new ArrayList<>();
@@ -404,7 +512,7 @@ public class DogListing extends AppCompatActivity {
 //        District Colombo =new District(7, "Colombo");
 //        District Gampaha =new District(8, "Gampaha");
 
-        districts.add(new District(0, "Select District"));
+        districts.add(new District(0, DISTRICT));
         districts.add(new District(1, "Batticaloa"));
         districts.add(new District(2, "Trincomalee"));
         districts.add(new District(3, "Anuradhapura"));
@@ -414,7 +522,7 @@ public class DogListing extends AppCompatActivity {
         districts.add(new District(7, "Colombo"));
         districts.add(new District(8, "Gampaha"));
 
-        City selectCity = new City(0 ,selectDistrict,"Select City");
+        City selectCity = new City(0 ,selectDistrict,CITY);
         City Araiyampathy = new City(0 ,Batticaloa,"Araiyampathy");
         City Chenkalady = new City(0 ,Batticaloa,"Chenkalady");
         City Eravur = new City(0 ,Batticaloa,"Eravur");
@@ -496,9 +604,9 @@ public class DogListing extends AppCompatActivity {
     }
 
     private void initializeUI() {
-        String breed[] = {"breed","Labrador Retriever","German Shepherd","Bulldog","Beagle", "Poodle","Rottweiler","Boxer","Chihuahua"};
-        String gender[] = {"gender","Male","Female"};
-        String size[] = {"size","Small","Medium","Large"};
+        String breed[] = {BREED,"Labrador Retriever","German Shepherd","Bulldog","Beagle", "Poodle","Rottweiler","Boxer","Chihuahua"};
+        String gender[] = {GENDER,"Male","Female"};
+        String size[] = {SIZE,"Small","Medium","Large"};
 
 
         ArrayAdapter<String> dataAdapterbreed = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, breed);
@@ -513,61 +621,9 @@ public class DogListing extends AppCompatActivity {
         dataAdaptersize.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         size_spinner.setAdapter(dataAdaptersize);
 
-        breed_spinner.setOnItemSelectedListener(breed_listner);
-        gender_spinner.setOnItemSelectedListener(gender_listner);
-        size_spinner.setOnItemSelectedListener(size_listner);
+
 
     }
-    private AdapterView.OnItemSelectedListener breed_listner = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            TextView tv = (TextView) view;
-            if (position == 0) {
-                // Set the hint text color gray
-                tv.setTextColor(Color.parseColor("#AAAAAA"));
-                tv.setTextSize(14);
-            }
 
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    } ;
-    private AdapterView.OnItemSelectedListener gender_listner = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            TextView tv = (TextView) view;
-            if (position == 0) {
-                // Set the hint text color gray
-                tv.setTextColor(Color.parseColor("#AAAAAA"));
-                tv.setTextSize(14);
-            }
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    } ;
-    private AdapterView.OnItemSelectedListener size_listner = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            TextView tv = (TextView) view;
-            if (position == 0) {
-                // Set the hint text color gray
-                tv.setTextColor(Color.parseColor("#AAAAAA"));
-                tv.setTextSize(14);
-            }
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    } ;
 
 }

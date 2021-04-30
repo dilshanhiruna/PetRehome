@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="PostAd.DogListing">
+    tools:context="PostAd.EditDogListing">
 
     <ImageView
         android:id="@+id/postad_newlisting_back_btn"
@@ -246,9 +246,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="45dp"
         android:fontFamily="@font/segoe_bold"
-        android:text="@string/new_listing"
+        android:text="@string/update_listing"
         android:textColor="@color/black01"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -269,7 +269,7 @@
         android:layout_height="35dp"
         android:layout_marginTop="116dp"
         android:background="@drawable/button_blue"
-        android:text="@string/publish"
+        android:text="@string/update"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -282,7 +282,7 @@
         android:layout_height="75dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
-        android:padding="0dp"
+
         app:layout_constraintEnd_toStartOf="@+id/dog_imageButton2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -295,7 +295,7 @@
         android:layout_height="75dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="20dp"
-        android:padding="0dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/dog_imageButton4"
@@ -307,7 +307,7 @@
         android:layout_width="84dp"
         android:layout_height="75dp"
         android:layout_marginTop="12dp"
-        android:padding="0dp"
+
         app:layout_constraintEnd_toStartOf="@+id/dog_imageButton3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/dog_imageButton2"
@@ -319,7 +319,7 @@
         android:layout_width="84dp"
         android:layout_height="75dp"
         android:layout_marginTop="12dp"
-        android:padding="0dp"
+
         app:layout_constraintEnd_toStartOf="@+id/dog_imageButton4"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/dog_imageButton"
@@ -337,6 +337,17 @@
         app:layout_constraintEnd_toEndOf="@+id/dog_imageButton"
         app:layout_constraintHorizontal_bias="0.50"
         app:layout_constraintStart_toStartOf="@+id/dog_imageButton" />
+
+    <ImageView
+        android:id="@+id/update_listing_delete_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/round_delete_forever_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
