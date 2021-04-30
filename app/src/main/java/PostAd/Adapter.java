@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         this.ctx=ctx;
         this.UserID=UserID;
         this.layoutInflater=LayoutInflater.from(ctx);
+
     }
 
     @NonNull
@@ -59,7 +61,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Integer p = (Integer)position+1;
-
+        holder.progressBar_listings_img.setVisibility(View.VISIBLE);
         holder.title.setText(title.get(position));
         holder.breed.setText(breed.get(position));
         holder.location.setText(city.get(position)+", "+district.get(position));
@@ -79,6 +81,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(holder.img);
                 holder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                holder.progressBar_listings_img.setVisibility(View.INVISIBLE);
 
             }
         });
@@ -93,6 +96,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView  title,breed,gender,location;
         ImageView img;
+        ProgressBar progressBar_listings_img;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -100,13 +104,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
            gender =itemView.findViewById(R.id.ad_box_gender_txt);
            title =itemView.findViewById(R.id.ad_box_title_txt);
            location =itemView.findViewById(R.id.ad_box_location_txt);
+//            progressBar_listings_img.setVisibility(View.VISIBLE);
+           progressBar_listings_img =itemView.findViewById(R.id.progressBar_listings_img);
 
            img=itemView.findViewById(R.id.ad_box_img);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(),"clicked on"+getAdapterPosition(),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(v.getContext(), imgNumber.get(getAdapterPosition()).toString() ,Toast.LENGTH_SHORT).show();
                 }
             });
 

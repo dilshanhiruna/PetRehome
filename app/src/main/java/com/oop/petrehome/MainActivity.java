@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     Button  nav_logout,nav_login;
     DrawerLayout drawerLayout;
     TextView nav_home_txt,nav_postad_txt,nav_lostdogs_txt,nav_dogwalkers_txt,nav_petdaycares_txt,nav_profile_txt;
+    ProgressBar progressBar_listings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         nav_dogwalkers_txt =findViewById(R.id.nav_dogwalkers_txt);
         nav_petdaycares_txt =findViewById(R.id.nav_petdaycares_txt);
         nav_profile_txt =findViewById(R.id.nav_profile_txt);
+        progressBar_listings =findViewById(R.id.progressBar_listings);
         my_listing_recyclerview =findViewById(R.id.my_listing_recyclerview);
 
 
@@ -90,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         gender = new ArrayList<>();
         district = new ArrayList<>();
         city = new ArrayList<>();
+
+        progressBar_listings.setVisibility(View.VISIBLE);
 
         fstore.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -213,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManagernew = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         my_listing_recyclerview.setLayoutManager(gridLayoutManagernew);
         my_listing_recyclerview.setAdapter(adapternew);
+        progressBar_listings.setVisibility(View.INVISIBLE);
     }
 
     private  void getListings(String userID){

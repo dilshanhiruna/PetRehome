@@ -59,12 +59,26 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/my_listing_recyclerview"
                 android:layout_width="381dp"
-                android:layout_height="582dp"
+                android:layout_height="610dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view"
                 app:layout_constraintVertical_bias="1.0" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_listings"
+                style="?android:attr/progressBarStyle"
+                android:visibility="invisible"
+                android:indeterminateDrawable="@drawable/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/my_listing_recyclerview"
+                app:layout_constraintEnd_toEndOf="@+id/my_listing_recyclerview"
+                app:layout_constraintHorizontal_bias="0.48"
+                app:layout_constraintStart_toStartOf="@+id/my_listing_recyclerview"
+                app:layout_constraintTop_toTopOf="@+id/my_listing_recyclerview"
+                app:layout_constraintVertical_bias="0.348" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

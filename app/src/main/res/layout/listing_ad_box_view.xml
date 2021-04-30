@@ -81,6 +81,18 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/ad_box_location_txt"
                 app:layout_constraintStart_toStartOf="@+id/ad_box_breed_txt" />
 
+            <ProgressBar
+                android:id="@+id/progressBar_listings_img"
+                style="?android:attr/progressBarStyle"
+                android:indeterminateDrawable="@drawable/progressbar"
+                android:layout_width="36dp"
+                android:visibility="invisible"
+                android:layout_height="37dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ad_box_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

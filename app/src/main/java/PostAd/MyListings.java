@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +71,7 @@ public class MyListings extends AppCompatActivity {
     Button nav_logout,nav_login,create_new_listing_btn;
     DrawerLayout drawerLayout;
     TextView nav_home_txt,nav_postad_txt,nav_lostdogs_txt,nav_dogwalkers_txt,nav_petdaycares_txt,nav_profile_txt;
+    ProgressBar progressBar_listings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +91,14 @@ public class MyListings extends AppCompatActivity {
         nav_profile_txt =findViewById(R.id.nav_profile_txt);
         create_new_listing_btn =findViewById(R.id.create_new_listing_btn);
         my_listing_recyclerview =findViewById(R.id.my_listing_recyclerview);
+        progressBar_listings =findViewById(R.id.progressBar_listings);
 
         //initialized firebaseAuth
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        progressBar_listings.setVisibility(View.VISIBLE);
         //check if user is already logged in
         if (fAuth.getCurrentUser() != null){
             userID = fAuth.getCurrentUser().getUid();
@@ -114,6 +118,7 @@ public class MyListings extends AppCompatActivity {
         else {
             nav_logout.setVisibility(View.GONE);
             nav_login.setVisibility(View.VISIBLE);
+            progressBar_listings.setVisibility(View.INVISIBLE);
 
         }
 
@@ -229,6 +234,7 @@ public class MyListings extends AppCompatActivity {
         GridLayoutManager gridLayoutManagernew = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         my_listing_recyclerview.setLayoutManager(gridLayoutManagernew);
         my_listing_recyclerview.setAdapter(adapternew);
+        progressBar_listings.setVisibility(View.INVISIBLE);
 
     }
     private  void getListings(String userID){
