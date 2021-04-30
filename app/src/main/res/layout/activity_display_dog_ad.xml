@@ -6,16 +6,43 @@
     android:layout_height="match_parent"
     tools:context="PostAd.DisplayDogAd">
 
-    <ImageView
-        android:id="@+id/imageView7"
+    <com.denzcoskun.imageslider.ImageSlider
+        android:id="@+id/display_dog_ad_image"
         android:layout_width="419dp"
         android:layout_height="314dp"
+        app:auto_cycle="false"
+        app:period="1000"
+        app:delay="0"
+        app:placeholder="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/dog_pic_01" />
+        />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/display_dog_ad_image_sin"-->
+<!--        android:layout_width="419dp"-->
+<!--        android:layout_height="314dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
+
+    <ProgressBar
+        android:id="@+id/progressBar_display_ad_img"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="104dp"
+        android:indeterminateDrawable="@drawable/progressbar"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -88,7 +115,7 @@
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Breed"
+            android:text="@string/breed"
             android:textColor="@color/black01"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textView16"
@@ -100,7 +127,7 @@
             android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Age"
+            android:text="@string/age_CAP"
             android:textColor="@color/black01"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textView17"
@@ -112,7 +139,7 @@
             android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gender"
+            android:text="@string/gender"
             android:textColor="@color/black01"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textView18"
@@ -160,7 +187,7 @@
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Size"
+            android:text="@string/size"
             android:textColor="@color/black01"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -220,7 +247,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="76dp"
-            android:text="Description"
+            android:text="@string/description_CAP"
             android:textColor="@color/black01"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -242,7 +269,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Publish Date :"
+            android:text="@string/publish_date"
             android:textColor="@color/black01"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/textView23"
@@ -262,7 +289,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Email :"
+            android:text="@string/email"
             android:textColor="@color/black01"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/textView25"
@@ -273,7 +300,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Moblie :"
+            android:text="@string/moblie"
             android:textColor="@color/black01"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/textView27"
@@ -302,7 +329,7 @@
             android:layout_width="149dp"
             android:layout_height="31dp"
             android:background="@drawable/button_blue_border"
-            android:text="Send Message"
+            android:text="@string/send_message"
             android:textAllCaps="false"
             android:textColor="@color/modern_blue"
             android:textSize="12dp"
@@ -316,7 +343,7 @@
             android:layout_width="149dp"
             android:layout_height="31dp"
             android:background="@drawable/button_blue_border"
-            android:text="Call"
+            android:text="@string/call"
             android:textAllCaps="false"
             android:textColor="@color/modern_blue"
             android:textSize="12dp"

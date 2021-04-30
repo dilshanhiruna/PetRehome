@@ -34,6 +34,16 @@
     <string name="description">description</string>
     <string name="phone">phone</string>
     <string name="my_listings">My Listings</string>
+    <string name="breed">Breed</string>
+    <string name="age_CAP">Age</string>
+    <string name="gender">Gender</string>
+    <string name="size">Size</string>
+    <string name="description_CAP">Description</string>
+    <string name="publish_date">Publish Date :</string>
+    <string name="email">Email :</string>
+    <string name="moblie">Moblie :</string>
+    <string name="send_message">Send Message</string>
+    <string name="call">Call</string>
 
 
     <!--    dilshan's Strings-->

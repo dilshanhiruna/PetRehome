@@ -1,15 +1,23 @@
 package PostAd;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -19,9 +27,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.oop.petrehome.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class DisplayDogAd extends AppCompatActivity {
@@ -30,14 +41,17 @@ public class DisplayDogAd extends AppCompatActivity {
             display_dog_ad_age,display_dog_ad_gender,display_dog_ad_size,display_dog_ad_description,
             display_dog_ad_date,display_dog_ad_email,display_dog_ad_mobile,t1,t2,t3,t4,t5,t6,t7,t8;
 
+    ImageView display_dog_ad_image;
 
     Button display_dog_ad_send_msg,display_dog_ad_call;
-    ProgressBar progressBar_display_ad;
+    ProgressBar progressBar_display_ad,progressBar_display_ad_img;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
     StorageReference storageReference;
     String userID ;
+    ImageSlider imageSlider;
+    List<SlideModel> slideModels;
 
 
     @Override
@@ -64,8 +78,11 @@ public class DisplayDogAd extends AppCompatActivity {
         t7 =findViewById(R.id.textView27);
         t8 =findViewById(R.id.textView28);
 
+
         progressBar_display_ad =findViewById(R.id.progressBar_display_ad);
+        progressBar_display_ad_img =findViewById(R.id.progressBar_display_ad_img);
         progressBar_display_ad.setVisibility(View.VISIBLE);
+        progressBar_display_ad_img.setVisibility(View.VISIBLE);
 
         display_dog_ad_send_msg =findViewById(R.id.display_dog_ad_send_msg);
         display_dog_ad_call =findViewById(R.id.display_dog_ad_call);
@@ -73,6 +90,11 @@ public class DisplayDogAd extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+        imageSlider =findViewById(R.id.display_dog_ad_image);
+
+        slideModels = new ArrayList<>();
+
+
 
         String USERID = getIntent().getExtras().getString("USERID");
         String IMGNUMBER = getIntent().getExtras().getString("IMGNUMBER");
@@ -84,7 +106,6 @@ public class DisplayDogAd extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (value != null && value.exists()){
-
 
                     display_dog_ad_title.setText(value.getString("title"));
                     display_dog_ad_breed.setText(value.getString("breed"));
@@ -101,7 +122,49 @@ public class DisplayDogAd extends AppCompatActivity {
 
                 }
             }
+
         });
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference fileRef=  storageRef.child("users/"+USERID+"/"+ IMGNUMBER+"/img1.jpg");
+        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                if (!(uri.equals(Uri.EMPTY))){
+                    slideModels.add(new SlideModel(uri.toString()));
+                    imageSlider.setImageList(slideModels,true);
+                }
+
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+
+                for (int i =2;i<5;i++){
+                    Integer x = (Integer)i;
+                    StorageReference fileRef=  storageRef.child("users/"+USERID+"/"+ IMGNUMBER+"/img"+x.toString() +".jpg");
+                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            if (!(uri.equals(Uri.EMPTY))){
+                                slideModels.add(new SlideModel(uri.toString()));
+                            }
+//                  display_dog_ad_image.setScaleType(ImageView.ScaleType.FIT_XY);
+                            imageSlider.setImageList(slideModels,true);
+
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            progressBar_display_ad_img.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                }
+
+
+            }
+        });
+
+
     }
 
 
@@ -115,6 +178,7 @@ public class DisplayDogAd extends AppCompatActivity {
         t7.setVisibility(View.INVISIBLE);
         t8.setVisibility(View.INVISIBLE);
         display_dog_ad_send_msg.setVisibility(View.INVISIBLE);
+        display_dog_ad_call.setVisibility(View.INVISIBLE);
     }
     public  void showText(){
         t1.setVisibility(View.VISIBLE);
@@ -126,6 +190,7 @@ public class DisplayDogAd extends AppCompatActivity {
         t7.setVisibility(View.VISIBLE);
         t8.setVisibility(View.VISIBLE);
         display_dog_ad_send_msg.setVisibility(View.VISIBLE);
+        display_dog_ad_call.setVisibility(View.VISIBLE);
     }
 
 }
