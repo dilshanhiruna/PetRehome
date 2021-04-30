@@ -45,8 +45,8 @@ public class UserProfile extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
         if (fAuth.getCurrentUser() == null){
-            startActivity(new Intent(getApplicationContext(), Login.class));
-            finish();
+            Intent i = new Intent(getApplicationContext(), Login.class).putExtra("from", "profile");
+            startActivity(i);
         }
         else{
             userID = fAuth.getCurrentUser().getUid();

@@ -140,7 +140,9 @@ public class MainActivity extends AppCompatActivity {
 
     //navigation drawer button functions
     public  void  login(View view){
-        startActivity(new Intent(getApplicationContext(), Login.class));
+
+        Intent i = new Intent(getApplicationContext(), Login.class).putExtra("from", "main");
+        startActivity(i);
 
     }
 

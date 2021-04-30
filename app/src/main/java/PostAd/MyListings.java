@@ -130,7 +130,8 @@ public class MyListings extends AppCompatActivity {
                     overridePendingTransition(R.anim.enter, R.anim.exit);
                 }
                 else {
-                    startActivity(new Intent(getApplicationContext(), Login.class));
+                    Intent i = new Intent(getApplicationContext(), Login.class).putExtra("from", "listing");
+                    startActivity(i);
                     overridePendingTransition(R.anim.enter, R.anim.exit);
                 }
 
@@ -154,7 +155,8 @@ public class MyListings extends AppCompatActivity {
 
     //navigation drawer button functions
     public  void  login(View view){
-        startActivity(new Intent(getApplicationContext(), Login.class));
+        Intent i = new Intent(getApplicationContext(), Login.class).putExtra("from", "main");
+        startActivity(i);
 
     }
 

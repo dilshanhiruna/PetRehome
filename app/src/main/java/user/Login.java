@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
 
+import PostAd.MyListings;
+
 public class Login extends AppCompatActivity {
     EditText email,password;
     Button signin_instead,login;
@@ -48,8 +50,21 @@ public class Login extends AppCompatActivity {
         loging_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+                if(getIntent().getStringExtra("from").equals("main")){
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+                }else if (getIntent().getStringExtra("from").equals("listing")){
+                    startActivity(new Intent(getApplicationContext(), MyListings.class));
+                    overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+                }
+                else if (getIntent().getStringExtra("from").equals("reg")){
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+                }else {
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
+                }
+
 
             }
         });

@@ -6,22 +6,24 @@
     android:layout_height="match_parent"
     tools:context="PostAd.DisplayDogAd">
 
-    <com.denzcoskun.imageslider.ImageSlider
-        android:id="@+id/display_dog_ad_image"
-        android:layout_width="419dp"
-        android:layout_height="314dp"
-        app:auto_cycle="false"
-        app:period="1000"
-        app:delay="0"
-        app:placeholder="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/display_dog_ad_edit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="@string/edit"
+        android:textSize="13sp"
+        android:visibility="invisible"
+        android:textAllCaps="false"
+        android:background="@drawable/edit_dog_ad_btn"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        />
+        app:layout_constraintVertical_bias="0.07999998" />
 
-<!--    <ImageView-->
+    <!--    <ImageView-->
 <!--        android:id="@+id/display_dog_ad_image_sin"-->
 <!--        android:layout_width="419dp"-->
 <!--        android:layout_height="314dp"-->
@@ -30,6 +32,23 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toTopOf="parent"-->
 <!--        app:layout_constraintVertical_bias="0.0" />-->
+
+    <com.denzcoskun.imageslider.ImageSlider
+        android:id="@+id/display_dog_ad_image"
+        android:layout_width="419dp"
+        android:layout_height="314dp"
+        app:auto_cycle="false"
+        app:delay="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:period="1000"
+        app:placeholder="@color/white">
+
+    </com.denzcoskun.imageslider.ImageSlider>
 
     <ProgressBar
         android:id="@+id/progressBar_display_ad_img"
@@ -45,6 +64,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:background="@drawable/display_dog_ad_background"
@@ -96,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="lokaosos"
+            android:text=""
             android:textColor="@color/modern_blue"
             android:textSize="10dp"
             app:layout_constraintEnd_toEndOf="@+id/display_dog_ad_title"
@@ -329,7 +349,7 @@
             android:layout_width="149dp"
             android:layout_height="31dp"
             android:background="@drawable/button_blue_border"
-            android:text="@string/send_message"
+            android:text="@string/send_email"
             android:textAllCaps="false"
             android:textColor="@color/modern_blue"
             android:textSize="12dp"
@@ -358,6 +378,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="433dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

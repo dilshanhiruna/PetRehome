@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,7 +38,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class DisplayDogAd extends AppCompatActivity {
+public class DisplayDogAd extends AppCompatActivity implements GestureDetector.OnGestureListener {
+    private float x1,x2,y1,y2;
+    private int MIN_DISTANCE =150;
+    private GestureDetector gestureDetector;
 
     TextView  display_dog_ad_title,display_dog_ad_location,display_dog_ad_breed,
             display_dog_ad_age,display_dog_ad_gender,display_dog_ad_size,display_dog_ad_description,
@@ -43,7 +49,7 @@ public class DisplayDogAd extends AppCompatActivity {
 
     ImageView display_dog_ad_image;
 
-    Button display_dog_ad_send_msg,display_dog_ad_call;
+    Button display_dog_ad_send_msg,display_dog_ad_call,display_dog_ad_edit_btn;
     ProgressBar progressBar_display_ad,progressBar_display_ad_img;
 
     FirebaseAuth fAuth;
@@ -53,11 +59,13 @@ public class DisplayDogAd extends AppCompatActivity {
     ImageSlider imageSlider;
     List<SlideModel> slideModels;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_dog_ad);
+         this.gestureDetector =new GestureDetector(getApplicationContext(),this);
+
+
         display_dog_ad_title =findViewById(R.id.display_dog_ad_title);
         display_dog_ad_location =findViewById(R.id.display_dog_ad_location);
         display_dog_ad_breed =findViewById(R.id.display_dog_ad_breed);
@@ -86,6 +94,7 @@ public class DisplayDogAd extends AppCompatActivity {
 
         display_dog_ad_send_msg =findViewById(R.id.display_dog_ad_send_msg);
         display_dog_ad_call =findViewById(R.id.display_dog_ad_call);
+        display_dog_ad_edit_btn =findViewById(R.id.display_dog_ad_edit_btn);
         hideText();
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
@@ -94,13 +103,16 @@ public class DisplayDogAd extends AppCompatActivity {
 
         slideModels = new ArrayList<>();
 
-
-
         String USERID = getIntent().getExtras().getString("USERID");
         String IMGNUMBER = getIntent().getExtras().getString("IMGNUMBER");
 //        Toast.makeText(this, USERID+" "+IMGNUMBER,Toast.LENGTH_SHORT).show();
 
-        DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(IMGNUMBER);
+    if (fAuth.getCurrentUser() != null)
+        if ( fAuth.getCurrentUser().getUid().equals(USERID)){
+            display_dog_ad_edit_btn.setVisibility(View.VISIBLE);
+        } else display_dog_ad_edit_btn.setVisibility(View.INVISIBLE);
+
+                DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(IMGNUMBER);
 
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -165,8 +177,118 @@ public class DisplayDogAd extends AppCompatActivity {
         });
 
 
+        display_dog_ad_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + display_dog_ad_mobile.getText().toString()));
+                startActivity(intent);
+            }
+        });
+
+        display_dog_ad_send_msg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uriText =
+                        "mailto:"+display_dog_ad_email.getText().toString() +
+                                "?subject=" + Uri.encode("PetRehome : "+display_dog_ad_title.getText().toString()) +
+                                "&body=" + Uri.encode("");
+
+                Uri uri = Uri.parse(uriText);
+
+                Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+                sendIntent.setData(uri);
+                if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(Intent.createChooser(sendIntent, "Send email"));
+                }
+            }
+        });
+        display_dog_ad_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + display_dog_ad_location.getText().toString());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
+
+        display_dog_ad_edit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "clicked",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        gestureDetector.onTouchEvent(event);
+
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                y2 = event.getY();
+                float valueX = x2-x1;
+                float valueY = y2-y1;
+                if (Math.abs(valueX)> MIN_DISTANCE){
+                    if (x2>x1){
+//                        Toast.makeText(getApplicationContext(), "Right is swiped",Toast.LENGTH_SHORT).show();
+//                        finish();
+                    }
+                }
+                else if (Math.abs(valueY)> MIN_DISTANCE){
+                    if (y2>y1){
+//                        Toast.makeText(getApplicationContext(), "Bottom is swiped",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+
+                }
+        }
+
+
+
+
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return false;
+    }
 
     public  void hideText(){
         t1.setVisibility(View.INVISIBLE);
