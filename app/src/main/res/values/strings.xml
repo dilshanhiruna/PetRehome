@@ -47,7 +47,8 @@
     <string name="send_email">Send Email</string>
     <string name="update_listing">Update Listing</string>
     <string name="publish">Publish</string>
-
+    <string name="verify_now">Verify Now</string>
+    <string name="verified_user">Verified User</string>
 
 
     <!--    dilshan's Strings-->

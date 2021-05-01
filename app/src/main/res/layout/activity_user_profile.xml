@@ -23,7 +23,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/segoe_bold"
         android:text="@string/profile"
         android:textColor="@color/black01"
@@ -188,6 +188,33 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/edit_user_district_txt" />
+
+    <ImageView
+        android:id="@+id/verification_badge"
+        android:layout_width="30dp"
+        android:visibility="invisible"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.529"
+        app:srcCompat="@drawable/round_verified_24" />
+
+    <Button
+        android:id="@+id/verify_now_btn"
+        android:layout_width="83dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="4dp"
+        android:visibility="invisible"
+        android:background="@drawable/verify_now_btn"
+        android:text="@string/verify_now"
+        android:textAllCaps="false"
+        android:textColor="@color/black01"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

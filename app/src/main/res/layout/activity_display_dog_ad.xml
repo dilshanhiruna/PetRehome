@@ -111,6 +111,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/verified_user_txt"
+            android:layout_width="74dp"
+            android:layout_height="17dp"
+            android:background="@drawable/verified_user_txt"
+            android:text="@string/verified_user"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:visibility="invisible"
+            android:textColor="#2bbf1b"
+            android:textSize="9sp"
+            app:layout_constraintBottom_toTopOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/display_dog_ad_title"
+            app:layout_constraintHorizontal_bias="0.09"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/display_dog_ad_title" />
+
         <TextView
             android:id="@+id/display_dog_ad_location"
             android:layout_width="wrap_content"
@@ -129,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="398dp" />
+            app:layout_constraintGuide_percent="0.206" />
 
         <TextView
             android:id="@+id/textView15"

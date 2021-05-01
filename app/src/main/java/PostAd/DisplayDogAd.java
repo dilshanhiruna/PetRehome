@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -50,9 +51,9 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
             display_dog_ad_date,display_dog_ad_email,display_dog_ad_mobile,t1,t2,t3,t4,t5,t6,t7,t8;
 
     ImageView display_dog_ad_image;
-    String dis,city;
+    String dis,city,verificationDONE="";
 
-    Button display_dog_ad_send_msg,display_dog_ad_call,display_dog_ad_edit_btn;
+    Button display_dog_ad_send_msg,display_dog_ad_call,display_dog_ad_edit_btn,verified_user_txt;
     ProgressBar progressBar_display_ad,progressBar_display_ad_img;
 
     FirebaseAuth fAuth;
@@ -79,6 +80,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         display_dog_ad_date =findViewById(R.id.display_dog_ad_date);
         display_dog_ad_email =findViewById(R.id.display_dog_ad_email);
         display_dog_ad_mobile =findViewById(R.id.display_dog_ad_mobile);
+        verified_user_txt =findViewById(R.id.verified_user_txt);
 
         t1 =findViewById(R.id.textView15);
         t2 =findViewById(R.id.textView16);
@@ -115,7 +117,8 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
             display_dog_ad_edit_btn.setVisibility(View.VISIBLE);
         } else display_dog_ad_edit_btn.setVisibility(View.INVISIBLE);
 
-                DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(IMGNUMBER);
+
+        DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(IMGNUMBER);
 
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -137,10 +140,28 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
                     progressBar_display_ad.setVisibility(View.INVISIBLE);
                     showText();
 
+
                 }
             }
 
         });
+
+        DocumentReference df = fstore.collection("users").document(USERID);
+        df.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value.exists()){
+                    verificationDONE =value.getString("verified");
+                    if (verificationDONE.equals("y")){
+                        verified_user_txt.setVisibility(View.VISIBLE);
+                    }
+                }
+
+
+            }
+        });
+
+
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference fileRef=  storageRef.child("users/"+USERID+"/"+ IMGNUMBER+"/img1.jpg");
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

@@ -21,8 +21,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import PostAd.MyListings;
 
@@ -32,6 +38,8 @@ public class Login extends AppCompatActivity {
     TextView forgetpass;
     ImageView loging_back_btn;
     FirebaseAuth fAuth;
+    FirebaseFirestore fstore;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,4 +154,5 @@ public class Login extends AppCompatActivity {
         });
 
     }
+
 }

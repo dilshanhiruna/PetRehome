@@ -92,7 +92,7 @@
         android:ems="10"
         android:hint="@string/phone_s"
         android:maxLength="15"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
         android:textSize="14sp"
@@ -193,6 +193,17 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/user_delete_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        app:layout_constraintBottom_toBottomOf="@+id/update_user_back_btn"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/update_user_back_btn"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/round_delete_forever_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

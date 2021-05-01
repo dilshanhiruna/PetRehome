@@ -238,6 +238,8 @@ public class MyListings extends AppCompatActivity {
         my_listing_recyclerview.setAdapter(adapternew);
         progressBar_listings.setVisibility(View.INVISIBLE);
 
+
+
     }
     private  void getListings(String userID){
         for (int i = 1 ; i<50 ;i++){

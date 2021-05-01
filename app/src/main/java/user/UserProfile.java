@@ -1,5 +1,6 @@
 package user;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,8 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -19,11 +24,14 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserProfile extends AppCompatActivity {
 
     TextView edit_user_email,edit_user_fname,edit_user_lname,edit_user_phone,edit_user_district,edit_user_city;
-    Button edit_user_btn;
-    ImageView user_back_btn;
+    Button edit_user_btn,verify_now_btn;
+    ImageView user_back_btn,verification_badge;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
@@ -41,6 +49,9 @@ public class UserProfile extends AppCompatActivity {
         edit_user_btn = findViewById(R.id.edit_user_btn);
         user_back_btn = findViewById(R.id.user_back_btn);
 
+        verification_badge = findViewById(R.id.verification_badge);
+        verify_now_btn = findViewById(R.id.verify_now_btn);
+
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
@@ -50,7 +61,7 @@ public class UserProfile extends AppCompatActivity {
         }
         else{
             userID = fAuth.getCurrentUser().getUid();
-
+            FirebaseUser user = fAuth.getCurrentUser();
 
             DocumentReference documentReference = fStore.collection("users").document(userID);
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -65,6 +76,43 @@ public class UserProfile extends AppCompatActivity {
 
                 }
             });
+
+            DocumentReference documentReferenceCount = fStore.collection("users").document(userID);
+            Map<String,Object> USER = new HashMap<>();
+            if (user.isEmailVerified()){
+                USER.put("verified","y");
+            }
+            else {
+                USER.put("verified","n");
+            }
+            documentReferenceCount.update(USER);
+
+
+            if (user.isEmailVerified()){
+                verification_badge.setVisibility(View.VISIBLE);
+            }else {
+                verify_now_btn.setVisibility(View.VISIBLE);
+
+                verify_now_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getApplicationContext(), "Verification Email Has Been Sent", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
+                    }
+                });
+            }
+
+
+
             edit_user_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
