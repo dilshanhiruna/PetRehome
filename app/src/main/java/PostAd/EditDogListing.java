@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -216,7 +217,7 @@ public class EditDogListing extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String mtitle = title.getText().toString().trim();
+                String mtitle = capitalizeWord(title.getText().toString().trim());
                 String mage = age.getText().toString().trim();
                 String mdescription = description.getText().toString().trim();
                 String memail = email.getText().toString().trim();
@@ -241,6 +242,10 @@ public class EditDogListing extends AppCompatActivity {
                 }
                 if(TextUtils.isEmpty(memail)){
                     email.setError("Email is required");
+                    return;
+                }
+                if(!isValidEmail(memail)){
+                    email.setError("Email is invalid");
                     return;
                 }
                 if(TextUtils.isEmpty(mphone)){
@@ -623,6 +628,20 @@ public class EditDogListing extends AppCompatActivity {
 
 
 
+    }
+
+    public static String capitalizeWord(String str){
+        String words[]=str.split("\\s");
+        String capitalizeWord="";
+        for(String w:words){
+            String first=w.substring(0,1);
+            String afterfirst=w.substring(1);
+            capitalizeWord+=first.toUpperCase()+afterfirst+" ";
+        }
+        return capitalizeWord.trim();
+    }
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
 
