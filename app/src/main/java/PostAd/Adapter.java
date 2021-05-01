@@ -40,11 +40,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     List<String> breed;
     List<String> district;
     List<String> city;
+    List<Integer> views;
     List<String> gender;
     Context ctx;
     LayoutInflater layoutInflater;
 
-    public Adapter (Context ctx,List<String> uid,List<Integer> imgNumber,List<String> title,List<String> breed,List<String> gender,List<String> district,List<String> city, String UserID){
+    public Adapter (Context ctx,List<String> uid,List<Integer> imgNumber,List<String> title,List<String> breed,List<String> gender,List<String> district,List<String> city, String UserID,List<Integer> views){
         this.uid=uid;
         this.imgNumber=imgNumber;
         this.title=title;
@@ -54,6 +55,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         this.gender=gender;
         this.ctx=ctx;
         this.UserID=UserID;
+        this.views=views;
         this.layoutInflater=LayoutInflater.from(ctx);
 
     }
@@ -74,6 +76,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         holder.breed.setText(breed.get(position));
         holder.location.setText(city.get(position)+", "+district.get(position));
         holder.gender.setText(gender.get(position));
+        holder.viewCount.setText(views.get(position).toString()+" Views");
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference fileRef=  storageRef.child("users/"+uid.get(position)+"/"+ imgNumber.get(position).toString() +"/img1.jpg");
@@ -112,7 +115,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView  title,breed,gender,location;
+        TextView  title,breed,gender,location,viewCount;
         ImageView img;
         ProgressBar progressBar_listings_img;
         public ViewHolder(@NonNull View itemView) {
@@ -122,6 +125,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
            gender =itemView.findViewById(R.id.ad_box_gender_txt);
            title =itemView.findViewById(R.id.ad_box_title_txt);
            location =itemView.findViewById(R.id.ad_box_location_txt);
+           viewCount =itemView.findViewById(R.id.view_count_on_card);
 //            progressBar_listings_img.setVisibility(View.VISIBLE);
            progressBar_listings_img =itemView.findViewById(R.id.progressBar_listings_img);
 

@@ -35,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import PostAd.Adapter;
 import PostAd.MyListings;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     List<String> breed;
     List<String> gender;
     List<String> district;
+    List<Integer> views;
     List<String> city;
     Adapter adapternew;
     Button  nav_logout,nav_login;
@@ -93,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         gender = new ArrayList<>();
         district = new ArrayList<>();
         city = new ArrayList<>();
+        views = new ArrayList<>();
+
 
         progressBar_listings.setVisibility(View.VISIBLE);
 
@@ -101,10 +105,9 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        getListings(document.getId().toString());
+                        getListings(document.getId());
                     }
                 }
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -216,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void initializedAdapter(String userID){
-        adapternew = new Adapter(getApplicationContext(),uid,imgNumber,titles,breed,gender,district,city,userID);
+        adapternew = new Adapter(getApplicationContext(),uid,imgNumber,titles,breed,gender,district,city,userID,views);
         GridLayoutManager gridLayoutManagernew = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         my_listing_recyclerview.setLayoutManager(gridLayoutManagernew);
         my_listing_recyclerview.setAdapter(adapternew);
@@ -240,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
                         district.add(value.getString("district"));
                         city.add(value.getString("city"));
                         imgNumber.add(finalI);
+                        views.add(Objects.requireNonNull(value.getLong("viewCount")).intValue());
                         initializedAdapter(userID);
                     }
                 }

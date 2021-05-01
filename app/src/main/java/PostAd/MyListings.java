@@ -47,6 +47,7 @@ import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import user.Login;
 import user.Register;
@@ -60,6 +61,7 @@ public class MyListings extends AppCompatActivity {
     String userID ;
     List<String> uid;
     List<Integer> imgNumber;
+    List<Integer> views;
     List<String> titles;
     List<String> breed;
     List<String> gender;
@@ -109,6 +111,7 @@ public class MyListings extends AppCompatActivity {
             gender = new ArrayList<>();
             district = new ArrayList<>();
             city = new ArrayList<>();
+            views = new ArrayList<>();
 
             getListings(userID);
 
@@ -232,7 +235,7 @@ public class MyListings extends AppCompatActivity {
 
     }
     private void initializedAdapter(String userID){
-        adapternew = new Adapter(getApplicationContext(),uid,imgNumber,titles,breed,gender,district,city,userID);
+        adapternew = new Adapter(getApplicationContext(),uid,imgNumber,titles,breed,gender,district,city,userID,views);
         GridLayoutManager gridLayoutManagernew = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         my_listing_recyclerview.setLayoutManager(gridLayoutManagernew);
         my_listing_recyclerview.setAdapter(adapternew);
@@ -257,6 +260,7 @@ public class MyListings extends AppCompatActivity {
                         district.add(value.getString("district"));
                         city.add(value.getString("city"));
                         imgNumber.add(finalI);
+                        views.add(Objects.requireNonNull(value.getLong("viewCount")).intValue());
                         initializedAdapter(userID);
                     }
                 }

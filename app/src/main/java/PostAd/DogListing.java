@@ -240,6 +240,8 @@ public class DogListing extends AppCompatActivity {
                         DogListings.put("district",mdistrict);
                         DogListings.put("city",mcity);
                         DogListings.put("date",date);
+                        DogListings.put("viewCount",1);
+
 
 
                         documentReference.set(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {

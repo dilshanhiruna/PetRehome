@@ -94,6 +94,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/view_count_on_card"
+                android:layout_width="52dp"
+                android:layout_height="11dp"
+
+                android:textAlignment="textEnd"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@+id/ad_box_location_txt"
+                app:layout_constraintEnd_toEndOf="@+id/ad_box_location_txt" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
