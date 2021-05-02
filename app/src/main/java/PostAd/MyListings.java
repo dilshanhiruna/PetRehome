@@ -69,6 +69,7 @@ public class MyListings extends AppCompatActivity {
     List<String> city;
     Integer finalI;
     Adapter adapternew;
+    public int count;
 
     Button nav_logout,nav_login,create_new_listing_btn;
     DrawerLayout drawerLayout;
@@ -101,6 +102,8 @@ public class MyListings extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
 
         progressBar_listings.setVisibility(View.VISIBLE);
+
+
         //check if user is already logged in
         if (fAuth.getCurrentUser() != null){
             userID = fAuth.getCurrentUser().getUid();
@@ -245,9 +248,29 @@ public class MyListings extends AppCompatActivity {
 
     }
     private  void getListings(String userID){
-        for (int i = 1 ; i<50 ;i++){
+
+        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                assert value != null;
+                count = Objects.requireNonNull(value.getLong("ListingCount")).intValue();
+                getList(userID,count);
+
+                if (count ==0){
+                    progressBar_listings.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
+    }
+
+    private void getList(String userID,int count){
+        for (int i = 1; i < count+1 ; i++){
             DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
             Integer finalI = (Integer) i;
+
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -266,8 +289,5 @@ public class MyListings extends AppCompatActivity {
                 }
             });
         }
-
     }
-
-
 }

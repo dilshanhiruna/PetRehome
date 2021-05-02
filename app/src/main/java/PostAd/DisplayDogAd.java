@@ -58,7 +58,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
     ImageView display_dog_ad_image;
     String dis,city,verificationDONE="";
 
-    Button display_dog_ad_send_msg,display_dog_ad_call,display_dog_ad_edit_btn,verified_user_txt;
+    Button display_dog_ad_send_msg,display_dog_ad_call,display_dog_ad_edit_btn,verified_user_txt,unverified_user_txt;
     ProgressBar progressBar_display_ad,progressBar_display_ad_img;
 
     FirebaseAuth fAuth;
@@ -69,6 +69,8 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
     List<SlideModel> slideModels;
     Boolean alreadyExecuted =false;
     int viewCount;
+
+    DocumentReference documentReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         display_dog_ad_email =findViewById(R.id.display_dog_ad_email);
         display_dog_ad_mobile =findViewById(R.id.display_dog_ad_mobile);
         verified_user_txt =findViewById(R.id.verified_user_txt);
+        unverified_user_txt =findViewById(R.id.unverified_user_txt);
         view_count_txt =findViewById(R.id.view_count_txt);
 
         t1 =findViewById(R.id.textView15);
@@ -121,7 +124,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 //        Toast.makeText(this, USERID+" "+IMGNUMBER,Toast.LENGTH_SHORT).show();
 
 
-        DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(IMGNUMBER);
+         documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(IMGNUMBER);
 
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -158,6 +161,8 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
                     verificationDONE =value.getString("verified");
                     if (verificationDONE.equals("y")){
                         verified_user_txt.setVisibility(View.VISIBLE);
+                    }else {
+                        unverified_user_txt.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -375,10 +380,9 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
                 display_dog_ad_edit_btn.setVisibility(View.VISIBLE);
             } else display_dog_ad_edit_btn.setVisibility(View.INVISIBLE);
 
-        DocumentReference documentReferenceCount =fstore.collection("DogListings").document(USERID).collection("Listings").document(IMGNUMBER);
         Map<String,Object> viewUser = new HashMap<>();
         viewUser.put("viewCount", ++viewCount);
-        documentReferenceCount.update(viewUser);
+        documentReference.update(viewUser);
         view_count_txt.setText(String.valueOf(viewCount)+" views");
         view_count_txt.setVisibility(View.VISIBLE);
     }

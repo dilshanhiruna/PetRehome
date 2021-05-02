@@ -77,7 +77,7 @@ public class UserProfile extends AppCompatActivity {
                 }
             });
 
-            DocumentReference documentReferenceCount = fStore.collection("users").document(userID);
+
             Map<String,Object> USER = new HashMap<>();
             if (user.isEmailVerified()){
                 USER.put("verified","y");
@@ -85,7 +85,7 @@ public class UserProfile extends AppCompatActivity {
             else {
                 USER.put("verified","n");
             }
-            documentReferenceCount.update(USER);
+            documentReference.update(USER);
 
 
             if (user.isEmailVerified()){

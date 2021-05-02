@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,12 +132,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
            img=itemView.findViewById(R.id.ad_box_img);
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-////                    Toast.makeText(v.getContext(), imgNumber.get(getAdapterPosition()).toString() ,Toast.LENGTH_SHORT).show();
-//                }
-//            });
+
 
         }
     }

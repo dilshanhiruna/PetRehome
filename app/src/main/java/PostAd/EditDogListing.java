@@ -279,7 +279,7 @@ public class EditDogListing extends AppCompatActivity {
                 }
 
                 //update the current listing count by 1 of the user
-                DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+
                 Map<String,Object> user = new HashMap<>();
                 user.put("ListingCount",count);
                 documentReferenceCount.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -509,35 +509,104 @@ public class EditDogListing extends AppCompatActivity {
         District selectDistrict =new District(0, "Select District");
         District Batticaloa =new District(1, "Batticaloa");
         District Trincomalee =new District(2, "Trincomalee");
-
-//        District Anuradhapura =new District(3, "Anuradhapura");
-//        District Polonnaruwa =new District(4, "Polonnaruwa");
-//        District Badulla =new District(5, "Badulla");
-//        District Moneragala =new District(6, "Moneragala");
-//        District Colombo =new District(7, "Colombo");
-//        District Gampaha =new District(8, "Gampaha");
+        District Colombo =new District(3, "Colombo");
+        District Gampaha =new District(4, "Gampaha");
+        District Galle =new District(5, "Galle");
+        District Matara =new District(7, "Matara");
+        District Kandy =new District(8, "Kandy");
 
         districts.add(new District(0, DISTRICT));
         districts.add(new District(1, "Batticaloa"));
         districts.add(new District(2, "Trincomalee"));
-        districts.add(new District(3, "Anuradhapura"));
-        districts.add(new District(4, "Polonnaruwa"));
-        districts.add(new District(5, "Badulla"));
-        districts.add(new District(6, "Moneragala"));
-        districts.add(new District(7, "Colombo"));
-        districts.add(new District(8, "Gampaha"));
+        districts.add(new District(3, "Colombo"));
+        districts.add(new District(4, "Gampaha"));
+        districts.add(new District(5, "Galle"));
+
+        districts.add(new District(7, "Matara"));
+        districts.add(new District(8, "Kandy"));
+
 
         City selectCity = new City(0 ,selectDistrict,CITY);
-        City Araiyampathy = new City(0 ,Batticaloa,"Araiyampathy");
-        City Chenkalady = new City(0 ,Batticaloa,"Chenkalady");
-        City Eravur = new City(0 ,Batticaloa,"Eravur");
-        City Kaluvanchikudy = new City(0 ,Batticaloa,"Kaluvanchikudy");
-        City Gomarankadawala = new City(0 ,Trincomalee,"Gomarankadawala");
-        City Kantalai = new City(0 ,Trincomalee,"Kantalai");
-        City Kinniya = new City(0 ,Trincomalee,"Kinniya");
-        City Kuchchaveli = new City(0 ,Trincomalee,"Kuchchaveli");
+        City Araiyampathy = new City(2 ,Batticaloa,"Araiyampathy");
+        City Chenkalady = new City(3 ,Batticaloa,"Chenkalady");
+        City Eravur = new City(3 ,Batticaloa,"Eravur");
+        City Kaluvanchikudy = new City(4 ,Batticaloa,"Kaluvanchikudy");
+        City Gomarankadawala = new City(5,Trincomalee,"Gomarankadawala");
+        City Kantalai = new City(6 ,Trincomalee,"Kantalai");
+        City Kinniya = new City(7 ,Trincomalee,"Kinniya");
+        City Kuchchaveli = new City(8 ,Trincomalee,"Kuchchaveli");
+        City Athurugiriya = new City(8 ,Colombo,"Athurugiriya");
+        City Avissawella = new City(10 ,Colombo,"Avissawella");
+        City Battaramulla = new City(11 ,Colombo,"Battaramulla");
+        City Boralesgamuwa = new City(12 ,Colombo,"Boralesgamuwa");
+        City Colombo1 = new City(13 ,Colombo,"Colombo 01");
+        City Colombo2 = new City(14 ,Colombo,"Colombo 02");
+        City Colombo3 = new City(15 ,Colombo,"Colombo 03");
+        City Colombo4 = new City(16 ,Colombo,"Colombo 04");
+        City Colombo5 = new City(17 ,Colombo,"Colombo 05");
+        City Colombo6 = new City(18 ,Colombo,"Colombo 06");
+        City Colombo7 = new City(19 ,Colombo,"Colombo 07");
+        City Dehiwala = new City(20 ,Colombo,"Dehiwala");
+        City Homagama = new City(21 ,Colombo,"Homagama");
+        City Kaduwela = new City(22 ,Colombo,"Kaduwela");
+        City Kotte = new City(23 ,Colombo,"Kotte");
+        City Malabe = new City(24 ,Colombo,"Malabe");
+        City MountLavinia = new City(25 ,Colombo,"Mount Lavinia");
+        City Piliyandala = new City(26 ,Colombo,"Piliyandala");
+        City Rajagiriya = new City(27 ,Colombo,"Rajagiriya");
+        City Ratmalana = new City(28 ,Colombo,"Ratmalana");
+        City Kesbewa = new City(29 ,Colombo,"Kesbewa");
+        City Attanagalla = new City(30 ,Gampaha,"Attanagalla");
+        City Divlapitiya = new City(31 ,Gampaha,"Divlapitiya");
+        City Katana = new City(31 ,Gampaha,"Katana");
+        City JaEla = new City(32 ,Gampaha,"Ja-Ela");
+        City Negombo = new City(33 ,Gampaha,"Negombo");
+        City Kelaniya = new City(34 ,Gampaha,"Kelaniya");
+        City Ahangama = new City(35 ,Galle,"Ahangama");
+        City Ambalangoda = new City(36 ,Galle,"Ambalangoda");
+        City Baddegama = new City(37 ,Galle,"Baddegama");
+        City Bentota = new City(37 ,Galle,"Bentota");
+        City Boossa = new City(38 ,Galle,"Boossa");
+        City Hikkaduwa = new City(39 ,Galle,"Hikkaduwa");
+        City Karapitiya = new City(38 ,Galle,"Karapitiya");
+        City Koggala = new City(39 ,Galle,"Koggala");
+        City Akuressa = new City(40 ,Matara,"Akuressa");
+        City Mirissa = new City(41 ,Matara,"Mirissa");
+        City Weligama = new City(42 ,Matara,"Weligama");
+        City Dikwella = new City(43 ,Matara,"Dikwella");
+        City Gampola = new City(44 ,Kandy,"Gampola");
+        City Peradeniya = new City(45 ,Kandy,"Peradeniya");
+        City Alawatugoda = new City(46 ,Kandy,"Alawatugoda");
+        City Kundasale = new City(47 ,Kandy,"Kundasale");
 
         cities.add(selectCity);
+        cities.add(Gampola);
+        cities.add(Peradeniya);
+        cities.add(Alawatugoda);
+        cities.add(Kundasale);
+
+        cities.add(Akuressa);
+        cities.add(Mirissa);
+        cities.add(Weligama);
+        cities.add(Dikwella);
+
+        cities.add(Ahangama);
+        cities.add(Ambalangoda);
+        cities.add(Baddegama);
+        cities.add(Bentota);
+        cities.add(Boossa);
+        cities.add(Hikkaduwa);
+        cities.add(Karapitiya);
+        cities.add(Koggala);
+
+        cities.add(Attanagalla);
+        cities.add(Divlapitiya);
+        cities.add(Katana);
+        cities.add(JaEla);
+        cities.add(Negombo);
+        cities.add(Kelaniya);
+
+
         cities.add(Araiyampathy);
         cities.add(Chenkalady);
         cities.add(Eravur);
@@ -546,6 +615,28 @@ public class EditDogListing extends AppCompatActivity {
         cities.add(Kantalai);
         cities.add(Kinniya);
         cities.add(Kuchchaveli);
+
+        cities.add(Athurugiriya);
+        cities.add(Avissawella);
+        cities.add(Battaramulla);
+        cities.add(Boralesgamuwa);
+        cities.add(Colombo1);
+        cities.add(Colombo2);
+        cities.add(Colombo3);
+        cities.add(Colombo4);
+        cities.add(Colombo5);
+        cities.add(Colombo6);
+        cities.add(Colombo7);
+        cities.add(Dehiwala);
+        cities.add(Homagama);
+        cities.add(Kaduwela);
+        cities.add(Kotte);
+        cities.add(Malabe);
+        cities.add(MountLavinia);
+        cities.add(Piliyandala);
+        cities.add(Rajagiriya);
+        cities.add(Ratmalana);
+        cities.add(Kesbewa);
 
 
     }

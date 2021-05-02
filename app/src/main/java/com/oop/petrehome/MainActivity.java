@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     TextView nav_home_txt,nav_postad_txt,nav_lostdogs_txt,nav_dogwalkers_txt,nav_petdaycares_txt,nav_profile_txt;
     ProgressBar progressBar_listings;
-
+    public int count;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
+
                         getListings(document.getId());
                     }
                 }
@@ -219,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void initializedAdapter(String userID){
+
         adapternew = new Adapter(getApplicationContext(),uid,imgNumber,titles,breed,gender,district,city,userID,views);
         GridLayoutManager gridLayoutManagernew = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         my_listing_recyclerview.setLayoutManager(gridLayoutManagernew);
@@ -227,7 +229,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void getListings(String userID){
-        for (int i = 1 ; i<50 ;i++){
+
+        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                assert value != null;
+                count = Objects.requireNonNull(value.getLong("ListingCount")).intValue();
+                getList(userID,count);
+
+            }
+        });
+    }
+
+    private void getList(String userID,int count){
+        for (int i = 1; i < count+1 ; i++){
             DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
             Integer finalI = (Integer) i;
 
@@ -250,4 +267,5 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+
 }
