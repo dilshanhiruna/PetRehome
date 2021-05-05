@@ -25,6 +25,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -61,6 +66,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
     Button display_dog_ad_send_msg,display_dog_ad_call,display_dog_ad_edit_btn,verified_user_txt,unverified_user_txt;
     ProgressBar progressBar_display_ad,progressBar_display_ad_img;
 
+    DatabaseReference databaseReference,databaseReferenceUSER;
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
     StorageReference storageReference;
@@ -69,6 +75,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
     List<SlideModel> slideModels;
     Boolean alreadyExecuted =false;
     int viewCount;
+    public Long VCcount;
 
     DocumentReference documentReference;
 
@@ -124,50 +131,98 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 //        Toast.makeText(this, USERID+" "+IMGNUMBER,Toast.LENGTH_SHORT).show();
 
 
-         documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(IMGNUMBER);
+//      documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(IMGNUMBER);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("DogListings").child(USERID).child("Listings").child(IMGNUMBER);
 
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (value != null && value.exists()){
-
-                    display_dog_ad_title.setText(value.getString("title"));
-                    display_dog_ad_breed.setText(value.getString("breed"));
-                    display_dog_ad_gender.setText(value.getString("gender"));
-                    display_dog_ad_age.setText(value.getString("age"));
-                    display_dog_ad_size.setText(value.getString("size"));
-                    display_dog_ad_description.setText(value.getString("description"));
-                    display_dog_ad_email.setText(value.getString("email"));
-                    display_dog_ad_mobile.setText(value.getString("phone"));
-                    display_dog_ad_date.setText(value.getString("date"));
-                    display_dog_ad_location.setText(value.getString("city")+", "+value.getString("district"));
-                    dis = value.getString("district");
-                    city = value.getString("city");
-                    viewCount = Objects.requireNonNull(value.getLong("viewCount")).intValue();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot != null && snapshot.exists()){
+                    display_dog_ad_title.setText(snapshot.child("title").getValue().toString());
+                    display_dog_ad_breed.setText(snapshot.child("breed").getValue().toString());
+                    display_dog_ad_gender.setText(snapshot.child("gender").getValue().toString());
+                    display_dog_ad_age.setText(snapshot.child("age").getValue().toString());
+                    display_dog_ad_size.setText(snapshot.child("size").getValue().toString());
+                    display_dog_ad_description.setText(snapshot.child("description").getValue().toString());
+                    display_dog_ad_email.setText(snapshot.child("email").getValue().toString());
+                    display_dog_ad_mobile.setText(snapshot.child("phone").getValue().toString());
+                    display_dog_ad_date.setText(snapshot.child("date").getValue().toString());
+                    display_dog_ad_location.setText(snapshot.child("city").getValue().toString()+", "+snapshot.child("district").getValue().toString());
+                    dis = snapshot.child("district").getValue().toString();
+                    city = snapshot.child("city").getValue().toString();
+                    VCcount = (Long) snapshot.child("viewCount").getValue();
+                    viewCount = VCcount.intValue();
                     progressBar_display_ad.setVisibility(View.INVISIBLE);
                     showText();
-
-
                 }
             }
 
-        });
-
-        DocumentReference df = fstore.collection("users").document(USERID);
-        df.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (value.exists()){
-                    verificationDONE =value.getString("verified");
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//                if (value != null && value.exists()){
+//
+//                    display_dog_ad_title.setText(value.getString("title"));
+//                    display_dog_ad_breed.setText(value.getString("breed"));
+//                    display_dog_ad_gender.setText(value.getString("gender"));
+//                    display_dog_ad_age.setText(value.getString("age"));
+//                    display_dog_ad_size.setText(value.getString("size"));
+//                    display_dog_ad_description.setText(value.getString("description"));
+//                    display_dog_ad_email.setText(value.getString("email"));
+//                    display_dog_ad_mobile.setText(value.getString("phone"));
+//                    display_dog_ad_date.setText(value.getString("date"));
+//                    display_dog_ad_location.setText(value.getString("city")+", "+value.getString("district"));
+//                    dis = value.getString("district");
+//                    city = value.getString("city");
+//                    viewCount = Objects.requireNonNull(value.getLong("viewCount")).intValue();
+//                    progressBar_display_ad.setVisibility(View.INVISIBLE);
+//                    showText();
+//
+//
+//                }
+//            }
+//
+//        });
+
+//        DocumentReference df = fstore.collection("users").document(USERID);
+        databaseReferenceUSER = FirebaseDatabase.getInstance().getReference().child("users").child(USERID);
+        databaseReferenceUSER.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    verificationDONE =snapshot.child("verified").getValue().toString();
                     if (verificationDONE.equals("y")){
                         verified_user_txt.setVisibility(View.VISIBLE);
                     }else {
                         unverified_user_txt.setVisibility(View.VISIBLE);
                     }
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+//        df.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//                if (value.exists()){
+//                    verificationDONE =value.getString("verified");
+//                    if (verificationDONE.equals("y")){
+//                        verified_user_txt.setVisibility(View.VISIBLE);
+//                    }else {
+//                        unverified_user_txt.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//
+//            }
+//        });
 
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
@@ -382,7 +437,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
         Map<String,Object> viewUser = new HashMap<>();
         viewUser.put("viewCount", ++viewCount);
-        documentReference.update(viewUser);
+        databaseReference.updateChildren(viewUser);
         view_count_txt.setText(String.valueOf(viewCount)+" views");
         view_count_txt.setVisibility(View.VISIBLE);
     }

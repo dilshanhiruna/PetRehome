@@ -27,6 +27,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -54,10 +59,12 @@ public class DogListing extends AppCompatActivity {
     Button postad_newlisting_btn;
     ImageView postad_newlisting_back_btn,img1,img2,img3,img4;
     int count =0;
+    Long Lcount;
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
     StorageReference storageReference;
     String userID ;
+    DatabaseReference databaseReference;
 
     private ArrayAdapter<District> districtArrayAdapter;
     private ArrayAdapter<City> cityArrayAdapter;
@@ -100,12 +107,26 @@ public class DogListing extends AppCompatActivity {
         userID = fAuth.getCurrentUser().getUid();
 
         //getting the listing current count from the user
-        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
-        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//
+//                count = value.getLong("ListingCount").intValue();
+//            }
+//        });
 
-                count = value.getLong("ListingCount").intValue();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Lcount = (Long) snapshot.child("ListingCount").getValue();
+                assert Lcount != null;
+                count = Lcount.intValue();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -208,10 +229,11 @@ public class DogListing extends AppCompatActivity {
 
                 count++;
                 //update the current listing count by 1 of the user
-                DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+//                DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+                databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
                 Map<String,Object> user = new HashMap<>();
                 user.put("ListingCount",count);
-                documentReferenceCount.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                databaseReference.updateChildren(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
 
@@ -232,7 +254,8 @@ public class DogListing extends AppCompatActivity {
                             fileRef4.putFile(img1URI4);
                         }
 
-                        DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(count));
+//                        DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(count));
+                        databaseReference = FirebaseDatabase.getInstance().getReference().child("DogListings").child(userID).child("Listings").child(String.valueOf(count));
                         Map<String,Object> DogListings = new HashMap<>();
                         DogListings.put("title",mtitle);
                         DogListings.put("breed",mbreed);
@@ -247,9 +270,7 @@ public class DogListing extends AppCompatActivity {
                         DogListings.put("date",date);
                         DogListings.put("viewCount",1);
 
-
-
-                        documentReference.set(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        databaseReference.setValue(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
 
@@ -669,14 +690,25 @@ public class DogListing extends AppCompatActivity {
     } ;
 
     public static String capitalizeWord(String str){
-        String words[]=str.split("\\s");
-        String capitalizeWord="";
-        for(String w:words){
-            String first=w.substring(0,1);
-            String afterfirst=w.substring(1);
-            capitalizeWord+=first.toUpperCase()+afterfirst+" ";
+
+        String text = null;
+
+        if (str.isEmpty()) {
+            text= null;
+
+        }else {
+            String words[]=str.split("\\s");
+            String capitalizeWord="";
+            for(String w:words){
+                String first=w.substring(0,1);
+                String afterfirst=w.substring(1);
+                capitalizeWord+=first.toUpperCase()+afterfirst+" ";
+                text = capitalizeWord.trim();
+
+            }
         }
-        return capitalizeWord.trim();
+
+        return text;
     }
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());

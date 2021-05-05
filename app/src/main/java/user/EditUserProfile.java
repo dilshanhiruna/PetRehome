@@ -119,6 +119,7 @@ public class EditUserProfile extends AppCompatActivity {
                 update_user_lname.setText(snapshot.child("last_name").getValue().toString());
                 default_district=snapshot.child("district").getValue().toString();
                 default_city=snapshot.child("city").getValue().toString();
+                initializeUI();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -23,6 +24,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
     StorageReference storageReference;
+    DatabaseReference databaseReference;
     RecyclerView my_listing_recyclerview;
     String userID ;
     List<String> uid;
@@ -62,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     TextView nav_home_txt,nav_postad_txt,nav_lostdogs_txt,nav_dogwalkers_txt,nav_petdaycares_txt,nav_profile_txt;
     ProgressBar progressBar_listings;
     public int count;
+    public Long Lcount;
+    public Long VCcount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,22 +109,39 @@ public class MainActivity extends AppCompatActivity {
 
         progressBar_listings.setVisibility(View.VISIBLE);
 
-        fstore.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+         FirebaseDatabase.getInstance().getReference().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
 
-                        getListings(document.getId());
-                    }
+                    getListings(dataSnapshot.getKey());
+
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+
+//        fstore.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//
+//                        getListings(document.getId());
+//                    }
+//                }
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         //check if user is already logged in
         if (fAuth.getCurrentUser() != null){
             userID = fAuth.getCurrentUser().getUid();
@@ -230,42 +256,93 @@ public class MainActivity extends AppCompatActivity {
 
     private  void getListings(String userID){
 
-        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
-        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                assert value != null;
-                count = Objects.requireNonNull(value.getLong("ListingCount")).intValue();
+
+                Lcount = (Long) snapshot.child("ListingCount").getValue();
+                count = Lcount.intValue();
                 getList(userID,count);
+                if (count ==0){
+                    progressBar_listings.setVisibility(View.INVISIBLE);
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
+//        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//
+//                assert value != null;
+//                count = Objects.requireNonNull(value.getLong("ListingCount")).intValue();
+//                getList(userID,count);
+//
+//            }
+//        });
     }
 
     private void getList(String userID,int count){
-        for (int i = 1; i < count+1 ; i++){
-            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
-            Integer finalI = (Integer) i;
 
-            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        for (int i = 1; i < count+1 ; i++){
+//            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("DogListings").child(userID).child("Listings").child(String.valueOf(i));
+            Integer finalI = (Integer) i;
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if (value != null && value.exists()){
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot != null && snapshot.exists()){
 
                         uid.add(userID);
-                        titles.add(value.getString("title"));
-                        breed.add(value.getString("breed"));
-                        gender.add(value.getString("gender"));
-                        district.add(value.getString("district"));
-                        city.add(value.getString("city"));
+                        titles.add(snapshot.child("title").getValue().toString());
+                        breed.add(snapshot.child("breed").getValue().toString());
+                        gender.add(snapshot.child("gender").getValue().toString());
+                        district.add(snapshot.child("district").getValue().toString());
+                        city.add(snapshot.child("city").getValue().toString());
                         imgNumber.add(finalI);
-                        views.add(Objects.requireNonNull(value.getLong("viewCount")).intValue());
+                        VCcount = (Long) snapshot.child("viewCount").getValue();
+                        views.add(VCcount.intValue());
                         initializedAdapter(userID);
                     }
                 }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
             });
-        }
+
+
+//        for (int i = 1; i < count+1 ; i++){
+//            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
+//            Integer finalI = (Integer) i;
+//
+//            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//                @Override
+//                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//                    if (value != null && value.exists()){
+//
+//                        uid.add(userID);
+//                        titles.add(value.getString("title"));
+//                        breed.add(value.getString("breed"));
+//                        gender.add(value.getString("gender"));
+//                        district.add(value.getString("district"));
+//                        city.add(value.getString("city"));
+//                        imgNumber.add(finalI);
+//                        views.add(Objects.requireNonNull(value.getLong("viewCount")).intValue());
+//                        initializedAdapter(userID);
+//                    }
+//                }
+//            });
+//        }
+    }
     }
 
 }

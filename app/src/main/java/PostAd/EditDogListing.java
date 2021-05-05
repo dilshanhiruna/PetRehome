@@ -31,6 +31,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -62,6 +67,7 @@ public class EditDogListing extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
     StorageReference storageReference;
+    DatabaseReference databaseReference;
     String userID ;
     int count;
     private ArrayAdapter<District> districtArrayAdapter;
@@ -74,6 +80,7 @@ public class EditDogListing extends AppCompatActivity {
     String BREED,CITY,GENDER,SIZE,DISTRICT;
 
     AlertDialog.Builder builder;
+    public Long Lcount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,14 +181,32 @@ public class EditDogListing extends AppCompatActivity {
         });
 
 
-        DocumentReference documentReferenceCount = fstore.collection("users").document(USERID);
-        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//        DocumentReference documentReferenceCount = fstore.collection("users").document(USERID);
+//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//
+//                count = value.getLong("ListingCount").intValue();
+//            }
+//        });
 
-                count = value.getLong("ListingCount").intValue();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(USERID);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                Lcount = (Long) snapshot.child("ListingCount").getValue();
+                assert Lcount != null;
+                count = Lcount.intValue();
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+
 
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,7 +307,7 @@ public class EditDogListing extends AppCompatActivity {
 
                 Map<String,Object> user = new HashMap<>();
                 user.put("ListingCount",count);
-                documentReferenceCount.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                databaseReference.updateChildren(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
 
@@ -303,7 +328,8 @@ public class EditDogListing extends AppCompatActivity {
                             fileRef4.putFile(img1URI4);
                         }
 
-                        DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
+//                        DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
+                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("DogListings").child(USERID).child("Listings").child(String.valueOf(IMGNUMBER));
                         Map<String,Object> DogListings = new HashMap<>();
                         DogListings.put("title",mtitle);
                         DogListings.put("breed",mbreed);
@@ -316,7 +342,7 @@ public class EditDogListing extends AppCompatActivity {
                         DogListings.put("district",mdistrict);
                         DogListings.put("city",mcity);
 
-                        documentReference.update(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        dbRef.updateChildren(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
 
@@ -359,9 +385,11 @@ public class EditDogListing extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                DocumentReference df =fstore.collection("DogListings")
-                                        .document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
-                                df.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                DocumentReference df =fstore.collection("DogListings")
+//                                        .document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
+                                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("DogListings").child(USERID).child("Listings")
+                                        .child(String.valueOf(IMGNUMBER));
+                                dbRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
 
