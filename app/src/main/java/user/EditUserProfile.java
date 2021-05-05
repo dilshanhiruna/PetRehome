@@ -28,6 +28,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -53,6 +58,7 @@ public class EditUserProfile extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     FirebaseUser user;
+    DatabaseReference databaseReference;
     String userID,default_district,default_city;
 
     private ArrayAdapter<District> districtArrayAdapter;
@@ -88,22 +94,37 @@ public class EditUserProfile extends AppCompatActivity {
 
             userID = fAuth.getCurrentUser().getUid();
 
+//            DocumentReference documentReference = fStore.collection("users").document(userID);
+//            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//                @Override
+//                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//                    update_user_email.setText(value.getString("email"));
+//                    update_user_phone.setText(value.getString("phone"));
+//                    update_user_fname.setText(value.getString("first_name"));
+//                    update_user_lname.setText(value.getString("last_name"));
+//                    default_district = value.getString("district");
+//                    default_city = value.getString("city");
+//
+//                    initializeUI();
+//
+//                }
+//            });
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                update_user_email.setText(snapshot.child("email").getValue().toString());
+                update_user_phone.setText(snapshot.child("phone").getValue().toString());
+                update_user_fname.setText(snapshot.child("first_name").getValue().toString());
+                update_user_lname.setText(snapshot.child("last_name").getValue().toString());
+                default_district=snapshot.child("district").getValue().toString();
+                default_city=snapshot.child("city").getValue().toString();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-            DocumentReference documentReference = fStore.collection("users").document(userID);
-            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    update_user_email.setText(value.getString("email"));
-                    update_user_phone.setText(value.getString("phone"));
-                    update_user_fname.setText(value.getString("first_name"));
-                    update_user_lname.setText(value.getString("last_name"));
-                    default_district = value.getString("district");
-                    default_city = value.getString("city");
-
-                    initializeUI();
-
-                }
-            });
+            }
+        });
 
         update_user_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +166,7 @@ public class EditUserProfile extends AppCompatActivity {
                 user.updateEmail(memail).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        DocumentReference documentReference1 =fStore.collection("users").document(user.getUid());
+//                        DocumentReference documentReference1 =fStore.collection("users").document(user.getUid());
                         Map<String,Object> user = new HashMap<>();
                         user.put("email",memail);
                         user.put("first_name",mfname);
@@ -154,7 +175,7 @@ public class EditUserProfile extends AppCompatActivity {
                         user.put("district",mdistrict);
                         user.put("city",mcity);
 
-                        documentReference.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        databaseReference.updateChildren(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(EditUserProfile.this, "Update Successful", Toast.LENGTH_SHORT).show();

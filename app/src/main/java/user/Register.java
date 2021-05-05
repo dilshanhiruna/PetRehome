@@ -25,6 +25,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.oop.petrehome.MainActivity;
@@ -50,6 +52,7 @@ public class Register extends AppCompatActivity {
 
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
+    DatabaseReference databaseReference;
     String userID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,11 +164,9 @@ public class Register extends AppCompatActivity {
                                 }
                             });
 
-
-
-
                             userID = fAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference =fstore.collection("users").document(userID);
+                            databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+//                            DocumentReference documentReference =fstore.collection("users").document(userID);
                             Map<String,Object> user = new HashMap<>();
                             user.put("email",memail);
                             user.put("first_name",mfname);
@@ -176,7 +177,13 @@ public class Register extends AppCompatActivity {
                             user.put("ListingCount",0);
                             user.put("verified","n");
 
-                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void aVoid) {
+//                                    Log.d(TAG,"user profile is created for "+ userID);
+//                                }
+//                            });
+                            databaseReference.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG,"user profile is created for "+ userID);

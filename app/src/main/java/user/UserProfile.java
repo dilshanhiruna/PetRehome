@@ -16,6 +16,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -33,6 +38,7 @@ public class UserProfile extends AppCompatActivity {
     Button edit_user_btn,verify_now_btn;
     ImageView user_back_btn,verification_badge;
     FirebaseAuth fAuth;
+    DatabaseReference databaseReference;
     FirebaseFirestore fStore;
     String userID;
 
@@ -63,19 +69,35 @@ public class UserProfile extends AppCompatActivity {
             userID = fAuth.getCurrentUser().getUid();
             FirebaseUser user = fAuth.getCurrentUser();
 
-            DocumentReference documentReference = fStore.collection("users").document(userID);
-            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//            DocumentReference documentReference = fStore.collection("users").document(userID);
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    edit_user_email.setText(value.getString("email"));
-                    edit_user_phone.setText(value.getString("phone"));
-                    edit_user_fname.setText(value.getString("first_name"));
-                    edit_user_lname.setText(value.getString("last_name"));
-                    edit_user_district.setText(value.getString("district"));
-                    edit_user_city.setText(value.getString("city"));
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    edit_user_email.setText(snapshot.child("email").getValue().toString());
+                    edit_user_phone.setText(snapshot.child("phone").getValue().toString());
+                    edit_user_fname.setText(snapshot.child("first_name").getValue().toString());
+                    edit_user_lname.setText(snapshot.child("last_name").getValue().toString());
+                    edit_user_district.setText(snapshot.child("district").getValue().toString());
+                    edit_user_city.setText(snapshot.child("city").getValue().toString());
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
                 }
             });
+//            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//                @Override
+//                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//                    edit_user_email.setText(value.getString("email"));
+//                    edit_user_phone.setText(value.getString("phone"));
+//                    edit_user_fname.setText(value.getString("first_name"));
+//                    edit_user_lname.setText(value.getString("last_name"));
+//                    edit_user_district.setText(value.getString("district"));
+//                    edit_user_city.setText(value.getString("city"));
+//
+//                }
+//            });
 
 
             Map<String,Object> USER = new HashMap<>();
@@ -85,7 +107,8 @@ public class UserProfile extends AppCompatActivity {
             else {
                 USER.put("verified","n");
             }
-            documentReference.update(USER);
+           DatabaseReference df = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+            df.updateChildren(USER);
 
 
             if (user.isEmailVerified()){
