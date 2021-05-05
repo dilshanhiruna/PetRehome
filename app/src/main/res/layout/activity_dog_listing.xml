@@ -8,7 +8,7 @@
     tools:context="PostAd.DogListing">
 
     <ImageView
-        android:id="@+id/postad_newlisting_back_btn"
+        android:id="@+id/home_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
@@ -82,7 +82,7 @@
         app:layout_constraintTop_toBottomOf="@+id/postad_newlisting_age" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/LDimageView4"
         android:layout_width="27dp"
         android:layout_height="23dp"
         app:layout_constraintBottom_toBottomOf="@+id/postad_newlisting_breed"
@@ -189,7 +189,7 @@
         app:srcCompat="@drawable/round_arrow_drop_down_20" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/LDimageView3"
         android:layout_width="27dp"
         android:layout_height="23dp"
         android:layout_marginEnd="4dp"
@@ -200,7 +200,7 @@
         app:srcCompat="@drawable/round_arrow_drop_down_20" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/LDimageView5"
         android:layout_width="27dp"
         android:layout_height="23dp"
         app:layout_constraintBottom_toBottomOf="@+id/postad_newlisting_city"
@@ -209,7 +209,7 @@
         app:srcCompat="@drawable/round_arrow_drop_down_20" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/LDimageView6"
         android:layout_width="27dp"
         android:layout_height="23dp"
         app:layout_constraintBottom_toBottomOf="@+id/postad_newlisting_district"
