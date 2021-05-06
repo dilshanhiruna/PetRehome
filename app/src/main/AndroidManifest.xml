@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_r"
         android:supportsRtl="true"
         android:theme="@style/Theme.PetRehome">
-        <activity android:name="PostAd.EditDogListing"></activity>
+        <activity android:name="DogWalkers.DogwalkersHome"></activity>
+        <activity android:name="PostAd.EditDogListing" />
         <activity android:name="PostAd.DisplayDogAd" />
         <activity android:name="PostAd.MyListings" />
         <activity android:name="PostAd.DogListing" />
