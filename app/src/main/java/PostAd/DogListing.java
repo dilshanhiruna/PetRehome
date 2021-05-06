@@ -98,6 +98,7 @@ public class DogListing extends AppCompatActivity {
         img3=findViewById(R.id.dog_imageButton3);
         img4=findViewById(R.id.dog_imageButton4);
 
+        //assigning data for spinners
         initializeUIDC();
         initializeUI();
 
@@ -107,14 +108,6 @@ public class DogListing extends AppCompatActivity {
         userID = fAuth.getCurrentUser().getUid();
 
         //getting the listing current count from the user
-//        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
-//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//                count = value.getLong("ListingCount").intValue();
-//            }
-//        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -130,6 +123,7 @@ public class DogListing extends AppCompatActivity {
             }
         });
 
+        //assigning images
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,14 +223,13 @@ public class DogListing extends AppCompatActivity {
 
                 count++;
                 //update the current listing count by 1 of the user
-//                DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
                 Map<String,Object> user = new HashMap<>();
                 user.put("ListingCount",count);
                 databaseReference.updateChildren(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
+                        //sent images to Firebase storage
                         if (!(img1URI1.equals(Uri.EMPTY))){
                             StorageReference fileRef1 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img1.jpg");
                             fileRef1.putFile(img1URI1);
@@ -254,7 +247,7 @@ public class DogListing extends AppCompatActivity {
                             fileRef4.putFile(img1URI4);
                         }
 
-//                        DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(count));
+                        //saving listing details to DB
                         databaseReference = FirebaseDatabase.getInstance().getReference().child("DogListings").child(userID).child("Listings").child(String.valueOf(count));
                         Map<String,Object> DogListings = new HashMap<>();
                         DogListings.put("title",mtitle);
@@ -273,7 +266,6 @@ public class DogListing extends AppCompatActivity {
                         databaseReference.setValue(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-
 
                                 Toast.makeText(DogListing.this, "Listing Published", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), MyListings.class));
@@ -319,7 +311,7 @@ public class DogListing extends AppCompatActivity {
         if (requestCode ==1111){
             if (resultCode == Activity.RESULT_OK ){
 
-                 img1URI1 = data.getData();
+                img1URI1 = data.getData();
                 img1.setImageURI(img1URI1);
                 img1.setScaleType(ImageView.ScaleType.FIT_XY);
             }

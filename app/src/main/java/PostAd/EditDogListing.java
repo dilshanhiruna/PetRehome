@@ -87,6 +87,7 @@ public class EditDogListing extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_dog_listing);
 
+        //getting data form DisplayDogAd
         String USERID = getIntent().getExtras().getString("USERID");
         String IMGNUMBER = getIntent().getExtras().getString("IMGNUMBER");
 
@@ -126,6 +127,7 @@ public class EditDogListing extends AppCompatActivity {
         img3=findViewById(R.id.dog_imageButton3);
         img4=findViewById(R.id.dog_imageButton4);
 
+        //assigning data for spinners
         initializeUIDC();
         initializeUI();
 
@@ -134,6 +136,7 @@ public class EditDogListing extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         userID = fAuth.getCurrentUser().getUid();
 
+        //display images from Storage
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference fileRef1=  storageRef.child("users/"+USERID+"/"+ IMGNUMBER +"/img1.jpg");
         fileRef1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -181,15 +184,6 @@ public class EditDogListing extends AppCompatActivity {
         });
 
 
-//        DocumentReference documentReferenceCount = fstore.collection("users").document(USERID);
-//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//                count = value.getLong("ListingCount").intValue();
-//            }
-//        });
-
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(USERID);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -208,6 +202,7 @@ public class EditDogListing extends AppCompatActivity {
 
 
 
+        //assigning images
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -303,14 +298,13 @@ public class EditDogListing extends AppCompatActivity {
                     return;
                 }
 
-                //update the current listing count by 1 of the user
-
                 Map<String,Object> user = new HashMap<>();
                 user.put("ListingCount",count);
                 databaseReference.updateChildren(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
 
+                        //sent images to Firebase storage
                         if (!(img1URI1.equals(Uri.EMPTY))){
                             StorageReference fileRef1 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+IMGNUMBER+"/img1.jpg");
                             fileRef1.putFile(img1URI1);
@@ -328,7 +322,7 @@ public class EditDogListing extends AppCompatActivity {
                             fileRef4.putFile(img1URI4);
                         }
 
-//                        DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
+                        //saving listing details to DB
                         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("DogListings").child(USERID).child("Listings").child(String.valueOf(IMGNUMBER));
                         Map<String,Object> DogListings = new HashMap<>();
                         DogListings.put("title",mtitle);
@@ -385,8 +379,7 @@ public class EditDogListing extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-//                                DocumentReference df =fstore.collection("DogListings")
-//                                        .document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
+                                //remove data from DB
                                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("DogListings").child(USERID).child("Listings")
                                         .child(String.valueOf(IMGNUMBER));
                                 dbRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {

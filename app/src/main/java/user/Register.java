@@ -73,6 +73,7 @@ public class Register extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
 
+        //assigning data for spinners
         initializeUI();
 
         //if user is already registered send to Home page

@@ -115,6 +115,7 @@ public class MyListings extends AppCompatActivity {
         //check if user is already logged in
         if (fAuth.getCurrentUser() != null){
             userID = fAuth.getCurrentUser().getUid();
+
             uid = new ArrayList<>();
             imgNumber = new ArrayList<>();
             titles = new ArrayList<>();
@@ -182,6 +183,8 @@ public class MyListings extends AppCompatActivity {
 
 
     }
+
+    //side_nav buttons
     public void navClickHome(View view){
         nav_home_txt.setTextColor(ContextCompat.getColor(this, R.color.black));
         nav_postad_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
@@ -255,34 +258,21 @@ public class MyListings extends AppCompatActivity {
 
 
     }
+    //get all listing publish by the user
     private  void getListings(String userID){
-
-//        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
-//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//                assert value != null;
-//                count = Objects.requireNonNull(value.getLong("ListingCount")).intValue();
-//                getList(userID,count);
-//
-//                if (count ==0){
-//                    progressBar_listings.setVisibility(View.INVISIBLE);
-//                }
-//
-//            }
-//        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-
+                //getting view count for display in card view
                 Lcount = (Long) snapshot.child("ListingCount").getValue();
                 assert Lcount != null;
                 count = Lcount.intValue();
+
                 getList(userID,count);
+
                 if (count ==0){
                     progressBar_listings.setVisibility(View.INVISIBLE);
                 }
@@ -299,7 +289,7 @@ public class MyListings extends AppCompatActivity {
 
     private void getList(String userID,int count){
         for (int i = 1; i < count+1 ; i++){
-//            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
+
             databaseReference = FirebaseDatabase.getInstance().getReference().child("DogListings").child(userID).child("Listings").child(String.valueOf(i));
             Integer finalI = (Integer) i;
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -326,23 +316,6 @@ public class MyListings extends AppCompatActivity {
                 }
             });
 
-//            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//                @Override
-//                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                    if (value != null && value.exists()){
-//
-//                        uid.add(userID);
-//                        titles.add(value.getString("title"));
-//                        breed.add(value.getString("breed"));
-//                        gender.add(value.getString("gender"));
-//                        district.add(value.getString("district"));
-//                        city.add(value.getString("city"));
-//                        imgNumber.add(finalI);
-//                        views.add(Objects.requireNonNull(value.getLong("viewCount")).intValue());
-//                        initializedAdapter(userID);
-//                    }
-//                }
-//            });
         }
     }
 }

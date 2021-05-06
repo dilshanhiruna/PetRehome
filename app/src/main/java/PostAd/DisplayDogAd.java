@@ -109,16 +109,19 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         t7 =findViewById(R.id.textView27);
         t8 =findViewById(R.id.textView28);
 
-
         progressBar_display_ad =findViewById(R.id.progressBar_display_ad);
         progressBar_display_ad_img =findViewById(R.id.progressBar_display_ad_img);
+
         progressBar_display_ad.setVisibility(View.VISIBLE);
         progressBar_display_ad_img.setVisibility(View.VISIBLE);
 
         display_dog_ad_send_msg =findViewById(R.id.display_dog_ad_send_msg);
         display_dog_ad_call =findViewById(R.id.display_dog_ad_call);
         display_dog_ad_edit_btn =findViewById(R.id.display_dog_ad_edit_btn);
+
+        //hide all text
         hideText();
+
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -128,12 +131,10 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
          USERID = getIntent().getExtras().getString("USERID");
          IMGNUMBER = getIntent().getExtras().getString("IMGNUMBER");
-//        Toast.makeText(this, USERID+" "+IMGNUMBER,Toast.LENGTH_SHORT).show();
 
 
-//      documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(IMGNUMBER);
+         //fetching values from DB
         databaseReference = FirebaseDatabase.getInstance().getReference().child("DogListings").child(USERID).child("Listings").child(IMGNUMBER);
-
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -153,6 +154,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
                     VCcount = (Long) snapshot.child("viewCount").getValue();
                     viewCount = VCcount.intValue();
                     progressBar_display_ad.setVisibility(View.INVISIBLE);
+                    //show all text after loading completed
                     showText();
                 }
             }
@@ -162,34 +164,8 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
             }
         });
-//        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                if (value != null && value.exists()){
-//
-//                    display_dog_ad_title.setText(value.getString("title"));
-//                    display_dog_ad_breed.setText(value.getString("breed"));
-//                    display_dog_ad_gender.setText(value.getString("gender"));
-//                    display_dog_ad_age.setText(value.getString("age"));
-//                    display_dog_ad_size.setText(value.getString("size"));
-//                    display_dog_ad_description.setText(value.getString("description"));
-//                    display_dog_ad_email.setText(value.getString("email"));
-//                    display_dog_ad_mobile.setText(value.getString("phone"));
-//                    display_dog_ad_date.setText(value.getString("date"));
-//                    display_dog_ad_location.setText(value.getString("city")+", "+value.getString("district"));
-//                    dis = value.getString("district");
-//                    city = value.getString("city");
-//                    viewCount = Objects.requireNonNull(value.getLong("viewCount")).intValue();
-//                    progressBar_display_ad.setVisibility(View.INVISIBLE);
-//                    showText();
-//
-//
-//                }
-//            }
-//
-//        });
 
-//        DocumentReference df = fstore.collection("users").document(USERID);
+        //display verified or not verified on listing
         databaseReferenceUSER = FirebaseDatabase.getInstance().getReference().child("users").child(USERID);
         databaseReferenceUSER.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -209,22 +185,8 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
             }
         });
-//        df.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                if (value.exists()){
-//                    verificationDONE =value.getString("verified");
-//                    if (verificationDONE.equals("y")){
-//                        verified_user_txt.setVisibility(View.VISIBLE);
-//                    }else {
-//                        unverified_user_txt.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//
-//            }
-//        });
 
-
+        //displaying images on the slider
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference fileRef=  storageRef.child("users/"+USERID+"/"+ IMGNUMBER+"/img1.jpg");
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -234,7 +196,6 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
                     slideModels.add(new SlideModel(uri.toString()));
                     imageSlider.setImageList(slideModels,true);
                 }
-
             }
         }).addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
@@ -249,7 +210,6 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
                             if (!(uri.equals(Uri.EMPTY))){
                                 slideModels.add(new SlideModel(uri.toString()));
                             }
-//                  display_dog_ad_image.setScaleType(ImageView.ScaleType.FIT_XY);
                             imageSlider.setImageList(slideModels,true);
 
                         }
@@ -266,6 +226,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         });
 
 
+        //call button function
         display_dog_ad_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -274,6 +235,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
             }
         });
 
+        //send email button function
         display_dog_ad_send_msg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -291,6 +253,8 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
                 }
             }
         });
+
+        //location button function
         display_dog_ad_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,6 +265,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
             }
         });
 
+        //edit button
         display_dog_ad_edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -330,6 +295,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
     }
 
+    //slide down for back navigation
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -347,21 +313,16 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
                 float valueY = y2-y1;
                 if (Math.abs(valueX)> MIN_DISTANCE){
                     if (x2>x1){
-//                        Toast.makeText(getApplicationContext(), "Right is swiped",Toast.LENGTH_SHORT).show();
-//                        finish();
+
                     }
                 }
                 else if (Math.abs(valueY)> MIN_DISTANCE){
                     if (y2>y1){
-//                        Toast.makeText(getApplicationContext(), "Bottom is swiped",Toast.LENGTH_SHORT).show();
                         finish();
                     }
 
                 }
         }
-
-
-
 
         return super.onTouchEvent(event);
     }
@@ -420,6 +381,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         display_dog_ad_send_msg.setVisibility(View.VISIBLE);
         display_dog_ad_call.setVisibility(View.VISIBLE);
 
+        //view count
         if(!alreadyExecuted) {
             viewCount();
             alreadyExecuted = true;
@@ -430,11 +392,13 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
     private void viewCount(){
 
+        //show edit button if listing is own by current user
         if (fAuth.getCurrentUser() != null)
             if ( fAuth.getCurrentUser().getUid().equals(USERID)){
                 display_dog_ad_edit_btn.setVisibility(View.VISIBLE);
             } else display_dog_ad_edit_btn.setVisibility(View.INVISIBLE);
 
+            //increase view count by 1 and save in DB
         Map<String,Object> viewUser = new HashMap<>();
         viewUser.put("viewCount", ++viewCount);
         databaseReference.updateChildren(viewUser);
