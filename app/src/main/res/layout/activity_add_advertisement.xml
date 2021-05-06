@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/appBg"
+    android:background="@drawable/appbg"
     tools:context="DogWalkers.AddAdvertisement">
 
     <TextView
@@ -19,13 +19,13 @@
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imageView_dogwalkers_profile"
         android:layout_width="200dp"
         android:layout_height="178dp"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="30dp"
-        app:srcCompat="@drawable/person1" />
+        android:src="@drawable/round_account_circle_20" />
 
     <EditText
         android:id="@+id/name"
