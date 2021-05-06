@@ -55,4 +55,57 @@
     <!--    dilshan's Strings-->
 
 
+    <!--    Ramesh's Strings-->
+    <string name="login">Login</string>
+    <string name="uname">username</string>
+    <string name="password">password</string>
+    <string name="remeberme">Rember me</string>
+    <string name="forgotpw">Forgot password?</string>
+    <string name="clickhere">Click here</string>
+    <string name="noaccount">Do not have account?</string>
+    <string name="signup">Sign up</string>
+    <string name="newad">NEW AD</string>
+    <string name="doginfo">Information About Dog</string>
+    <string name="dogname">Name</string>
+    <string name="dogage">Age</string>
+    <string name="doggender">Gender</string>
+    <string name="dogsize">Size</string>
+    <string name="lostdate">Lost Date</string>
+    <string name="uploaddogimages">upload up to 5 images</string>
+    <string name="ownerinfo">Information About Owner</string>
+    <string name="ownername">Name</string>
+    <string name="ownercontact">Contact</string>
+    <string name="ownermail">Email</string>
+    <string name="location">Location</string>
+    <string name="dogdes">Description about dog</string>
+    <string name="dogbreed">Breed</string>
+    <string name="publishad">Publsih Ad</string>
+    <string name="editad">Edit AD</string>
+    <string name="editbutton">Edit</string>
+    <string name="dogtype">Type</string>
+    <string name="ownername2">Owner</string>
+    <string name="myadd">MY ADDS</string>
+    <string name="cretatead">CREATE AD</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="myldads">My Lost Dogs Ads</string>
+    <string name="ldnewad">New Ad</string>
+    <string name="oname12">Owners\'s Name</string>
+    <string name="onamen12">Owner\'s Name</string>
+    <string name="owner11">Owner</string>
+    <string name="myads">My Ads</string>
+    <string name="lostdatedog">Lost Date</string>
+
+    <!--    Ramesh's Strings-->
+
+
 </resources>
