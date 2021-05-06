@@ -86,33 +86,20 @@ public class EditUserProfile extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
         user = fAuth.getCurrentUser();
 
+        //is user is not logged in, return to Login page
         if (fAuth.getCurrentUser() == null){
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();
         }
 
 
-            userID = fAuth.getCurrentUser().getUid();
-
-//            DocumentReference documentReference = fStore.collection("users").document(userID);
-//            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//                @Override
-//                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                    update_user_email.setText(value.getString("email"));
-//                    update_user_phone.setText(value.getString("phone"));
-//                    update_user_fname.setText(value.getString("first_name"));
-//                    update_user_lname.setText(value.getString("last_name"));
-//                    default_district = value.getString("district");
-//                    default_city = value.getString("city");
-//
-//                    initializeUI();
-//
-//                }
-//            });
+        userID = fAuth.getCurrentUser().getUid();
+        //fetch user data from DB
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //assign values to edit text fields
                 update_user_email.setText(snapshot.child("email").getValue().toString());
                 update_user_phone.setText(snapshot.child("phone").getValue().toString());
                 update_user_fname.setText(snapshot.child("first_name").getValue().toString());
@@ -130,7 +117,7 @@ public class EditUserProfile extends AppCompatActivity {
         update_user_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //assign edit text values to variables
                 String memail = update_user_email.getText().toString().trim();
                 String mfname = update_user_fname.getText().toString().trim();
                 String mlname = update_user_lname.getText().toString().trim();
@@ -138,6 +125,7 @@ public class EditUserProfile extends AppCompatActivity {
                 String mdistrict = update_user_district_spinner.getSelectedItem().toString();
                 String mcity = update_user_city_spinner.getSelectedItem().toString();
 
+                //validations
                 if(TextUtils.isEmpty(memail)){
                     update_user_email.setError("Email is required");
                     return;
@@ -164,10 +152,11 @@ public class EditUserProfile extends AppCompatActivity {
                     Toast.makeText(EditUserProfile.this, "Select a City", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //update email first
                 user.updateEmail(memail).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-//                        DocumentReference documentReference1 =fStore.collection("users").document(user.getUid());
+
                         Map<String,Object> user = new HashMap<>();
                         user.put("email",memail);
                         user.put("first_name",mfname);
@@ -176,6 +165,7 @@ public class EditUserProfile extends AppCompatActivity {
                         user.put("district",mdistrict);
                         user.put("city",mcity);
 
+                        //update other properties next
                         databaseReference.updateChildren(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -218,6 +208,7 @@ public class EditUserProfile extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                //delete user
                                 fAuth.getCurrentUser().delete();
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);

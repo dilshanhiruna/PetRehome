@@ -75,14 +75,14 @@ public class Register extends AppCompatActivity {
 
         initializeUI();
 
-
+        //if user is already registered send to Home page
         if (fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
             finish();
         }
 
-
+        //back button function
         signing_back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +92,7 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        //login button function
         login_instead.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,9 +102,11 @@ public class Register extends AppCompatActivity {
         });
 
 
+        //create new account button function
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //assign edit text values to variables
                 String memail = email.getText().toString().trim();
                 String mpassword = password.getText().toString().trim();
                 String mfname = fname.getText().toString().trim();
@@ -112,6 +115,7 @@ public class Register extends AppCompatActivity {
                 String mdistrict = district_spinner.getSelectedItem().toString();
                 String mcity = city_spinner.getSelectedItem().toString();
 
+                //validations
                 if(TextUtils.isEmpty(memail)){
                     email.setError("Email is required");
                     return;
@@ -145,12 +149,13 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
+                //create a new user with email and password (Firebase Authentication)
                 fAuth.createUserWithEmailAndPassword(memail,mpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
 
-                            //sending verification link
+                            //sending verification link to email
                             FirebaseUser fuser = fAuth.getCurrentUser();
                             fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -164,9 +169,9 @@ public class Register extends AppCompatActivity {
                                 }
                             });
 
+                            //sending other data to realtime DB
                             userID = fAuth.getCurrentUser().getUid();
                             databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
-//                            DocumentReference documentReference =fstore.collection("users").document(userID);
                             Map<String,Object> user = new HashMap<>();
                             user.put("email",memail);
                             user.put("first_name",mfname);
@@ -177,12 +182,6 @@ public class Register extends AppCompatActivity {
                             user.put("ListingCount",0);
                             user.put("verified","n");
 
-//                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                @Override
-//                                public void onSuccess(Void aVoid) {
-//                                    Log.d(TAG,"user profile is created for "+ userID);
-//                                }
-//                            });
                             databaseReference.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -207,7 +206,6 @@ public class Register extends AppCompatActivity {
 
     private void initializeUI() {
         //assign values to district spinner and city spinner
-//        String colors[] = {"Red","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
         districts = new ArrayList<>();
         cities = new ArrayList<>();
 

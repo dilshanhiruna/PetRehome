@@ -54,13 +54,14 @@ public class UserProfile extends AppCompatActivity {
         edit_user_city =findViewById(R.id.edit_user_city_txt);
         edit_user_btn = findViewById(R.id.edit_user_btn);
         user_back_btn = findViewById(R.id.user_back_btn);
-
         verification_badge = findViewById(R.id.verification_badge);
         verify_now_btn = findViewById(R.id.verify_now_btn);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
+
+        //is user is not logged in, return to Login page
         if (fAuth.getCurrentUser() == null){
             Intent i = new Intent(getApplicationContext(), Login.class).putExtra("from", "profile");
             startActivity(i);
@@ -69,11 +70,12 @@ public class UserProfile extends AppCompatActivity {
             userID = fAuth.getCurrentUser().getUid();
             FirebaseUser user = fAuth.getCurrentUser();
 
-//            DocumentReference documentReference = fStore.collection("users").document(userID);
+            //fetch user data from DB
             databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    //assign values to text fields
                     edit_user_email.setText(snapshot.child("email").getValue().toString());
                     edit_user_phone.setText(snapshot.child("phone").getValue().toString());
                     edit_user_fname.setText(snapshot.child("first_name").getValue().toString());
@@ -86,20 +88,8 @@ public class UserProfile extends AppCompatActivity {
 
                 }
             });
-//            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//                @Override
-//                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                    edit_user_email.setText(value.getString("email"));
-//                    edit_user_phone.setText(value.getString("phone"));
-//                    edit_user_fname.setText(value.getString("first_name"));
-//                    edit_user_lname.setText(value.getString("last_name"));
-//                    edit_user_district.setText(value.getString("district"));
-//                    edit_user_city.setText(value.getString("city"));
-//
-//                }
-//            });
 
-
+            //check whether user is verified or not
             Map<String,Object> USER = new HashMap<>();
             if (user.isEmailVerified()){
                 USER.put("verified","y");
@@ -107,10 +97,12 @@ public class UserProfile extends AppCompatActivity {
             else {
                 USER.put("verified","n");
             }
+            //update verified in DB
            DatabaseReference df = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
             df.updateChildren(USER);
 
 
+            //display verification badge and verify now button
             if (user.isEmailVerified()){
                 verification_badge.setVisibility(View.VISIBLE);
             }else {
