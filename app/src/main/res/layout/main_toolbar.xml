@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="35dp"
         android:layout_height="34dp"
-
+        android:id="@+id/menu_bar_btn"
         android:onClick="ClickMenu"
         android:src="@drawable/ic_baseline_menu_24" />
 

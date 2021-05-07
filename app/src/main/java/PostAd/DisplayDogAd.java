@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import com.google.firebase.storage.StorageReference;
 import com.oop.petrehome.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +50,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import user.Login;
 
@@ -58,7 +61,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
     TextView  display_dog_ad_title,display_dog_ad_location,display_dog_ad_breed,
             display_dog_ad_age,display_dog_ad_gender,display_dog_ad_size,display_dog_ad_description,
-            display_dog_ad_date,display_dog_ad_email,display_dog_ad_mobile,t1,t2,t3,t4,t5,t6,t7,t8,view_count_txt;
+            display_dog_ad_date,display_dog_ad_email,display_dog_ad_mobile,t1,t2,t3,t4,t5,t6,t7,t8,view_count_txt,dog_listing_days_on_site;
 
     ImageView display_dog_ad_image;
     String dis,city,verificationDONE="";
@@ -68,6 +71,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
     DatabaseReference databaseReference,databaseReferenceUSER;
     FirebaseAuth fAuth;
+    DocumentReference documentReference;
     FirebaseFirestore fstore;
     StorageReference storageReference;
     String userID ,USERID,IMGNUMBER;
@@ -76,8 +80,9 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
     Boolean alreadyExecuted =false;
     int viewCount;
     public Long VCcount;
-
-    DocumentReference documentReference;
+    String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+    Date pdate,cdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +104,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         verified_user_txt =findViewById(R.id.verified_user_txt);
         unverified_user_txt =findViewById(R.id.unverified_user_txt);
         view_count_txt =findViewById(R.id.view_count_txt);
+        dog_listing_days_on_site =findViewById(R.id.dog_listing_days_on_site);
 
         t1 =findViewById(R.id.textView15);
         t2 =findViewById(R.id.textView16);
@@ -121,6 +127,13 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
         //hide all text
         hideText();
+
+        //get current date
+        try {
+            cdate = sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
@@ -154,6 +167,12 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
                     VCcount = (Long) snapshot.child("viewCount").getValue();
                     viewCount = VCcount.intValue();
                     progressBar_display_ad.setVisibility(View.INVISIBLE);
+
+                    try {
+                        pdate = sdf.parse(Objects.requireNonNull(snapshot.child("date").getValue()).toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     //show all text after loading completed
                     showText();
                 }
@@ -164,6 +183,9 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
             }
         });
+
+
+
 
         //display verified or not verified on listing
         databaseReferenceUSER = FirebaseDatabase.getInstance().getReference().child("users").child(USERID);
@@ -295,6 +317,16 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
     }
 
+    public Long dateDifferent(Date pdate,Date cdate){
+        long diff = cdate.getTime() - pdate.getTime();
+        TimeUnit time = TimeUnit.DAYS;
+        long diffrence = time.convert(diff, TimeUnit.MILLISECONDS);
+
+        return diffrence;
+
+    }
+
+
     //slide down for back navigation
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -369,6 +401,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         display_dog_ad_send_msg.setVisibility(View.INVISIBLE);
         display_dog_ad_call.setVisibility(View.INVISIBLE);
     }
+    @SuppressLint("SetTextI18n")
     public  void showText(){
         t1.setVisibility(View.VISIBLE);
         t2.setVisibility(View.VISIBLE);
@@ -380,6 +413,17 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         t8.setVisibility(View.VISIBLE);
         display_dog_ad_send_msg.setVisibility(View.VISIBLE);
         display_dog_ad_call.setVisibility(View.VISIBLE);
+
+        //display days on site
+        if (dateDifferent(pdate,cdate)==1){
+            dog_listing_days_on_site.setText(dateDifferent(pdate,cdate).toString()+" Day ago");
+        }else {
+            dog_listing_days_on_site.setText(dateDifferent(pdate,cdate).toString()+" Days ago");
+        }
+
+        dog_listing_days_on_site.setVisibility(View.VISIBLE);
+
+
 
         //view count
         if(!alreadyExecuted) {

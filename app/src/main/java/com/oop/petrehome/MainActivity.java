@@ -9,7 +9,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
     public int count;
     public Long Lcount;
     public Long VCcount;
+    Context context;
+    AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +114,23 @@ public class MainActivity extends AppCompatActivity {
 
         progressBar_listings.setVisibility(View.VISIBLE);
 
+        //check network connectivity
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //connected to a network
+            connected = true;
+        }
+
+        if (!connected){
+            builder = new AlertDialog.Builder(this);
+            builder.setMessage("Not Connected to Network");
+            builder.setCancelable(false);
+            AlertDialog alert11 = builder.create();
+            alert11.show();
+        }
+
         //checking all the userIDs
         FirebaseDatabase.getInstance().getReference().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -123,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
 
 
         //check if user is already logged in
