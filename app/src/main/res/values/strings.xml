@@ -2,7 +2,6 @@
     <string name="app_name">PetRehome</string>
 
     <!--    dilshan's Strings-->
-
     <string name="city_prompt">Select City</string>
     <string-array name="city_arrays">
         <item>Galle</item>
@@ -50,8 +49,6 @@
     <string name="verify_now">Verify Now</string>
     <string name="verified_user">Verified User</string>
     <string name="unverified_user">Unverified User</string>
-
-
     <!--    dilshan's Strings-->
 
 

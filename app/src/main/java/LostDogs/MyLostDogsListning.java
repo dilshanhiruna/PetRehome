@@ -54,7 +54,7 @@ public class MyLostDogsListning extends AppCompatActivity {
     List<String> location;
     Integer finalI;
     LostDogs.Adapter adapternew;
-    public int count;
+    public int count=0;
     public Long Lcount;
     public Long VCcount;
     DatabaseReference databaseReference;
@@ -260,12 +260,11 @@ public class MyLostDogsListning extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 if (snapshot.exists()){
-                    getList(userID,count);
+                    getList(userID);
                     if (count ==0){
                         progressBar_listings.setVisibility(View.INVISIBLE);
                     }
                 }
-
 
             }
             @Override
@@ -276,12 +275,11 @@ public class MyLostDogsListning extends AppCompatActivity {
 
     }
 
+    private void getList(String userID){
 
-    private void getList(String userID,int count){
-        for (int i = 1; i < count+1 ; i++){
 //            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
-            databaseReference = FirebaseDatabase.getInstance().getReference().child("LostDogListings").child(userID).child("Listings").child(String.valueOf(i));
-            Integer finalI = (Integer) i;
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("LostDogListings").child(userID).child("Listings").child("1");
+
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -293,7 +291,6 @@ public class MyLostDogsListning extends AppCompatActivity {
                         dogbreed.add(snapshot.child("doggender").getValue().toString());
                         doglostdate.add(snapshot.child("doglostdate").getValue().toString());
                         location.add(snapshot.child("olocation").getValue().toString());
-                        imgNumber.add(finalI);
                         VCcount = (Long) snapshot.child("viewCount").getValue();
                         views.add(VCcount.intValue());
                         initializedAdapter(userID);
@@ -324,5 +321,5 @@ public class MyLostDogsListning extends AppCompatActivity {
 //                }
 //            });
         }
-    }
+
 }

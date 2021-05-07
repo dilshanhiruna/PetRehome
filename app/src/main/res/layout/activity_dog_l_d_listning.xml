@@ -209,58 +209,54 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtdogbreed" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/LDimageView3"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/pic"
             app:layout_constraintEnd_toStartOf="@+id/LDimageView4"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtlostdate"
-            app:srcCompat="@drawable/pic"
-            tools:srcCompat="@drawable/pic" />
+            app:srcCompat="@drawable/baseline_add_circle_24"
+            />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/LDimageView4"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/pic"
             app:layout_constraintEnd_toStartOf="@+id/LDimageView5"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/LDimageView3"
             app:layout_constraintTop_toBottomOf="@+id/txtlostdate"
-            app:srcCompat="@drawable/pic"
-            tools:srcCompat="@drawable/pic" />
+             app:srcCompat="@drawable/baseline_add_circle_24"
+             />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/LDimageView5"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/pic"
             app:layout_constraintEnd_toStartOf="@+id/LDimageView6"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/LDimageView4"
             app:layout_constraintTop_toBottomOf="@+id/txtlostdate"
-            app:srcCompat="@drawable/pic"
-            tools:srcCompat="@drawable/pic" />
+             app:srcCompat="@drawable/baseline_add_circle_24"
+             />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/LDimageView6"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/pic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/LDimageView5"
             app:layout_constraintTop_toBottomOf="@+id/txtlostdate"
-            app:srcCompat="@drawable/pic"
-            tools:srcCompat="@drawable/pic" />
+             app:srcCompat="@drawable/baseline_add_circle_24"
+             />
 
         <TextView
             android:id="@+id/txtupload"

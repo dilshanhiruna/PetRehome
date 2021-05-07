@@ -69,12 +69,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         Integer p = (Integer)position+1;
         holder.progressBar_listings_img.setVisibility(View.VISIBLE);
         holder.dogage.setText(dogage.get(position));
-        holder.dogbreed.setText(dogbreed.get(position));
+        holder.dogage.setText(dogage.get(position));
         holder.location.setText(location.get(position));
         holder.viewCount.setText(views.get(position).toString()+" Views");
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference fileRef=  storageRef.child("LDog_ads/"+uid.get(position)+"/"+ imgNumber.get(position).toString() +"/img1.jpg");
+        StorageReference fileRef=  storageRef.child("LDog_ads/"+uid.get(position)+"/1"+"/img1.jpg");
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

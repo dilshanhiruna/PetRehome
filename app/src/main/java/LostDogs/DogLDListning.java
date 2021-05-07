@@ -89,32 +89,12 @@ public class DogLDListning extends AppCompatActivity {
         publish_ad_btn=(Button) findViewById(R.id.LDpublishbtn);
         myld_ads_back_btn=findViewById(R.id.LDhome_btn);
 
-        img1=findViewById(R.id.dog_imageButton);
-        img2=findViewById(R.id.dog_imageButton2);
-        img3=findViewById(R.id.dog_imageButton3);
-        img4=findViewById(R.id.dog_imageButton4);
-
-
 
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         userID = fAuth.getCurrentUser().getUid();
 
-
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("lostdogs").child(userID);
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Lcount = (Long) snapshot.child("ListingCount").getValue();
-                assert Lcount != null;
-                count = Lcount.intValue();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,10 +160,6 @@ public class DogLDListning extends AppCompatActivity {
                 }
                 if(TextUtils.isEmpty(Dsize)){
                     dsize.setError("Dog Size is required");
-                    return;
-                }
-                if(!isValidEmail(Dbreed)){
-                    dbreed.setError("Dog breed is invalid");
                     return;
                 }
                 if(TextUtils.isEmpty(Dlostdate)){
