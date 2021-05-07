@@ -12,7 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_r"
         android:supportsRtl="true"
         android:theme="@style/Theme.PetRehome">
-        <activity android:name="PostAd.EditDogListing"></activity>
+        <activity android:name="LostDogs.Display_LD_AD"></activity>
+        <activity android:name="LostDogs.MyLostDogsListning" />
+        <activity android:name="LostDogs.EditLostDogListning" />
+        <activity android:name="LostDogs.DogLDListning" />
+        <activity android:name="LostDogs.DisplayLostDogAd" />
+        <activity android:name="PostAd.EditDogListing" />
         <activity android:name="PostAd.DisplayDogAd" />
         <activity android:name="PostAd.MyListings" />
         <activity android:name="PostAd.DogListing" />
