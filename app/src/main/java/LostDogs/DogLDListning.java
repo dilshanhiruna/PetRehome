@@ -101,15 +101,6 @@ public class DogLDListning extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         userID = fAuth.getCurrentUser().getUid();
 
-        //getting the listing current count from the user
-//        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
-//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//                count = value.getLong("ListingCount").intValue();
-//            }
-//        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("lostdogs").child(userID);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

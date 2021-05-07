@@ -68,7 +68,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
         Integer p = (Integer)position+1;
         holder.progressBar_listings_img.setVisibility(View.VISIBLE);
-        holder.dogname.setText(dogname.get(position));
         holder.dogage.setText(dogage.get(position));
         holder.dogbreed.setText(dogbreed.get(position));
         holder.location.setText(location.get(position));
@@ -117,7 +116,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            dogname =itemView.findViewById(R.id.ad_box_dname);
+
             dogage =itemView.findViewById(R.id.ad_box_gender_txt);
             dogbreed =itemView.findViewById(R.id.ad_box_title_txt);
             location =itemView.findViewById(R.id.ad_box_location_txt);

@@ -259,14 +259,13 @@ public class MyLostDogsListning extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-
-                Lcount = (Long) snapshot.child("ListingCount").getValue();
-                assert Lcount != null;
-                count = Lcount.intValue();
-                getList(userID,count);
-                if (count ==0){
-                    progressBar_listings.setVisibility(View.INVISIBLE);
+                if (snapshot.exists()){
+                    getList(userID,count);
+                    if (count ==0){
+                        progressBar_listings.setVisibility(View.INVISIBLE);
+                    }
                 }
+
 
             }
             @Override
