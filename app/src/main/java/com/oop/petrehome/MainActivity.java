@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         progressBar_listings =findViewById(R.id.progressBar_listings);
         my_listing_recyclerview =findViewById(R.id.my_listing_recyclerview);
 
-
         //initialized instances
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();

@@ -415,9 +415,11 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         display_dog_ad_call.setVisibility(View.VISIBLE);
 
         //display days on site
-        if (dateDifferent(pdate,cdate)==1){
+        if (dateDifferent(pdate,cdate)==0){
+            dog_listing_days_on_site.setText("Less than 24h ago");
+        }else if(dateDifferent(pdate,cdate)==1){
             dog_listing_days_on_site.setText(dateDifferent(pdate,cdate).toString()+" Day ago");
-        }else {
+        }else{
             dog_listing_days_on_site.setText(dateDifferent(pdate,cdate).toString()+" Days ago");
         }
 

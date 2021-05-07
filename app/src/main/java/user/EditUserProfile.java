@@ -209,6 +209,8 @@ public class EditUserProfile extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //delete user
+                                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("DogListings").child(userID);
+                                dbRef.removeValue();
                                 fAuth.getCurrentUser().delete();
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                 overridePendingTransition(R.anim.animation_enter, R.anim.animation_leave);
