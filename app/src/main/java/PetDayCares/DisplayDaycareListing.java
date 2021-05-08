@@ -1,5 +1,9 @@
-package PostAd;
+package PetDayCares;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import com.oop.petrehome.R;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,7 +40,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DisplayDogAd extends AppCompatActivity implements GestureDetector.OnGestureListener {
+import PostAd.DogListing;
+
+public class DisplayDaycareListing extends AppCompatActivity {
+
     private float x1,x2,y1,y2;
     private int MIN_DISTANCE =150;
     private GestureDetector gestureDetector;
@@ -67,8 +74,9 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_dog_ad);
-         this.gestureDetector =new GestureDetector(getApplicationContext(),this);
+        setContentView(R.layout.activity_display_daycare_listing);
+
+        this.gestureDetector = new GestureDetector(getApplicationContext(), (GestureDetector.OnGestureListener) this);
 
 
         display_dog_ad_title =findViewById(R.id.display_dog_ad_title);
@@ -111,8 +119,8 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
         slideModels = new ArrayList<>();
 
-         USERID = getIntent().getExtras().getString("USERID");
-         IMGNUMBER = getIntent().getExtras().getString("IMGNUMBER");
+        USERID = getIntent().getExtras().getString("USERID");
+        IMGNUMBER = getIntent().getExtras().getString("IMGNUMBER");
 //        Toast.makeText(this, USERID+" "+IMGNUMBER,Toast.LENGTH_SHORT).show();
 
 
@@ -351,32 +359,33 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         return super.onTouchEvent(event);
     }
 
-    @Override
+    //@Override
     public boolean onDown(MotionEvent e) {
-        return false;
+    return false;
     }
 
-    @Override
+
+   // @Override
     public void onShowPress(MotionEvent e) {
 
     }
 
-    @Override
+  //  @Override
     public boolean onSingleTapUp(MotionEvent e) {
         return false;
     }
 
-    @Override
+    //@Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         return false;
     }
 
-    @Override
+    //@Override
     public void onLongPress(MotionEvent e) {
 
     }
 
-    @Override
+    // @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         return false;
     }
@@ -426,7 +435,6 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         view_count_txt.setText(String.valueOf(viewCount)+" views");
         view_count_txt.setVisibility(View.VISIBLE);
     }
-
 
 
 }

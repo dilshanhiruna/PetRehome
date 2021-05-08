@@ -1,4 +1,4 @@
-package com.oop.petrehome;
+package PetDayCares;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,44 +27,46 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.oop.petrehome.MainActivity;
+import com.oop.petrehome.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import PetDayCares.MyDayCareListings;
-import PostAd.Adapter;
-import PostAd.MyListings;
 import user.Login;
 import user.UserProfile;
+import PetDayCares.MyDayCareListings;
 
-
-public class MainActivity extends AppCompatActivity {
+public class MyDayCareListings extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
     StorageReference storageReference;
-    DatabaseReference databaseReference;
     RecyclerView my_listing_recyclerview;
     String userID ;
     List<String> uid;
     List<Integer> imgNumber;
+    List<Integer> views;
     List<String> titles;
     List<String> breed;
     List<String> gender;
     List<String> district;
-    List<Integer> views;
     List<String> city;
-    Adapter adapternew;
-    Button  nav_logout,nav_login;
-    DrawerLayout drawerLayout;
-    TextView nav_home_txt,nav_postad_txt,nav_lostdogs_txt,nav_dogwalkers_txt,nav_petdaycares_txt,nav_profile_txt;
-    ProgressBar progressBar_listings;
+    Integer finalI;
+    AdapterDC adapterDC;
     public int count;
     public Long Lcount;
     public Long VCcount;
+    DatabaseReference databaseReference;
+
+    Button nav_logout,nav_login,create_new_listing_btn;
+    DrawerLayout drawerLayout;
+    TextView nav_home_txt,nav_postad_txt,nav_lostdogs_txt,nav_dogwalkers_txt,nav_petdaycares_txt,nav_profile_txt;
+    ProgressBar progressBar_listings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_my_listings);
 
         drawerLayout =findViewById(R.id.drawer_layout);
 
@@ -74,75 +79,61 @@ public class MainActivity extends AppCompatActivity {
         nav_dogwalkers_txt =findViewById(R.id.nav_dogwalkers_txt);
         nav_petdaycares_txt =findViewById(R.id.nav_petdaycares_txt);
         nav_profile_txt =findViewById(R.id.nav_profile_txt);
-        progressBar_listings =findViewById(R.id.progressBar_listings);
+        create_new_listing_btn =findViewById(R.id.create_new_listing_btn);
         my_listing_recyclerview =findViewById(R.id.my_listing_recyclerview);
-
-
+        progressBar_listings =findViewById(R.id.progressBar_listings);
 
         //initialized firebaseAuth
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        uid = new ArrayList<>();
-        imgNumber = new ArrayList<>();
-        titles = new ArrayList<>();
-        breed = new ArrayList<>();
-        gender = new ArrayList<>();
-        district = new ArrayList<>();
-        city = new ArrayList<>();
-        views = new ArrayList<>();
-
-
         progressBar_listings.setVisibility(View.VISIBLE);
 
-         FirebaseDatabase.getInstance().getReference().child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
 
-                    getListings(dataSnapshot.getKey());
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-//        fstore.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (QueryDocumentSnapshot document : task.getResult()) {
-//
-//                        getListings(document.getId());
-//                    }
-//                }
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
-//            }
-//        });
         //check if user is already logged in
         if (fAuth.getCurrentUser() != null){
             userID = fAuth.getCurrentUser().getUid();
+            uid = new ArrayList<>();
+            imgNumber = new ArrayList<>();
+            titles = new ArrayList<>();
+            breed = new ArrayList<>();
+            gender = new ArrayList<>();
+            district = new ArrayList<>();
+            city = new ArrayList<>();
+            views = new ArrayList<>();
+
+            getListings(userID);
+
             nav_login.setVisibility(View.GONE);
             nav_logout.setVisibility(View.VISIBLE);
         }
         else {
             nav_logout.setVisibility(View.GONE);
             nav_login.setVisibility(View.VISIBLE);
+            progressBar_listings.setVisibility(View.INVISIBLE);
 
         }
 
+        create_new_listing_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fAuth.getCurrentUser() != null){
+                    startActivity(new Intent(getApplicationContext(), CreateNewDayCareListings.class));
+                    overridePendingTransition(R.anim.enter, R.anim.exit);
+                }
+                else {
+                    Intent i = new Intent(getApplicationContext(), Login.class).putExtra("from", "listing");
+                    startActivity(i);
+                    overridePendingTransition(R.anim.enter, R.anim.exit);
+                }
+
+            }
+        });
+
 
     }
+
 
     public  void ClickMenu(View view){
         //open drawer
@@ -157,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
 
     //navigation drawer button functions
     public  void  login(View view){
-
         Intent i = new Intent(getApplicationContext(), Login.class).putExtra("from", "main");
         startActivity(i);
 
@@ -167,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         nav_logout.setVisibility(View.GONE);
         nav_login.setVisibility(View.VISIBLE);
+
+
 
     }
     public void navClickHome(View view){
@@ -189,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-        startActivity(new Intent(getApplicationContext(), MyListings.class));
+        //startActivity(new Intent(getApplicationContext(), MyListings.class));
 
     }
     public void navClickLostdogs(View view){
@@ -219,8 +211,7 @@ public class MainActivity extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-       // startActivity(new Intent(getApplicationContext(), MyDayCareListings.class));
-        startActivity(new Intent(getApplicationContext(),MyDayCareListings.class));
+        startActivity(new Intent(getApplicationContext(), CreateNewDayCareListings.class));
 
     }
     public void navClickProfile(View view){
@@ -233,16 +224,34 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), UserProfile.class));
 
     }
-    private void initializedAdapter(String userID){
 
-        adapternew = new Adapter(getApplicationContext(),uid,imgNumber,titles,breed,gender,district,city,userID);
+   private void initializedAdapter(String userID){
+       adapterDC = new AdapterDC(getApplicationContext(), uid, imgNumber, titles, breed, gender, district, city, userID);
         GridLayoutManager gridLayoutManagernew = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         my_listing_recyclerview.setLayoutManager(gridLayoutManagernew);
-        my_listing_recyclerview.setAdapter(adapternew);
+        my_listing_recyclerview.setAdapter(adapterDC);
         progressBar_listings.setVisibility(View.INVISIBLE);
-    }
 
+
+
+    }
     private  void getListings(String userID){
+
+//        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//
+//                assert value != null;
+//                count = Objects.requireNonNull(value.getLong("ListingCount")).intValue();
+//                getList(userID,count);
+//
+//                if (count ==0){
+//                    progressBar_listings.setVisibility(View.INVISIBLE);
+//                }
+//
+//            }
+//        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -251,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Lcount = (Long) snapshot.child("ListingCount").getValue();
+                assert Lcount != null;
                 count = Lcount.intValue();
                 getList(userID,count);
                 if (count ==0){
@@ -264,24 +274,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
-//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//                assert value != null;
-//                count = Objects.requireNonNull(value.getLong("ListingCount")).intValue();
-//                getList(userID,count);
-//
-//            }
-//        });
     }
 
-    private void getList(String userID,int count){
 
+    private void getList(String userID,int count){
         for (int i = 1; i < count+1 ; i++){
 //            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
-            databaseReference = FirebaseDatabase.getInstance().getReference().child("CreateNewDayCareListings").child(userID).child("Listings").child(String.valueOf(i));
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("DogListings").child(userID).child("Listings").child(String.valueOf(i));
             Integer finalI = (Integer) i;
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -307,11 +306,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-
-//        for (int i = 1; i < count+1 ; i++){
-//            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
-//            Integer finalI = (Integer) i;
-//
 //            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
 //                @Override
 //                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -329,8 +323,8 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                }
 //            });
-//        }
+        }
     }
-    }
+
 
 }

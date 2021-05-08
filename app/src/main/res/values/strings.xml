@@ -54,5 +54,15 @@
 
     <!--    dilshan's Strings-->
 
+    <!--    Thilan 's Strings-->
+
+    <string name="my_Daycare_listings">My Daycare Listings</string>
+    <string name="new_daycare_listing">Create New Daycare Listing</string>
+    <string name="update_Daycare_listing">Update Daycare Listing</string>
+
+
+
+    <!--    Thilan 's Strings end-->
+
 
 </resources>

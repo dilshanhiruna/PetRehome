@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_r"
         android:supportsRtl="true"
         android:theme="@style/Theme.PetRehome">
-        <activity android:name="PostAd.EditDogListing"></activity>
+        <activity android:name="PetDayCares.DisplayDaycareListing"></activity>
+        <activity android:name="PetDayCares.EditDaycareListing" />
+        <activity android:name="PostAd.DogListing$EditDogListing" />
         <activity android:name="PostAd.DisplayDogAd" />
         <activity android:name="PostAd.MyListings" />
         <activity android:name="PostAd.DogListing" />

@@ -1,25 +1,30 @@
-package PostAd;
+package PetDayCares;
+
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,14 +38,24 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
-public class EditDogListing extends AppCompatActivity {
+import PostAd.MyListings;
+import user.Login;
+import user.Register;
+import PetDayCares.EditDaycareListing;
+
+public class EditDaycareListing extends AppCompatActivity {
     EditText title,age,description,email,phone;
     Spinner breed_spinner,gender_spinner,size_spinner,district_spinner ,city_spinner;;
     Button postad_newlisting_btn;
@@ -71,15 +86,15 @@ public class EditDogListing extends AppCompatActivity {
         String IMGNUMBER = getIntent().getExtras().getString("IMGNUMBER");
 
         String TITLE = getIntent().getExtras().getString("TITLE");
-         BREED = getIntent().getExtras().getString("BREED");
-         CITY = getIntent().getExtras().getString("CITY");
+        BREED = getIntent().getExtras().getString("BREED");
+        CITY = getIntent().getExtras().getString("CITY");
         String AGE = getIntent().getExtras().getString("AGE");
-         GENDER = getIntent().getExtras().getString("GENDER");
-         SIZE = getIntent().getExtras().getString("SIZE");
+        GENDER = getIntent().getExtras().getString("GENDER");
+        SIZE = getIntent().getExtras().getString("SIZE");
         String DESCRIPTION = getIntent().getExtras().getString("DESCRIPTION");
         String EMAIL = getIntent().getExtras().getString("EMAIL");
         String MOBILE = getIntent().getExtras().getString("MOBILE");
-         DISTRICT = getIntent().getExtras().getString("DISTRICT");
+        DISTRICT = getIntent().getExtras().getString("DISTRICT");
 
         title=findViewById(R.id.postad_newlisting_title);
         age=findViewById(R.id.postad_newlisting_age);
@@ -236,28 +251,28 @@ public class EditDogListing extends AppCompatActivity {
                     return;
                 }
                 if (mbreed.equals("breed")){
-                    Toast.makeText(EditDogListing.this, "Select a Breed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDaycareListing.this, "Select a Breed", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mgender.equals("gender")){
-                    Toast.makeText(EditDogListing.this, "Select a Gender", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDaycareListing.this, "Select a Gender", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (msize.equals("size")){
-                    Toast.makeText(EditDogListing.this, "Select a Size", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDaycareListing.this, "Select a Size", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mdistrict.equals("Select District")){
-                    Toast.makeText(EditDogListing.this, "Select a District", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDaycareListing.this, "Select a District", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (mcity.equals("Select City")){
-                    Toast.makeText(EditDogListing.this, "Select a City", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDaycareListing.this, "Select a City", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if ((img1URI1.equals(Uri.EMPTY))){
-                    Toast.makeText(EditDogListing.this, "Main Image Required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditDaycareListing.this, "Main Image Required", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -303,14 +318,14 @@ public class EditDogListing extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
 
-                                Toast.makeText(EditDogListing.this, "Listing Updated", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditDaycareListing.this, "Listing Updated", Toast.LENGTH_SHORT).show();
 
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(EditDogListing.this, "Error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditDaycareListing.this, "Error", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -320,7 +335,7 @@ public class EditDogListing extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(EditDogListing.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditDaycareListing.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -489,9 +504,9 @@ public class EditDogListing extends AppCompatActivity {
 
     private void createLists() {
 
-        District selectDistrict =new District(0, "Select District");
-        District Batticaloa =new District(1, "Batticaloa");
-        District Trincomalee =new District(2, "Trincomalee");
+       District selectDistrict =new District(0, "Select District");
+       District Batticaloa =new District(1, "Batticaloa");
+       District Trincomalee =new District(2, "Trincomalee");
 
 //        District Anuradhapura =new District(3, "Anuradhapura");
 //        District Polonnaruwa =new District(4, "Polonnaruwa");
@@ -532,7 +547,7 @@ public class EditDogListing extends AppCompatActivity {
 
 
     }
-    static class District implements Comparable<District> {
+    private class District implements Comparable<District> {
         private int districtID;
         private String districtName;
 
@@ -558,6 +573,10 @@ public class EditDogListing extends AppCompatActivity {
 
         }
 
+       // @Override
+       // public int compareTo(District district) {
+     //       return 0;
+    //    }
     }
     private class City implements Comparable<City> {
 
