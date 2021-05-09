@@ -140,7 +140,6 @@ public class AddAdvertisement extends AppCompatActivity {
             Toast.makeText(AddAdvertisement.this, "Main Image Required", Toast.LENGTH_SHORT).show();
         }else  {
 
-
             databaseReference = FirebaseDatabase.getInstance().getReference().child("DogWalkers").child(userID).child("profile");
             Map<String,Object> DogWalkers = new HashMap<>();
             DogWalkers.put("name",name);

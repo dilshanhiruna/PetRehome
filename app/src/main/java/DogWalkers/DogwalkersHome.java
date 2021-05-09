@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -54,6 +55,7 @@ public class DogwalkersHome extends AppCompatActivity {
     DrawerLayout drawerLayout;
     TextView nav_home_txt,nav_postad_txt,nav_lostdogs_txt,nav_dogwalkers_txt,nav_petdaycares_txt,nav_profile_txt;
     ProgressBar progressBar_listings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,7 @@ public class DogwalkersHome extends AppCompatActivity {
             nav_login.setVisibility(View.GONE);
             nav_logout.setVisibility(View.VISIBLE);
         }
+
         else {
             nav_logout.setVisibility(View.GONE);
             nav_login.setVisibility(View.VISIBLE);
@@ -129,12 +132,13 @@ public class DogwalkersHome extends AppCompatActivity {
             }
         });
 
-        create_new_listing_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AddAdvertisement.class));
-            }
-        });
+
+                create_new_listing_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getApplicationContext(), AddAdvertisement.class));
+                    }
+                });
 
     }
 
