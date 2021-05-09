@@ -183,7 +183,9 @@ public class DisplayDaycareListing extends AppCompatActivity {
 //        });
 
 //        DocumentReference df = fstore.collection("users").document(USERID);
-        databaseReferenceUSER = FirebaseDatabase.getInstance().getReference().child("users").child(USERID);
+
+        //display verified on listing
+        databaseReferenceUSER = FirebaseDatabase.getInstance().getReference().child("daycares").child(USERID);
         databaseReferenceUSER.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -217,9 +219,9 @@ public class DisplayDaycareListing extends AppCompatActivity {
 //            }
 //        });
 
-
+        //displaying images on the slider
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference fileRef=  storageRef.child("users/"+USERID+"/"+ IMGNUMBER+"/img1.jpg");
+        StorageReference fileRef=  storageRef.child("daycares/"+USERID+"/"+ IMGNUMBER+"/img1.jpg");
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

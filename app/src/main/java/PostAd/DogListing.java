@@ -1382,9 +1382,9 @@ public class DogListing extends AppCompatActivity {
         }
 
         private void initializeUI() {
-            String breed[] = {BREED,"Labrador Retriever","German Shepherd","Bulldog","Beagle", "Poodle","Rottweiler","Boxer","Chihuahua"};
-            String gender[] = {GENDER,"Male","Female"};
-            String size[] = {SIZE,"Small","Medium","Large"};
+            String breed[] = {BREED,"Any","Labrador Retriever","German Shepherd","Bulldog","Beagle", "Poodle","Rottweiler","Boxer","Chihuahua"};
+            String gender[] = {GENDER,"Any","Male","Female"};
+            String size[] = {SIZE,"Any","Small","Medium","Large"};
 
 
             ArrayAdapter<String> dataAdapterbreed = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, breed);

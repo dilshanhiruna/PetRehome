@@ -3,24 +3,33 @@ package PostAd;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import PetDayCares.MyDayCareListings;
+
+import user.UserProfile;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
 
@@ -37,7 +46,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     Context ctx;
     LayoutInflater layoutInflater;
 
-    public Adapter(Context ctx, List<String> uid, List<Integer> imgNumber, List<String> title, List<String> breed, List<String> gender, List<String> district, List<String> city, String UserID){
+    public Adapter (Context ctx,List<String> uid,List<Integer> imgNumber,List<String> title,List<String> breed,List<String> gender,List<String> district,List<String> city, String UserID,List<Integer> views){
         this.uid=uid;
         this.imgNumber=imgNumber;
         this.title=title;
@@ -113,15 +122,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-           breed =itemView.findViewById(R.id.ad_box_breed_txt);
-           gender =itemView.findViewById(R.id.ad_box_gender_txt);
-           title =itemView.findViewById(R.id.ad_box_title_txt);
-           location =itemView.findViewById(R.id.ad_box_location_txt);
-           viewCount =itemView.findViewById(R.id.view_count_on_card);
-           progressBar_listings_img.setVisibility(View.VISIBLE);
-           progressBar_listings_img =itemView.findViewById(R.id.progressBar_listings_img);
+            breed =itemView.findViewById(R.id.ad_box_breed_txt);
+            gender =itemView.findViewById(R.id.ad_box_gender_txt);
+            title =itemView.findViewById(R.id.ad_box_title_txt);
+            location =itemView.findViewById(R.id.ad_box_location_txt);
+            viewCount =itemView.findViewById(R.id.view_count_on_card);
+//            progressBar_listings_img.setVisibility(View.VISIBLE);
+            progressBar_listings_img =itemView.findViewById(R.id.progressBar_listings_img);
 
-           img=itemView.findViewById(R.id.ad_box_img);
+            img=itemView.findViewById(R.id.ad_box_img);
 
 
 

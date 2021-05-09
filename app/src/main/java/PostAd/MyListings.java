@@ -1,36 +1,63 @@
 package PostAd;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.oop.petrehome.MainActivity;
 import com.oop.petrehome.R;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import PetDayCares.DisplayDaycareListing;
+import PetDayCares.MyDayCareListings;
 import user.Login;
+import user.Register;
 import user.UserProfile;
 
 public class MyListings extends AppCompatActivity {
@@ -90,6 +117,7 @@ public class MyListings extends AppCompatActivity {
         //check if user is already logged in
         if (fAuth.getCurrentUser() != null){
             userID = fAuth.getCurrentUser().getUid();
+
             uid = new ArrayList<>();
             imgNumber = new ArrayList<>();
             titles = new ArrayList<>();
@@ -157,6 +185,8 @@ public class MyListings extends AppCompatActivity {
 
 
     }
+
+    //side_nav buttons
     public void navClickHome(View view){
         nav_home_txt.setTextColor(ContextCompat.getColor(this, R.color.black));
         nav_postad_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
@@ -187,7 +217,7 @@ public class MyListings extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-//        startActivity(new Intent(getApplicationContext(), Activity_Here.class));
+
 
     }
     public void navClickDogwalkers(View view){
@@ -207,7 +237,7 @@ public class MyListings extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-//        startActivity(new Intent(getApplicationContext(), Activity_Here.class));
+        startActivity(new Intent(getApplicationContext(), MyDayCareListings.class));
 
     }
     public void navClickProfile(View view){
@@ -221,7 +251,7 @@ public class MyListings extends AppCompatActivity {
 
     }
     private void initializedAdapter(String userID){
-        adapternew = new Adapter(getApplicationContext(),uid,imgNumber,titles,breed,gender,district,city,userID);
+        adapternew = new Adapter(getApplicationContext(),uid,imgNumber,titles,breed,gender,district,city,userID,views);
         GridLayoutManager gridLayoutManagernew = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         my_listing_recyclerview.setLayoutManager(gridLayoutManagernew);
         my_listing_recyclerview.setAdapter(adapternew);
@@ -230,34 +260,21 @@ public class MyListings extends AppCompatActivity {
 
 
     }
+    //get all listing publish by the user
     private  void getListings(String userID){
-
-//        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
-//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//                assert value != null;
-//                count = Objects.requireNonNull(value.getLong("ListingCount")).intValue();
-//                getList(userID,count);
-//
-//                if (count ==0){
-//                    progressBar_listings.setVisibility(View.INVISIBLE);
-//                }
-//
-//            }
-//        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-
+                //getting view count for display in card view
                 Lcount = (Long) snapshot.child("ListingCount").getValue();
                 assert Lcount != null;
                 count = Lcount.intValue();
+
                 getList(userID,count);
+
                 if (count ==0){
                     progressBar_listings.setVisibility(View.INVISIBLE);
                 }
@@ -274,7 +291,7 @@ public class MyListings extends AppCompatActivity {
 
     private void getList(String userID,int count){
         for (int i = 1; i < count+1 ; i++){
-//            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
+
             databaseReference = FirebaseDatabase.getInstance().getReference().child("DogListings").child(userID).child("Listings").child(String.valueOf(i));
             Integer finalI = (Integer) i;
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -301,23 +318,6 @@ public class MyListings extends AppCompatActivity {
                 }
             });
 
-//            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//                @Override
-//                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                    if (value != null && value.exists()){
-//
-//                        uid.add(userID);
-//                        titles.add(value.getString("title"));
-//                        breed.add(value.getString("breed"));
-//                        gender.add(value.getString("gender"));
-//                        district.add(value.getString("district"));
-//                        city.add(value.getString("city"));
-//                        imgNumber.add(finalI);
-//                        views.add(Objects.requireNonNull(value.getLong("viewCount")).intValue());
-//                        initializedAdapter(userID);
-//                    }
-//                }
-//            });
         }
     }
 }

@@ -63,6 +63,8 @@ public class CreateNewDayCareListings extends AppCompatActivity {
     Uri  img1URI1 = Uri.EMPTY,img1URI2= Uri.EMPTY,img1URI3= Uri.EMPTY,img1URI4= Uri.EMPTY;
     String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +97,7 @@ public class CreateNewDayCareListings extends AppCompatActivity {
         userID = fAuth.getCurrentUser().getUid();
 
         //getting the listing current count from the user
-        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+        DocumentReference documentReferenceCount = fstore.collection("Daycare").document(userID);
         documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -199,7 +201,7 @@ public class CreateNewDayCareListings extends AppCompatActivity {
 
                 count++;
                 //update the current listing count by 1 of the user
-                DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+                DocumentReference documentReferenceCount = fstore.collection("daycare").document(userID);
                 Map<String,Object> user = new HashMap<>();
                 user.put("ListingCount",count);
                 documentReferenceCount.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -207,19 +209,19 @@ public class CreateNewDayCareListings extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
 
                         if (!(img1URI1.equals(Uri.EMPTY))){
-                            StorageReference fileRef1 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img1.jpg");
+                            StorageReference fileRef1 = storageReference.child("daycare/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img1.jpg");
                             fileRef1.putFile(img1URI1);
                         }
                         if (!(img1URI2.equals(Uri.EMPTY))){
-                            StorageReference fileRef2 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img2.jpg");
+                            StorageReference fileRef2 = storageReference.child("daycare/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img2.jpg");
                             fileRef2.putFile(img1URI2);
                         }
                         if (!(img1URI3.equals(Uri.EMPTY))){
-                            StorageReference fileRef3 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img3.jpg");
+                            StorageReference fileRef3 = storageReference.child("daycare/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img3.jpg");
                             fileRef3.putFile(img1URI3);
                         }
                         if (!(img1URI4.equals(Uri.EMPTY))){
-                            StorageReference fileRef4 = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img4.jpg");
+                            StorageReference fileRef4 = storageReference.child("daycare/"+fAuth.getCurrentUser().getUid()+"/"+count+"/img4.jpg");
                             fileRef4.putFile(img1URI4);
                         }
 
@@ -278,7 +280,6 @@ public class CreateNewDayCareListings extends AppCompatActivity {
 
 
     }
-
 
 
     @Override
@@ -385,6 +386,7 @@ public class CreateNewDayCareListings extends AppCompatActivity {
         public void onNothingSelected(AdapterView<?> parent) {
 
         }
+
     };
 
     private void createLists() {
@@ -497,9 +499,9 @@ public class CreateNewDayCareListings extends AppCompatActivity {
     }
 
     private void initializeUI() {
-        String breed[] = {"breed","Labrador Retriever","German Shepherd","Bulldog","Beagle", "Poodle","Rottweiler","Boxer","Chihuahua"};
-        String gender[] = {"gender","Male","Female"};
-        String size[] = {"size","Small","Medium","Large"};
+        String breed[] = {"breed","Any Breed","Labrador Retriever","German Shepherd","Bulldog","Beagle", "Poodle","Rottweiler","Boxer","Chihuahua"};
+        String gender[] = {"gender","Any Gender","Male","Female"};
+        String size[] = {"size","Any Size","Small","Medium","Large"};
 
 
         ArrayAdapter<String> dataAdapterbreed = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, breed);

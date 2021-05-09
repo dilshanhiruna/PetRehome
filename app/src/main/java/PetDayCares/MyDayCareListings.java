@@ -66,7 +66,7 @@ public class MyDayCareListings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_listings);
+        setContentView(R.layout.activity_my_day_care_listings);
 
         drawerLayout =findViewById(R.id.drawer_layout);
 
@@ -231,9 +231,6 @@ public class MyDayCareListings extends AppCompatActivity {
         my_listing_recyclerview.setLayoutManager(gridLayoutManagernew);
         my_listing_recyclerview.setAdapter(adapterDC);
         progressBar_listings.setVisibility(View.INVISIBLE);
-
-
-
     }
     private  void getListings(String userID){
 
@@ -280,7 +277,7 @@ public class MyDayCareListings extends AppCompatActivity {
     private void getList(String userID,int count){
         for (int i = 1; i < count+1 ; i++){
 //            DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(i));
-            databaseReference = FirebaseDatabase.getInstance().getReference().child("DogListings").child(userID).child("Listings").child(String.valueOf(i));
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("DisplayDayCareListings").child(userID).child("Listings").child(String.valueOf(i));
             Integer finalI = (Integer) i;
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

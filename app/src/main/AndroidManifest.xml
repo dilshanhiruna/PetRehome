@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PetRehome">
         <activity android:name="PetDayCares.DisplayDaycareListing"></activity>
+        <activity android:name="PetDayCares.CreateNewDayCareListings" />
         <activity android:name="PetDayCares.EditDaycareListing" />
+        <activity android:name="PetDayCares.MyDayCareListings" />
         <activity android:name="PostAd.DogListing$EditDogListing" />
         <activity android:name="PostAd.DisplayDogAd" />
         <activity android:name="PostAd.MyListings" />

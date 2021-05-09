@@ -1,6 +1,7 @@
 package PostAd;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -315,6 +316,7 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
 
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -346,10 +348,10 @@ public class DisplayDogAd extends AppCompatActivity implements GestureDetector.O
         }
 
 
-
-
         return super.onTouchEvent(event);
     }
+
+
 
     @Override
     public boolean onDown(MotionEvent e) {

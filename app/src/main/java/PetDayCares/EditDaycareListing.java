@@ -31,6 +31,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -302,10 +304,12 @@ public class EditDaycareListing extends AppCompatActivity {
                         }
 
                         DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
+                        //saving listing details
+                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("CreateNewDayCareListing").child(USERID).child((String.valueOf(IMGNUMBER)));
                         Map<String,Object> DogListings = new HashMap<>();
                         DogListings.put("title",mtitle);
                         DogListings.put("breed",mbreed);
-                        DogListings.put("age",mage);
+                        DogListings.put("price",mage);
                         DogListings.put("gender",mgender);
                         DogListings.put("size",msize);
                         DogListings.put("description",mdescription);
@@ -313,6 +317,8 @@ public class EditDaycareListing extends AppCompatActivity {
                         DogListings.put("phone",mphone);
                         DogListings.put("district",mdistrict);
                         DogListings.put("city",mcity);
+
+                       // dbRef.updateChildren(CreateNewDayCareListings).addOnSuccessListener()
 
                         documentReference.update(DogListings).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -456,12 +462,10 @@ public class EditDaycareListing extends AppCompatActivity {
 
     private void initializeUIDC() {
         //assign values to district spinner and city spinner
-//        String colors[] = {"Red","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
         districts = new ArrayList<>();
         cities = new ArrayList<>();
 
         createLists();
-
         districtArrayAdapter= new ArrayAdapter<> (this, android.R.layout.simple_spinner_item, districts); //selected item will look like a spinner set from XML
         districtArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         district_spinner.setAdapter(districtArrayAdapter);
@@ -471,8 +475,6 @@ public class EditDaycareListing extends AppCompatActivity {
         city_spinner.setAdapter(cityArrayAdapter);
 
         district_spinner.setOnItemSelectedListener(district_listener);
-
-
     }
 
     private AdapterView.OnItemSelectedListener district_listener = new AdapterView.OnItemSelectedListener() {
@@ -492,7 +494,6 @@ public class EditDaycareListing extends AppCompatActivity {
                 cityArrayAdapter = new ArrayAdapter<>(getApplicationContext(),  android.R.layout.simple_spinner_item, tempStates);
                 cityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 city_spinner.setAdapter(cityArrayAdapter);
-
             }
         }
 
