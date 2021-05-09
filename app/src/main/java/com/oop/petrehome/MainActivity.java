@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import LostDogs.DogLDListning;
+import LostDogs.EditLostDogListning;
 import LostDogs.MyLostDogsListning;
 import PostAd.Adapter;
 import PostAd.MyListings;
@@ -213,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-      startActivity(new Intent(getApplicationContext(), MyLostDogsListning.class));
+      startActivity(new Intent(getApplicationContext(), DogLDListning.class));
 
     }
     public void navClickDogwalkers(View view){

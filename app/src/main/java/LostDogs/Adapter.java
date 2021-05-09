@@ -23,7 +23,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import PostAd.DisplayDogAd;
+//import PostAd.DisplayDogAd;
+//import PostAd.DisplayDogAd;
+import LostDogs.Display_LD_AD;
 
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
@@ -90,7 +92,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(v.getContext(), DisplayDogAd.class);
+                Intent intent = new Intent(v.getContext(), MyLostDogsListning.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("USERID",uid.get(position));
                 intent.putExtra("IMGNUMBER",imgNumber.get(position).toString());
@@ -117,7 +119,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            dogname =itemView.findViewById(R.id.ad_box_dname);
+
             dogage =itemView.findViewById(R.id.ad_box_gender_txt);
             dogbreed =itemView.findViewById(R.id.ad_box_title_txt);
             location =itemView.findViewById(R.id.ad_box_location_txt);

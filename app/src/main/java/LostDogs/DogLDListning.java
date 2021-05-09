@@ -89,41 +89,12 @@ public class DogLDListning extends AppCompatActivity {
         publish_ad_btn=(Button) findViewById(R.id.LDpublishbtn);
         myld_ads_back_btn=findViewById(R.id.LDhome_btn);
 
-        img1=findViewById(R.id.dog_imageButton);
-        img2=findViewById(R.id.dog_imageButton2);
-        img3=findViewById(R.id.dog_imageButton3);
-        img4=findViewById(R.id.dog_imageButton4);
-
-
 
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         userID = fAuth.getCurrentUser().getUid();
 
-        //getting the listing current count from the user
-//        DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
-//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//                count = value.getLong("ListingCount").intValue();
-//            }
-//        });
-
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("lostdogs").child(userID);
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Lcount = (Long) snapshot.child("ListingCount").getValue();
-                assert Lcount != null;
-                count = Lcount.intValue();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,10 +162,6 @@ public class DogLDListning extends AppCompatActivity {
                     dsize.setError("Dog Size is required");
                     return;
                 }
-                if(!isValidEmail(Dbreed)){
-                    dbreed.setError("Dog breed is invalid");
-                    return;
-                }
                 if(TextUtils.isEmpty(Dlostdate)){
                     dlostdate.setError("Lost Date is required");
                     return;
@@ -232,12 +199,12 @@ public class DogLDListning extends AppCompatActivity {
                 }
 
                 count++;
-                //update the current listing count by 1 of the user
-//                DocumentReference documentReferenceCount = fstore.collection("users").document(userID);
+
+                //Send Dog images to database
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("lostdogs").child(userID);
-                Map<String,Object> lostdog = new HashMap<>();
-                lostdog.put("ListingCount",count);
-                databaseReference.updateChildren(lostdog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                Map<String,Object> lostdogs = new HashMap<>();
+                lostdogs.put("ListingCount",count);
+                databaseReference.updateChildren(lostdogs).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
 
@@ -258,7 +225,8 @@ public class DogLDListning extends AppCompatActivity {
                             fileRef4.putFile(img1URI4);
                         }
 
-//                        DocumentReference documentReference =fstore.collection("DogListings").document(userID).collection("Listings").document(String.valueOf(count));
+
+                        //Send Lost Dog's and owner's details to the Realtime database
                         databaseReference = FirebaseDatabase.getInstance().getReference().child("LostDogListings").child(userID).child("Listings").child(String.valueOf(count));
                         Map<String,Object> LostDogListings = new HashMap<>();
                         LostDogListings.put("dogname",Dname);

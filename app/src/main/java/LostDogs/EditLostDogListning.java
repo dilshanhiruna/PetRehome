@@ -185,14 +185,7 @@ public class EditLostDogListning extends AppCompatActivity {
         });
 
 
-//        DocumentReference documentReferenceCount = fstore.collection("users").document(USERID);
-//        documentReferenceCount.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//                count = value.getLong("ListingCount").intValue();
-//            }
-//        });
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("lostdogs").child(USERID);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -338,7 +331,7 @@ public class EditLostDogListning extends AppCompatActivity {
                             fileRef4.putFile(img1URI4);
                         }
 
-//                        DocumentReference documentReference =fstore.collection("DogListings").document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
+//
                         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("LostDogListings").child(USERID).child("Listings").child(String.valueOf(IMGNUMBER));
                         Map<String,Object> LostDogListings = new HashMap<>();
                         LostDogListings.put("dogname",Dname);
@@ -395,8 +388,8 @@ public class EditLostDogListning extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-//                                DocumentReference df =fstore.collection("DogListings")
-//                                        .document(USERID).collection("Listings").document(String.valueOf(IMGNUMBER));
+
+
                                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("LostDogListings").child(USERID).child("Listings")
                                         .child(String.valueOf(IMGNUMBER));
                                 dbRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {

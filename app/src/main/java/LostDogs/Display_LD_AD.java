@@ -129,7 +129,7 @@ public class Display_LD_AD extends AppCompatActivity implements GestureDetector.
 
 
 
-
+        //Get data from database
         databaseReference = FirebaseDatabase.getInstance().getReference().child("LostDogListings").child(USERID).child("Listings").child(IMGNUMBER);
 
 
@@ -160,7 +160,7 @@ public class Display_LD_AD extends AppCompatActivity implements GestureDetector.
             }
         });
 
-
+        //Check aboit verification
         databaseReferenceUSER = FirebaseDatabase.getInstance().getReference().child("lostdogs").child(USERID);
         databaseReferenceUSER.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -183,7 +183,7 @@ public class Display_LD_AD extends AppCompatActivity implements GestureDetector.
 
 
 
-
+        //Get images from database
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         StorageReference fileRef=  storageRef.child("lostdogs/"+USERID+"/"+ IMGNUMBER+"/img1.jpg");
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -260,6 +260,7 @@ public class Display_LD_AD extends AppCompatActivity implements GestureDetector.
             }
         });
 
+        //Pass ad details to edit page
         display_dog_ad_edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
