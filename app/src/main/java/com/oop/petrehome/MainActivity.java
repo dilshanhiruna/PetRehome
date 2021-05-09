@@ -48,7 +48,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import DogWalkers.DogwalkersHome;
 import LostDogs.MyLostDogsListning;
+import PetDayCares.MyDayCareListings;
 import PostAd.Adapter;
 import PostAd.MyListings;
 import user.Login;
@@ -232,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-//        startActivity(new Intent(getApplicationContext(), Activity_Here.class));
+        startActivity(new Intent(getApplicationContext(), DogwalkersHome.class));
 
     }
     public void navClickPetDaycares(View view){
@@ -242,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-//        startActivity(new Intent(getApplicationContext(), Activity_Here.class));
+        startActivity(new Intent(getApplicationContext(), MyDayCareListings.class));
 
     }
     public void navClickProfile(View view){

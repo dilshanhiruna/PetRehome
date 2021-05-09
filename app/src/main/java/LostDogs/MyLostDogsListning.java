@@ -30,8 +30,11 @@ import com.oop.petrehome.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import DogWalkers.DogwalkersHome;
 import LostDogs.Adapter;
 
+import PetDayCares.MyDayCareListings;
+import PostAd.MyListings;
 import user.Login;
 import user.UserProfile;
 
@@ -183,7 +186,7 @@ public class MyLostDogsListning extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-        startActivity(new Intent(getApplicationContext(), PostAd.MyListings.class));
+        startActivity(new Intent(getApplicationContext(), MyListings.class));
 
     }
     public void navClickLostdogs(View view){
@@ -193,7 +196,7 @@ public class MyLostDogsListning extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-        startActivity(new Intent(getApplicationContext(),MyLostDogsListning.class));
+        startActivity(new Intent(getApplicationContext(), MyLostDogsListning.class));
 
     }
     public void navClickDogwalkers(View view){
@@ -203,7 +206,7 @@ public class MyLostDogsListning extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-//        startActivity(new Intent(getApplicationContext(), Activity_Here.class));
+        startActivity(new Intent(getApplicationContext(), DogwalkersHome.class));
 
     }
     public void navClickPetDaycares(View view){
@@ -213,7 +216,7 @@ public class MyLostDogsListning extends AppCompatActivity {
         nav_dogwalkers_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
         nav_petdaycares_txt.setTextColor(ContextCompat.getColor(this, R.color.black));
         nav_profile_txt.setTextColor(ContextCompat.getColor(this, R.color.black01));
-//        startActivity(new Intent(getApplicationContext(), Activity_Here.class));
+        startActivity(new Intent(getApplicationContext(), MyDayCareListings.class));
 
     }
     public void navClickProfile(View view){

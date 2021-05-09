@@ -67,7 +67,7 @@ public class AdapterDW extends RecyclerView.Adapter<AdapterDW.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(),name.get(position), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(v.getContext(),name.get(position), Toast.LENGTH_SHORT).show();
             }
         });
 

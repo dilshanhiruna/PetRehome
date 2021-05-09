@@ -67,7 +67,7 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <ProgressBar
-                android:id="@+id/progressBar_listings"
+                android:id="@+id/progressBar_listings_da"
                 style="?android:attr/progressBarStyle"
                 android:visibility="invisible"
                 android:indeterminateDrawable="@drawable/progressbar"
